@@ -1,0 +1,21 @@
+rootProject.name = "MyNextBook"
+include(":app")
+//include(":data:local")
+//include(":data:remote")
+//include(":data:repository")
+//include(":domain")
+//include(":presentation")
+//include(":core:common")
+//include(":core:designsystem")
+//include(":library")
+//include(":library:navigation")
+include ':core'
+include ':core:common'
+include ':core:designsystem'
+include ':library'
+include ':library:navigation'
+include ':data'
+include ':domain'
+include ':data:repository'
+include ':data:remote'
+include ':data:local'
