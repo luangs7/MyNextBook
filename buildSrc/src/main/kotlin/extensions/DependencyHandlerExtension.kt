@@ -6,6 +6,7 @@ import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
 import org.gradle.kotlin.dsl.exclude
+import org.gradle.kotlin.dsl.project
 
 /**
  * Adds the Compose dependencies on Gradle.
@@ -16,8 +17,11 @@ fun DependencyHandler.addCommonDependencies() {
     implementation(Dependencies.kotlin)
     implementation(Dependencies.pagingCompose)
     implementation(Dependencies.animationNavController)
-    testImplementation(Tests.jUnit)
     kapt(AnnotationProcessor.lifecycle)
+    testImplementation(project(Modules.tests))
+    testImplementation(Tests.mockk)
+    androidTestImplementation(project(Modules.tests))
+    implementation(project(Modules.tests))
 }
 
 fun DependencyHandler.addKoinDependencies(){
@@ -54,10 +58,26 @@ fun DependencyHandler.addRoomDependencies(){
     kapt(AnnotationProcessor.room)
 }
 
-private fun DependencyHandler.api(dependencyNotation: String): Dependency? =
+fun DependencyHandler.addTestDependencies(){
+    api(Tests.coroutines)
+    api(Tests.coreTesting)
+    api(Tests.jUnit)
+    api(Tests.jUnitExt)
+}
+
+fun DependencyHandler.addTestApiDependencies(){
+    testApi(Tests.androidxCore)
+    testApi(Tests.coroutines)
+    testApi(Tests.coreTesting)
+    testApi(Tests.jUnit)
+    testApi(Tests.jUnitExt)
+    testApi(Tests.koinTest)
+}
+
+private fun DependencyHandler.api(dependencyNotation: Any): Dependency? =
     add("api", dependencyNotation)
 
-private fun DependencyHandler.implementation(dependencyNotation: String): Dependency? =
+private fun DependencyHandler.implementation(dependencyNotation: Any): Dependency? =
     add("implementation", dependencyNotation)
 
 private fun DependencyHandler.androidTestImplementation(dependencyNotation: Any): Dependency? =
@@ -68,6 +88,9 @@ private fun DependencyHandler.androidTestApi(dependencyNotation: Any): Dependenc
 
 private fun DependencyHandler.testImplementation(dependencyNotation: Any): Dependency? =
     add("testImplementation", dependencyNotation)
+
+private fun DependencyHandler.testApi(dependencyNotation: Any): Dependency? =
+    add("testApi", dependencyNotation)
 
 private fun DependencyHandler.kapt(dependencyNotation: Any): Dependency? =
     add("kapt", dependencyNotation)

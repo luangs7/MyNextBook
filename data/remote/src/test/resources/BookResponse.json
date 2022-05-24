@@ -1,0 +1,813 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 556,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "1yLYCQAAQBAJ",
+      "etag": "dzkYZTQ9c7w",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/1yLYCQAAQBAJ",
+      "volumeInfo": {
+        "title": "Google Android 4ª edição",
+        "subtitle": "Aprenda a criar aplicações para dispositivos móveis com o Android SDK",
+        "authors": [
+          "Ricardo R. Lecheta"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2015-06-10",
+        "description": "O Android é atualmente o sistema operacional móvel mais utilizado no mundo e está disponível para diversas plataformas, como smartphones, tablets, TV (Google TV), relógios (Android Wear), óculos (Google Glass) e carros (Android Auto). Este livro convida o leitor a mergulhar no incrível mundo do Android, onde a imaginação é o limite. A obra traz todos os passos necessários para desenvolver aplicativos para smartphones, tablets e relógios, desde o básico – sobre a instalação do emulador e configuração do ambiente de desenvolvimento no Android Studio – até aplicações que utilizem recursos avançados, como mapas, localização por GPS, multimídia, consulta em web services, persistência em banco de dados, sensores, execução de serviços em segundo plano e muito mais. Será desenvolvido um aplicativo completo passo a passo, conforme as boas práticas de desenvolvimento e interface e utilizando conceitos do Material Design. Para mais informações, visite o site do livro www.livroandroid.com.br.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575224403"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575224409"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 1016,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=1yLYCQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=1yLYCQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=1yLYCQAAQBAJ&printsec=frontcover&dq=android&hl=&cd=1&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=1yLYCQAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Google_Android_4%C2%AA_edi%C3%A7%C3%A3o.html?hl=&id=1yLYCQAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=1yLYCQAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "O Android é atualmente o sistema operacional móvel mais utilizado no mundo e está disponível para diversas plataformas, como smartphones, tablets, TV (Google TV), relógios (Android Wear), óculos (Google Glass) e carros (Android Auto)."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "zsBADwAAQBAJ",
+      "etag": "F3VHvMhEDOw",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/zsBADwAAQBAJ",
+      "volumeInfo": {
+        "title": "Desenvolvendo seu primeiro aplicativo Android – 2ª edição",
+        "subtitle": "Entre de cabeça no mundo dos aplicativos móveis, criando e publicando seu próprio programa para o sistema líder do mercado!",
+        "authors": [
+          "Luiz Carlos Querino Filho"
+        ],
+        "publisher": "Novatec Editora",
+        "description": "Você não quer ficar de fora do mercado de software que mais cresce, não é mesmo? Que tal então criar um aplicativo completo para smartphones com o sistema operacional Android, disponibilizá-lo ao público e ainda fazer disso uma fonte de renda? É exatamente isso que você aprenderá com este livro! Você criará um aplicativo completo para Android usando a linguagem Java e as ferramentas disponibilizadas pelo Google. Além disso, saberá como publicá-lo no Google Play Store, alcançando um mercado de milhões de usuários espalhados por todo o mundo! “De quebra” descobrirá como vender seu aplicativo adequadamente e conseguir retorno financeiro pelo seu trabalho, seja disponibilizando recursos adicionais no programa ou exibindo anúncios do Google AdMob. Tudo isso de uma maneira prática, didática e descontraída, acessível a qualquer pessoa com conhecimento básico de programação. O que você vai aprender na prática: Obter e instalar as ferramentas necessárias, preparando seu computador (com Windows, Linux ou Mac OS X) para criar aplicativos para o Android. Criar a CalculaTec, uma calculadora móvel completa que funciona exatamente como as tradicionais de mesa. O essencial da linguagem Java para desenvolver seus aplicativos Android, usando boas práticas de programação como o padrão MVC (Modelo-Visão-Controlador). Obter retorno financeiro pelo seu trabalho, usando anúncios do Google AdMob ou compra direta no aplicativo, com os recursos de faturamento do Google In App Billing. “Turbinar” seu projeto inicial, incluindo na CalculaTec novas funções de memória! E então? Você está pronto para fazer parte da revolução móvel?",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575226407"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575226401"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 240,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=zsBADwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=zsBADwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=zsBADwAAQBAJ&printsec=frontcover&dq=android&hl=&cd=2&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=zsBADwAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Desenvolvendo_seu_primeiro_aplicativo_An.html?hl=&id=zsBADwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=zsBADwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Você não quer ficar de fora do mercado de software que mais cresce, não é mesmo?"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "qluXBAAAQBAJ",
+      "etag": "0QRnsGl8EIY",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/qluXBAAAQBAJ",
+      "volumeInfo": {
+        "title": "Desenvolvimento de Aplicativos Android para Leigos",
+        "authors": [
+          "Burton, Michael",
+          "Felker, Donn "
+        ],
+        "publisher": "Alta Books Editora",
+        "publishedDate": "2014-08-20",
+        "description": "Com Desenvolvimento de Aplicativos Android Para Leigos, a sua boa ideia de aplicativo Android se tornará realidade! Comece baixando o SDK e o JDK para criar coisas simples e então avance rumo aos aplicativos mais complexos e disponibilize-os na Google Play Store. Você também descobrirá como melhorar seus aplicativos e tornar suas interfaces ainda mais bonitas. Tratando-se de tecnologia, o céu é o limite!",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788576088486"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8576088487"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 408,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "0.1.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=qluXBAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=qluXBAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=qluXBAAAQBAJ&printsec=frontcover&dq=android&hl=&cd=3&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=qluXBAAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=qluXBAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 59.43,
+          "currencyCode": "BRL"
+        },
+        "retailPrice": {
+          "amount": 59.43,
+          "currencyCode": "BRL"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=qluXBAAAQBAJ&rdid=book-qluXBAAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 59430000,
+              "currencyCode": "BRL"
+            },
+            "retailPrice": {
+              "amountInMicros": 59430000,
+              "currencyCode": "BRL"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com.br/books/download/Desenvolvimento_de_Aplicativos_Android_p-sample-pdf.acsm?id=qluXBAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=qluXBAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Com Desenvolvimento de Aplicativos Android Para Leigos, a sua boa ideia de aplicativo Android se tornará realidade!"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "8u9wJowXfdUC",
+      "etag": "fF5+e4/d5kU",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/8u9wJowXfdUC",
+      "volumeInfo": {
+        "title": "Android para Desenvolvedores",
+        "authors": [
+          "LUCIO CAMILO OLIVA PEREIRA",
+          "MICHEL LOURENÇO DA SILVA"
+        ],
+        "publisher": "Brasport",
+        "description": "O Android surgiu sob a forma de plataforma open source como uma resposta da Google à crescente demanda de recursos no mundo tecnológico móvel. Hoje, o Android é comercializado em aparelhos celulares, porém sua utilização é muito mais ampla. Este livro apresenta exemplos passo a passo e teóricos com a implementação disponível no CD-ROM que acompanha o livro. O objetivo principal deste livro é fornecer ao leitor os recursos disponíveis, focando informações para o domínio da plataforma, além de dicas e visões gerais sobre os itens.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788574524054"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8574524050"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 240,
+        "printType": "BOOK",
+        "averageRating": 3,
+        "ratingsCount": 2,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.1.0.0.preview.1",
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=8u9wJowXfdUC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=8u9wJowXfdUC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=8u9wJowXfdUC&printsec=frontcover&dq=android&hl=&cd=4&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=8u9wJowXfdUC&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Android_para_Desenvolvedores.html?hl=&id=8u9wJowXfdUC"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=8u9wJowXfdUC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "Hr9QDAAAQBAJ",
+      "etag": "7QwgRqGJHTY",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/Hr9QDAAAQBAJ",
+      "volumeInfo": {
+        "title": "Android 6 para Programadores - 3ª Edição",
+        "subtitle": "Uma Abordagem Baseada em Aplicativos",
+        "authors": [
+          "Paul Deitel",
+          "Harvey Deitel",
+          "Alexander Wald"
+        ],
+        "publisher": "Bookman Editora",
+        "publishedDate": "2016-06-01",
+        "description": "Guia Deitel do programador profissional para o desenvolvimento de aplicativos para smartphones e tablets utilizando Android 6 e Android Studio. Aprenda tudo o que você precisa para desenvolver rapidamente ótimos aplicativos Android e publicá-los no Google Play. Com uma abordagem baseada em aplicativos, este livro discute as novas tecnologias por meio de 8 aplicativos Android totalmente testados, complementados por sintaxe em tons diferentes, realces e detalhamento dos códigos e saídas de exemplo. Seu conteúdo prático e cheio de exemplos inclui: Android 6, Android Studio: Gradle™, Vector Asset Studio, Theme Editor; Temas e templates Material Design; AppCompat Library, Android Design Support Library, RecyclerView, FloatingActionButton, TextInputLayout; Elevação e ícones Material Design; Web services REST/JSON, threads, banco de dados SQLite™, permissões do Android 6; Cursor, Loader, ContetProvider; Suporte a vários tamanhos/resoluções de tela; Atividades, fragmentos, intenções, preferências; GUIs, layouts, menus, arquivos de recursos, eventos, processamento de toque/gesto, imagens, áudio, animações; Modo imersivo, PrintHelper; Google Play™, publicação, precificação, monetização, marketing, publicidade e venda incorporada, bens virtuais e mais.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788582604120"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8582604122"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 456,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=Hr9QDAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=Hr9QDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=Hr9QDAAAQBAJ&printsec=frontcover&dq=android&hl=&cd=5&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=Hr9QDAAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=Hr9QDAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 177.6,
+          "currencyCode": "BRL"
+        },
+        "retailPrice": {
+          "amount": 104.83,
+          "currencyCode": "BRL"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=Hr9QDAAAQBAJ&rdid=book-Hr9QDAAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 177600000,
+              "currencyCode": "BRL"
+            },
+            "retailPrice": {
+              "amountInMicros": 104830000,
+              "currencyCode": "BRL"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com.br/books/download/Android_6_para_Programadores_3%C2%AA_Edi%C3%A7%C3%A3-sample-pdf.acsm?id=Hr9QDAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=Hr9QDAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Guia Deitel do programador profissional para o desenvolvimento de aplicativos para smartphones e tablets utilizando Android 6 e Android Studio."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "JEeMDwAAQBAJ",
+      "etag": "/Y3Qv/3z2RQ",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/JEeMDwAAQBAJ",
+      "volumeInfo": {
+        "title": "Dominando o Android com Kotlin",
+        "authors": [
+          "Nelson Glauber"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2019-03-08",
+        "description": "O Android é a plataforma do Google para dispositivos móveis que se tornou líder absoluta no mercado mundial, e a quantidade de recursos disponibilizada para os desenvolvedores permite criar uma envolvente e estimulante interação do usuário com o dispositivo. Dominando o Android com Kotlin apresenta por meio de exemplos práticos, desde conceitos mais básicos até as mais avançadas técnicas de desenvolvimento de aplicativos para a plataforma mobile do Google. NESTA OBRA VOCÊ APRENDERÁ A: Criar aplicativos compatíveis com smartphones e tablets utilizando a linguagem Kotlin. Definir layouts responsivos utilizando componentes do Material Design. Implementar diferentes formas de navegação entre telas. Persistir dados locais no cartão de memória do aparelho e em banco de dados SQLite. Implementar a comunicação com web services para enviar e receber dados. Utilizar serviços do Google como: Maps, YouTube e AdMob. Acessar serviços do Firebase como: Cloud Messaging, Authentication, Cloud Firestore, Cloud Storage e Crashlytics. Interagir com serviços do sistema, mensagens de broadcast, notificações e widgets. Deixar sua aplicação mais interativa por meio de animações e recursos multimídia. Ao final o leitor estará pronto para projetar e construir aplicativos profissionais e publicá-los no Google Play.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575227268"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575227262"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 1064,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=JEeMDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=JEeMDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=JEeMDwAAQBAJ&printsec=frontcover&dq=android&hl=&cd=6&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=JEeMDwAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Dominando_o_Android_com_Kotlin.html?hl=&id=JEeMDwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=JEeMDwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Dominando o Android com Kotlin apresenta por meio de exemplos práticos, desde conceitos mais básicos até as mais avançadas técnicas de desenvolvimento de aplicativos para a plataforma mobile do Google."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "V72jBQAAQBAJ",
+      "etag": "b4MTbFWV3jw",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/V72jBQAAQBAJ",
+      "volumeInfo": {
+        "title": "Dominando o Android",
+        "subtitle": "Do básico ao avançado",
+        "authors": [
+          "Nelson Glauber"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2014-12-01",
+        "description": "Android é a plataforma para dispositivos móveis do Google que se tornou líder absoluta no mercado mundial de dispositivos móveis. Ele vem impressionando pela quantidade de recursos que proporcionam aos seus usuários uma envolvente e estimulante interação com seu smartphone ou tablet. Desenvolver aplicativos para esses aparelhos é muito divertido, mas, acima de tudo, desafiador. Dominando o Android aborda desde os conceitos mais básicos até as técnicas mais avançadas no desenvolvimento de aplicativos para plataforma mobile do Google. Por meio de exemplos práticos e didáticos você poderá: ■ Criar aplicativos para smartphones e tablets Android. ■ Conhecer os principais componentes para construir interfaces gráficas elegantes e compatíveis com diversos tamanhos e diversas densidades de tela. ■ Persistir dados locais com SQLite e no cartão de memória do aparelho. ■ Acessar web services para enviar e receber dados. ■ Utilizar serviços do Google, tais como: Maps, Cloud Messaging, YouTube, Google+ e AdMob. ■ Trabalhar com serviços, broadcast receivers, notificações e app widgets. ■ Deixar sua aplicação mais divertida usando animações e recursos multimídia. ■ Criar aplicativos para os relógios inteligentes (smartwatches) com Android Wear. ■ Saber as principais novidades do Android 5.0 Lollipop. Ao final, o leitor estará pronto para projetar e desenvolver seus próprios aplicativos e publicá-los no Google Play, a loja de aplicativos do Android.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575224120"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575224123"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 792,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=V72jBQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=V72jBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=V72jBQAAQBAJ&printsec=frontcover&dq=android&hl=&cd=7&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=V72jBQAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Dominando_o_Android.html?hl=&id=V72jBQAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=V72jBQAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Dominando o Android aborda desde os conceitos mais básicos até as técnicas mais avançadas no desenvolvimento de aplicativos para plataforma mobile do Google."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "aGMfCgAAQBAJ",
+      "etag": "ek8T++vkJAo",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/aGMfCgAAQBAJ",
+      "volumeInfo": {
+        "title": "Android: Como programar - 2ed",
+        "subtitle": "",
+        "authors": [
+          "Harvey Deitel",
+          "Paul Deitel",
+          "Abbey Deitel"
+        ],
+        "publisher": "Bookman Editora",
+        "publishedDate": "2015-07-01",
+        "description": "Android: Como programar faz uma introdução clara e didática ao desenvolvimento de aplicativos, ideal para cursos de nível básico e intermediário. Com uma abordagem baseada em aplicativos, este livro discute as novas tecnologias por meio de 7 aplicativos Android totalmente testados, complementados por explicações e realces de código e saídas de exemplo. Você vai desenvolver os aplicativos Welcome App, Tip Calculator, Twitter® Searches, Flag Quiz, Cannon Game, Doodlz, Address Book. Inclui também: • Desenvolvimento usando o IDE Eclipse com Android Development Tools (ADT) e material complementar sobre o Android Studio (em inglês) disponível online. • Compatível com vários tamanhos/resoluções de tela. • Acessibilidade, internacionalização, gráficos. • Atividades, fragmentos, intenções, preferências. • GUIs, layouts, menus, arquivos de recursos, listas, adaptadores, eventos, processamento de toque/gesto. • Modo imersivo, estrutura de impressão, PrintHelper. • Assets (imagens, áudio), animações de View. • Threads, coleções, banco de dados SQLite. • Compartilhamento social com intents implícitos. • Google Play™, publicação, precificação, monetização, marketing, publicidade e venda incorporada ao aplicativo. • Fundamentos de Java, classes, objetos, herança, polimorfismo, interfaces, tratamento de exceções, coleções, eventos, threads.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788582603482"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8582603487"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 728,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=aGMfCgAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=aGMfCgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=aGMfCgAAQBAJ&printsec=frontcover&dq=android&hl=&cd=8&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=aGMfCgAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=aGMfCgAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 189.6,
+          "currencyCode": "BRL"
+        },
+        "retailPrice": {
+          "amount": 148.07,
+          "currencyCode": "BRL"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=aGMfCgAAQBAJ&rdid=book-aGMfCgAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 189600000,
+              "currencyCode": "BRL"
+            },
+            "retailPrice": {
+              "amountInMicros": 148070000,
+              "currencyCode": "BRL"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com.br/books/download/Android_Como_programar_2ed-sample-pdf.acsm?id=aGMfCgAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=aGMfCgAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Android: Como programar faz uma introdução clara e didática ao desenvolvimento de aplicativos, ideal para cursos de nível básico e intermediário."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "-1y8CwAAQBAJ",
+      "etag": "8/yaPQCF4CM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/-1y8CwAAQBAJ",
+      "volumeInfo": {
+        "title": "Android Essencial",
+        "subtitle": "Edição resumida do livro Google Android",
+        "authors": [
+          "Ricardo Lecheta"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2016-03-14",
+        "description": "O Android é o sistema operacional móvel mais utilizado no mundo, e o objetivo deste livro é apresentar ao leitor os conceitos essenciais do desenvolvimento de aplicativos para Android, por meio de uma explicação simples e prática. Android Essencial é um resumo do livro Google Android, 5ª edição, com o objetivo de prepará-lo rapidamente para o mercado. É para leitores que não querem rodeios e precisam aprender logo, seja por questões de estudos ou por uma necessidade de trabalho. Este livro utiliza o Android Studio, focado nas boas práticas de interface do Google e do Material Design, e oferece uma abordagem prática direcionada ao desenvolvimento de aplicativos. Durante a leitura você vai desenvolver um aplicativo completo, com boa usabilidade de interface e com acesso a web services e banco de dados, além de utilizar recursos de multimídia e mapas. O livro também apresenta capítulos resumidos dos principais conceitos da arquitetura do Android, como notificações, intents, broadcast receivers, services, alarmes, mensagens de push, câmera e fotos. Depois de ler o livro Android Essencial você terá um bom entendimento sobre o desenvolvimento de aplicativos para Android.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575224793"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575224794"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 384,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=-1y8CwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=-1y8CwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=-1y8CwAAQBAJ&printsec=frontcover&dq=android&hl=&cd=9&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=-1y8CwAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Android_Essencial.html?hl=&id=-1y8CwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=-1y8CwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Android Essencial é um resumo do livro Google Android, 5ª edição, com o objetivo de prepará-lo rapidamente para o mercado. É para leitores que não querem rodeios e precisam aprender logo, seja por questões de estudos ou por uma ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "XUSZAwAAQBAJ",
+      "etag": "1WyctJLO410",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/XUSZAwAAQBAJ",
+      "volumeInfo": {
+        "title": "Desenvolvendo seu Primeiro Aplicativo Android",
+        "subtitle": "Entre de cabeça no mundo dos aplicativos móveis, criando e publicando seu próprio programa para o sistema líder do mercado!",
+        "authors": [
+          "Luiz Carlos Querino Filho"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2013-12-05",
+        "description": "Você não quer ficar de fora do mercado de software que mais cresce, não é mesmo? Que tal então criar um aplicativo completo para smartphones com o sistema operacional Android, disponibilizá-lo ao público e ainda fazer disso uma fonte de renda? É exatamente isso que você aprenderá com este livro! Você vai criar um aplicativo completo para Android usando a linguagem Java e as ferramentas disponibilizadas pelo Google. Além disso, saberá como publicá-lo na Google Play Store, alcançando um mercado de milhões de usuários espalhados por todo o mundo! “De quebra”, vai descobrir como vender seu aplicativo adequadamente e conseguir retorno financeiro pelo seu trabalho, seja disponibilizando recursos adicionais no programa ou exibindo anúncios do Google AdMob. Tudo isso de uma maneira prática, didática e descontraída, acessível a qualquer pessoa com conhecimento básico de programação. O que você vai aprender na prática: - Obter e instalar as ferramentas necessárias, preparando seu computador (com Windows, Linux ou Mac OS X) para criar aplicativos para o Android. - Criar a CalculaTec, uma calculadora móvel completa que funciona exatamente como as tradicionais de mesa. - O essencial da linguagem Java para desenvolver seus aplicativos Android, usando boas práticas de programação como o padrão MVC (Modelo-Visão-Controlador). - Obter retorno financeiro pelo seu trabalho, usando anúncios do Google AdMob ou compra direta no aplicativo, com os recursos de In App Billing. - “Turbinar” seu projeto inicial, incluindo na CalculaTec novas funções de memória! E então? Você está pronto para fazer parte da revolução móvel?",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575223789"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "857522378X"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 248,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.1.0.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=XUSZAwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=XUSZAwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt-BR",
+        "previewLink": "http://books.google.com.br/books?id=XUSZAwAAQBAJ&printsec=frontcover&dq=android&hl=&cd=10&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=XUSZAwAAQBAJ&dq=android&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Desenvolvendo_seu_Primeiro_Aplicativo_An.html?hl=&id=XUSZAwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=XUSZAwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Você não quer ficar de fora do mercado de software que mais cresce, não é mesmo?"
+      }
+    }
+  ]
+}

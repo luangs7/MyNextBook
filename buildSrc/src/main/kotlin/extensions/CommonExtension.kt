@@ -7,7 +7,6 @@ fun CommonExtension<*, *, *, *>.addDefaultConfig() {
     defaultConfig {
         compileSdk = ConfigData.compileSdkVersion
         minSdk = ConfigData.minSdkVersion
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -16,6 +15,7 @@ fun CommonExtension<*, *, *, *>.addDefaultConfig() {
 
     testOptions {
         unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
     }
 }
 

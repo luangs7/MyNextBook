@@ -20,4 +20,5 @@ object Modules{
     const val designsystem = ":core:designsystem"
     const val presentation = ":presentation"
     const val navigation = ":library:navigation"
+    const val tests = ":library:tests"
 }

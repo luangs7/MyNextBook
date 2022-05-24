@@ -17,7 +17,7 @@ object Versions {
     const val androidxRules = "1.1.0"
     const val androidxExpresso = "3.3.0"
     const val androidxCore = "1.4.0"
-    const val mockK = "1.9.3"
+    const val mockK = "1.12.4"
     const val coroutines = "1.4.2"
     const val coreTesting = "2.0.1"
     const val composeVersion = "1.2.0-alpha01"
@@ -28,6 +28,7 @@ object Versions {
     const val coilKt = "2.0.0-rc02"
     const val paging = "1.0.0-alpha14"
     const val animateNavcontroller = "0.24.5-alpha"
+    const val  roboletric = "4.8"
 }
 
 object Dependencies {
@@ -52,7 +53,7 @@ object Dependencies {
     val lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}"
     val composeActivity = "androidx.activity:activity-compose:${Versions.composeActivity}"
     val navigationCompose = "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
-    val retrofitConverter  = "com.squareup.retrofit2:converter-gson:${Versions.retrofitConverter}"
+    val gson  = "com.squareup.retrofit2:converter-gson:${Versions.retrofitConverter}"
     val retrofitLogger  = "com.squareup.okhttp3:logging-interceptor:${Versions.retrofitLogging}"
     val coilKt  = "io.coil-kt:coil-compose:${Versions.coilKt}"
     val pagingCompose  = "androidx.paging:paging-compose:${Versions.paging}"
@@ -66,12 +67,13 @@ object AnnotationProcessor {
 }
 
 object Tests {
-    val koinTest = "org.koin:koin-test:${Versions.koin}"
+    val koinTest = "io.insert-koin:koin-test:${Versions.koin}"
     val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
     val mockk = "io.mockk:mockk:${Versions.mockK}"
-    val androidxCore = "androidx.test:core:${Versions.androidxCore}"
+    val androidxCore = "androidx.test:core-ktx:${Versions.androidxCore}"
     val jUnit = "junit:junit:${Versions.jUnit}"
-    val jUnitExt = "androidx.test.ext:junit:${Versions.jUnit}"
-    val kotlinX = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    val jUnitExt = "androidx.test.ext:junit-ktx:${Versions.jUnitExt}"
+    val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    val roboletric = "org.robolectric:robolectric:${Versions.roboletric}"
 }
 

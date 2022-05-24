@@ -6,4 +6,5 @@ object GradlePlugin {
     const val COMPOSE_LIBRARY = "gradle.android-compose-library"
     const val COMPOSE = "gradle.android-compose"
     const val KAPT = "kotlin-kapt"
+    const val ANDROID_TESTS = "gradle.android-tests"
 }
