@@ -48,20 +48,20 @@ class BookDataSourceRemoteImplTest {
             JsonReader.readMockedJson("BookResponse.json"),
             BookResponse::class.java
         )
-        coEvery { service.getBooks(any(), any()) } returns Response.success(apiCall)
+        coEvery { service.getBooks(any(), any(), any()) } returns Response.success(apiCall)
 
         val params = BookParams(false, String(), String(), String())
 
         bookDataSourceRemote.getBooksFromQuery(params).collect { Assert.assertNotNull(it) }
 
         coVerify(exactly = 1) {
-            service.getBooks(any(), any())
+            service.getBooks(any(), any(), any())
         }
     }
 
     @Test
     fun whenGetBookList_withSuccessfulCall_andBodyNull_shouldShowError() = runTest {
-        coEvery { service.getBooks(any(), any()) } returns Response.success(null)
+        coEvery { service.getBooks(any(), any(), any()) } returns Response.success(null)
 
         val params = BookParams(false, String(), String(), String())
         bookDataSourceRemote.getBooksFromQuery(params)
@@ -69,14 +69,14 @@ class BookDataSourceRemoteImplTest {
             .collect { Assert.assertNull(it) }
 
         coVerify(exactly = 1) {
-            service.getBooks(any(), any())
+            service.getBooks(any(), any(), any())
         }
     }
 
 
     @Test
     fun whenGetBookList_shouldAssertIsFailureCall() = runTest {
-        coEvery { service.getBooks(any(), any()) } returns Response.error(
+        coEvery { service.getBooks(any(), any(), any()) } returns Response.error(
             500,
             String().toResponseBody(null)
         )
@@ -88,7 +88,7 @@ class BookDataSourceRemoteImplTest {
             .collect { Assert.assertNull(it) }
 
         coVerify(exactly = 1) {
-            service.getBooks(any(), any())
+            service.getBooks(any(), any(), any())
         }
 
     }

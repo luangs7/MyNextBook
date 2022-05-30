@@ -9,7 +9,9 @@ class BookServiceMock: BookService {
     override suspend fun getBooks(
         query: String,
         language: String?,
-        orderBy: String
+        filter: String?,
+        orderBy: String,
+        maxResults: Int
     ): Response<BookResponse> {
         val response = JsonReader.readMockedJson("BookResponse.json")
         return Response.success(Gson().fromJson(response, BookResponse::class.java))

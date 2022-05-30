@@ -11,8 +11,13 @@ import kotlinx.coroutines.flow.*
 class BookLocalRepositoryImpl(
     private val dataSourceLocal: BookDataSourceLocal
 ) : BookLocalRepository {
-    override suspend fun addFavorites(book: Book): Flow<Unit> {
-        return dataSourceLocal.setFavoriteBook(book.toRepo())
+    override suspend fun addFavorites(book: Book): Flow<ApiResult<Unit>> = flow {
+        emit(ApiResult.Loading)
+        dataSourceLocal.setFavoriteBook(book.toRepo())
+            .catch { emit(ApiResult.Error(it)) }
+            .collect {
+                emit(ApiResult.Success(it))
+            }
     }
 
     override suspend fun getFavorites(): Flow<ApiResult<List<Book>>> = flow {
@@ -29,7 +34,12 @@ class BookLocalRepositoryImpl(
             }
     }
 
-    override suspend fun removeFavorite(book: Book): Flow<Unit> {
-        return dataSourceLocal.removeFavoriteBook(book.toRepo())
+    override suspend fun removeFavorite(book: Book): Flow<ApiResult<Unit>> = flow {
+        emit(ApiResult.Loading)
+        dataSourceLocal.removeFavoriteBook(book.toRepo())
+            .catch { emit(ApiResult.Error(it)) }
+            .collect {
+                emit(ApiResult.Success(it))
+            }
     }
 }

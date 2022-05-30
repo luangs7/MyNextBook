@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface BookLocalRepository {
     suspend fun getFavorites(): Flow<ApiResult<List<Book>>>
-    suspend fun addFavorites(book: Book): Flow<Unit>
-    suspend fun removeFavorite(book: Book): Flow<Unit>
+    suspend fun addFavorites(book: Book): Flow<ApiResult<Unit>>
+    suspend fun removeFavorite(book: Book): Flow<ApiResult<Unit>>
 }

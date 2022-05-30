@@ -15,13 +15,15 @@ class BookDataSourceRemoteImpl(
     private val service: BookService
 ) : BookDataSourceRemote {
     override suspend fun getBooksFromQuery(bookParams: BookParams): Flow<BookData> = flow {
-            val response = service.getBooks(bookParams.keyword ?: String(), bookParams.language)
-            if (response.isSuccessful) {
-                response.body()?.toRepo()?.random()?.let { item ->
-                    emit(item)
-                } ?: throw Exception()
-            } else {
-                throw Exception(response.errorBody()?.toString())
-            }
+        val filter = if (bookParams.isEbook) "ebooks" else null
+        val query = bookParams.keyword?.replace(" ", "+") ?: String()
+        val response = service.getBooks(query, bookParams.language, filter)
+        if (response.isSuccessful) {
+            response.body()?.toRepo()?.random()?.let { item ->
+                emit(item)
+            } ?: throw Exception()
+        } else {
+            throw Exception(response.errorBody()?.toString())
         }
+    }
 }
