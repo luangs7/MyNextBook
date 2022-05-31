@@ -29,6 +29,8 @@ object Versions {
     const val paging = "1.0.0-alpha14"
     const val animateNavcontroller = "0.24.5-alpha"
     const val  roboletric = "4.8"
+    const val playCore = "1.10.0"
+    const val dataStore = "1.0.0"
 }
 
 object Dependencies {
@@ -58,6 +60,8 @@ object Dependencies {
     val coilKt  = "io.coil-kt:coil-compose:${Versions.coilKt}"
     val pagingCompose  = "androidx.paging:paging-compose:${Versions.paging}"
     val animationNavController  = "com.google.accompanist:accompanist-navigation-animation:${Versions.animateNavcontroller}"
+    val playCore = "com.google.android.play:core:${Versions.playCore}"
+    val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
 }
 
 

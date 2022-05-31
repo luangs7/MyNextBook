@@ -1,6 +1,6 @@
 package com.lgdevs.mynextbook.domain.model
 
-data class GetBookParams(
+data class AppPreferences(
     val isEbook: Boolean,
     val keyword: String?,
     val language: String?,

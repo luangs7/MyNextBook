@@ -4,16 +4,16 @@ import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.domain.repositories.BookLocalRepository
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceLocal
-import com.lgdevs.mynextbook.repository.model.toDomain
-import com.lgdevs.mynextbook.repository.model.toRepo
+import com.lgdevs.mynextbook.repository.mapper.BookRepoMapper
 import kotlinx.coroutines.flow.*
 
-class BookLocalRepositoryImpl(
-    private val dataSourceLocal: BookDataSourceLocal
+internal class BookLocalRepositoryImpl(
+    private val dataSourceLocal: BookDataSourceLocal,
+    private val mapper: BookRepoMapper
 ) : BookLocalRepository {
     override suspend fun addFavorites(book: Book): Flow<ApiResult<Unit>> = flow {
         emit(ApiResult.Loading)
-        dataSourceLocal.setFavoriteBook(book.toRepo())
+        dataSourceLocal.setFavoriteBook(mapper.toRepo(book))
             .catch { emit(ApiResult.Error(it)) }
             .collect {
                 emit(ApiResult.Success(it))
@@ -28,7 +28,7 @@ class BookLocalRepositoryImpl(
                 val result = if (response.isEmpty()) {
                     ApiResult.Empty
                 } else {
-                    ApiResult.Success(response.map { it.toDomain() })
+                    ApiResult.Success(response.map { mapper.toDomain(it) })
                 }
                 emit(result)
             }
@@ -36,7 +36,7 @@ class BookLocalRepositoryImpl(
 
     override suspend fun removeFavorite(book: Book): Flow<ApiResult<Unit>> = flow {
         emit(ApiResult.Loading)
-        dataSourceLocal.removeFavoriteBook(book.toRepo())
+        dataSourceLocal.removeFavoriteBook(mapper.toRepo(book))
             .catch { emit(ApiResult.Error(it)) }
             .collect {
                 emit(ApiResult.Success(it))

@@ -1,13 +1,10 @@
 package com.lgdevs.mynextbook.domain.interactor
 
 import com.lgdevs.mynextbook.common.base.ApiResult
-import com.lgdevs.mynextbook.domain.interactor.abstraction.AddFavoriteBook
 import com.lgdevs.mynextbook.domain.interactor.abstraction.GetRandomBook
-import com.lgdevs.mynextbook.domain.interactor.implementation.AddFavoriteBookImpl
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookImpl
 import com.lgdevs.mynextbook.domain.model.Book
-import com.lgdevs.mynextbook.domain.model.GetBookParams
-import com.lgdevs.mynextbook.domain.repositories.BookLocalRepository
+import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.repositories.BookRemoteRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -22,7 +19,7 @@ class GetRandomBookImplTest {
     private val repository: BookRemoteRepository = mockk()
     private val useCase: GetRandomBook by lazy { GetRandomBookImpl(repository) }
     private val bookData: Book by lazy { Book(Random.nextInt().toString()) }
-    private val bookParam: GetBookParams by lazy { GetBookParams(false, null, null, null) }
+    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, null, null) }
 
 
     @Test

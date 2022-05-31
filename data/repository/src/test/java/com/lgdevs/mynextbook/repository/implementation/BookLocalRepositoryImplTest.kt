@@ -4,6 +4,7 @@ import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.domain.repositories.BookLocalRepository
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceLocal
+import com.lgdevs.mynextbook.repository.mapper.BookRepoMapper
 import com.lgdevs.mynextbook.repository.model.BookData
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -19,7 +20,8 @@ import kotlin.random.Random
 class BookLocalRepositoryImplTest {
 
     private val dataSourceLocal = mockk<BookDataSourceLocal>()
-    private val repository: BookLocalRepository by lazy { BookLocalRepositoryImpl(dataSourceLocal) }
+    private val mapper: BookRepoMapper by lazy { BookRepoMapper() }
+    private val repository: BookLocalRepository by lazy { BookLocalRepositoryImpl(dataSourceLocal, mapper) }
     private val bookParam: Book by lazy { Book(Random.nextInt().toString()) }
     private val bookDataList: List<BookData> by lazy {
         listOf(

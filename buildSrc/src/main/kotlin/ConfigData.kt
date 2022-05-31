@@ -18,7 +18,14 @@ object Modules{
     const val domain = ":domain"
     const val repository = ":data:repository"
     const val designsystem = ":core:designsystem"
-    const val presentation = ":presentation"
     const val navigation = ":library:navigation"
     const val tests = ":library:tests"
+}
+
+object Features {
+    const val favorites = ":features:favorites"
+    const val filter = ":features:favorites"
+    const val swipe = ":features:favorites"
+    const val home = ":features:favorites"
+    const val finder = ":features:finder"
 }

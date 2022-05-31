@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.lgdevs.local.dao.BookDao
 import com.lgdevs.local.dao.BookDatabase
 import com.lgdevs.local.datasource.BookDataSourceLocalImpl
+import com.lgdevs.local.mapper.BookEntityMapper
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceLocal
 import com.lgdevs.mynextbook.repository.model.BookData
@@ -27,14 +28,14 @@ import kotlin.random.Random
 class BookDataSourceLocalImplTest {
 
     private lateinit var db: BookDatabase
-    private lateinit var dao: BookDao
     private lateinit var dataSource: BookDataSourceLocal
+    private val mapper: BookEntityMapper by lazy { BookEntityMapper() }
 
     @Before
     public fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, BookDatabase::class.java).build()
-        dataSource = BookDataSourceLocalImpl(db.dao)
+        dataSource = BookDataSourceLocalImpl(db.dao, mapper)
     }
 
     @After

@@ -1,12 +1,10 @@
 package com.lgdevs.mynextbook.repository.implementation
 
 import com.lgdevs.mynextbook.common.base.ApiResult
-import com.lgdevs.mynextbook.domain.model.Book
-import com.lgdevs.mynextbook.domain.model.GetBookParams
-import com.lgdevs.mynextbook.domain.repositories.BookLocalRepository
+import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.repositories.BookRemoteRepository
-import com.lgdevs.mynextbook.repository.datasource.BookDataSourceLocal
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceRemote
+import com.lgdevs.mynextbook.repository.mapper.BookRepoMapper
 import com.lgdevs.mynextbook.repository.model.BookData
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -19,9 +17,10 @@ import kotlin.random.Random
 class BookRemoteRepositoryImplTest {
 
     private val dataSourceRemote = mockk<BookDataSourceRemote>()
-    private val repository: BookRemoteRepository by lazy { BookRemoteRepositoryImpl(dataSourceRemote) }
+    private val mapper: BookRepoMapper by lazy { BookRepoMapper() }
+    private val repository: BookRemoteRepository by lazy { BookRemoteRepositoryImpl(dataSourceRemote, mapper) }
     private val bookData: BookData by lazy { BookData(Random.nextInt().toString()) }
-    private val bookParam: GetBookParams by lazy { GetBookParams(false, null, null, null) }
+    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, null, null) }
 
     @Test
     fun whenGetRandomBook_passingParams_shouldResponseWithABook() = runTest {

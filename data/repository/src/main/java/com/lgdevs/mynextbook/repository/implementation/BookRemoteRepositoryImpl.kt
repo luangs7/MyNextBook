@@ -3,24 +3,22 @@ package com.lgdevs.mynextbook.repository.implementation
 
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.domain.model.Book
-import com.lgdevs.mynextbook.domain.model.GetBookParams
+import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.repositories.BookRemoteRepository
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceRemote
-import com.lgdevs.mynextbook.repository.model.BookData
-import com.lgdevs.mynextbook.repository.model.toDomain
-import com.lgdevs.mynextbook.repository.model.toRepo
+import com.lgdevs.mynextbook.repository.mapper.BookRepoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
-class BookRemoteRepositoryImpl(
-    private val dataSourceRemote: BookDataSourceRemote
+internal class BookRemoteRepositoryImpl(
+    private val dataSourceRemote: BookDataSourceRemote,
+    private val mapper: BookRepoMapper
 ): BookRemoteRepository {
-    override suspend fun getRandomBook(params: GetBookParams): Flow<ApiResult<Book>> = flow {
+    override suspend fun getRandomBook(params: AppPreferences): Flow<ApiResult<Book>> = flow {
         emit(ApiResult.Loading)
-        dataSourceRemote.getBooksFromQuery(params.toRepo())
+        dataSourceRemote.getBooksFromQuery(mapper.toRepo(params))
             .catch { emit(ApiResult.Error(it)) }
-            .collect { emit(ApiResult.Success(it.toDomain())) }
+            .collect { emit(ApiResult.Success(mapper.toDomain(it))) }
     }
 }
