@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 internal class PreferencesDataSourceDatastoreImpl(
     private val context: Context,
     private val mapper: AppPreferencesMapper
-): PreferencesDataSourceDatastore {
+) : PreferencesDataSourceDatastore {
     override suspend fun updatePreferences(preferences: AppPreferencesRepo) {
         context.preferences.edit {
             it[PREFERENCES_KEY] = Gson().toJson(mapper.toDatastore(preferences))
@@ -25,9 +25,13 @@ internal class PreferencesDataSourceDatastoreImpl(
 
     override suspend fun loadPreferences(): Flow<AppPreferencesRepo> =
         context.preferences.data.map {
-            val result = it[PREFERENCES_KEY]
+            val result = it[PREFERENCES_KEY] ?: Gson().toJson(createDefaultPreferences())
             mapper.toRepo(Gson().fromJson(result, AppPreferenceDatastore::class.java))
         }
+
+
+    private fun createDefaultPreferences(): AppPreferenceDatastore =
+        AppPreferenceDatastore(false, null, null, null)
 
     companion object {
         val PREFERENCES_KEY = stringPreferencesKey("prefkey")

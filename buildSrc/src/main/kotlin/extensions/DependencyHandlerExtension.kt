@@ -31,7 +31,6 @@ fun DependencyHandler.addKoinDependencies(){
 
 fun DependencyHandler.addDesignDependencies() {
     api(Dependencies.appCompat)
-    api(Dependencies.constraintLayout)
     api(Dependencies.materialDesign)
     api(Dependencies.circleimageview)
     api(Dependencies.lifecycleKtx)
@@ -44,6 +43,8 @@ fun DependencyHandler.addComposeDependencies(){
     implementation(Dependencies.composeActivity)
     implementation(Dependencies.navigationCompose)
     implementation(Dependencies.coilKt)
+    implementation(Dependencies.lottieCompose)
+    implementation(Dependencies.constraintLayout)
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
 }
 

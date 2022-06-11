@@ -32,10 +32,6 @@ internal class BookRepoMapper {
     fun toRepo(model: BookImage?) =
         model?.let { BookImageData(model.smallThumbnail, model.thumbnail) }
 
-    fun toRepo(model: AppPreferences) =
-        AppPreferencesRepo(model.isEbook, model.keyword, model.language, model.subject)
-
-
     fun toDomain(model: BookData) = Book(
         model.id,
         model.title,
@@ -57,8 +53,4 @@ internal class BookRepoMapper {
 
     private fun toDomain(model: BookImageData?) =
         model?.let { BookImage(it.smallThumbnail, it.thumbnail) }
-
-    fun toDomain(model: AppPreferencesRepo) =
-        AppPreferences(model.isEbook, model.keyword, model.language, model.subject)
-
 }

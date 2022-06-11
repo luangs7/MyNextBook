@@ -15,6 +15,7 @@ object Modules{
     const val common = ":core:common"
     const val local = ":data:remote"
     const val remote = ":data:local"
+    const val datastore = ":data:datastore"
     const val domain = ":domain"
     const val repository = ":data:repository"
     const val designsystem = ":core:designsystem"
@@ -24,8 +25,8 @@ object Modules{
 
 object Features {
     const val favorites = ":features:favorites"
-    const val filter = ":features:favorites"
-    const val swipe = ":features:favorites"
-    const val home = ":features:favorites"
+    const val preferences = ":features:preferences"
+    const val swipe = ":features:swipe"
+    const val home = ":features:home"
     const val finder = ":features:finder"
 }

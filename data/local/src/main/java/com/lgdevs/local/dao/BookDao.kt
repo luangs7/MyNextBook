@@ -10,6 +10,8 @@ interface BookDao {
     fun insertBook(book:BookEntity)
     @Query("SELECT * FROM bookentity")
     fun getFavorites(): List<BookEntity>
+    @Query("SELECT * FROM bookentity WHERE id == :bookId")
+    fun getFavoritesById(bookId: String): List<BookEntity>
     @Delete
     fun delete(book: BookEntity)
 }

@@ -2,10 +2,21 @@ package com.lgdevs.mynextbook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.navigation.compose.rememberNavController
+import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 
-class MainActivity : AppCompatActivity() {
+@OptIn(ExperimentalFoundationApi::class)
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            MyNextBookTheme {
+                val navController = rememberNavController()
+                NavGraph(navController)
+            }
+        }
     }
 }

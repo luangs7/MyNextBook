@@ -5,6 +5,7 @@ import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.repositories.BookRemoteRepository
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceRemote
 import com.lgdevs.mynextbook.repository.mapper.BookRepoMapper
+import com.lgdevs.mynextbook.repository.mapper.PreferencesRepoMapper
 import com.lgdevs.mynextbook.repository.model.BookData
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -17,8 +18,9 @@ import kotlin.random.Random
 class BookRemoteRepositoryImplTest {
 
     private val dataSourceRemote = mockk<BookDataSourceRemote>()
-    private val mapper: BookRepoMapper by lazy { BookRepoMapper() }
-    private val repository: BookRemoteRepository by lazy { BookRemoteRepositoryImpl(dataSourceRemote, mapper) }
+    private val bookMapper: BookRepoMapper by lazy { BookRepoMapper() }
+    private val prefMapper: PreferencesRepoMapper by lazy { PreferencesRepoMapper() }
+    private val repository: BookRemoteRepository by lazy { BookRemoteRepositoryImpl(dataSourceRemote, prefMapper, bookMapper) }
     private val bookData: BookData by lazy { BookData(Random.nextInt().toString()) }
     private val bookParam: AppPreferences by lazy { AppPreferences(false, null, null, null) }
 

@@ -14,8 +14,19 @@ android {
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
         targetSdk = ConfigData.targetSdkVersion
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     configureBuildTypes()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
 }
 
 repositories {
@@ -29,6 +40,11 @@ dependencies {
     implementation(project(Modules.remote))
     implementation(project(Modules.domain))
     implementation(project(Modules.local))
+    implementation(project(Modules.datastore))
+    implementation(project(Modules.repository))
+    implementation(project(Features.preferences))
+    implementation(project(Features.finder))
+    implementation(project(Features.home))
     addKoinDependencies()
     addCoroutinesDependencies()
     addCommonDependencies()

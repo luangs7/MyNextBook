@@ -3,7 +3,7 @@ object Versions {
     const val kotlin = "1.6.10"
     const val appCompat = "1.3.0"
     const val material = "1.3.0"
-    const val constraintLayout = "1.1.3"
+    const val constraintLayout = "1.0.1"
     const val circleimageview = "3.0.0"
     const val koin = "3.2.0"
     const val retrofit = "2.7.1"
@@ -20,7 +20,7 @@ object Versions {
     const val mockK = "1.12.4"
     const val coroutines = "1.4.2"
     const val coreTesting = "2.0.1"
-    const val composeVersion = "1.2.0-alpha01"
+    const val composeVersion = "1.1.1"
     const val composeActivity = "1.4.0"
     const val lifecycleKtx = "2.4.1"
     const val lifecycleCompiler = "2.3.0"
@@ -31,13 +31,14 @@ object Versions {
     const val  roboletric = "4.8"
     const val playCore = "1.10.0"
     const val dataStore = "1.0.0"
+    const val lottieCompose = "5.2.0"
 }
 
 object Dependencies {
     val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     val materialDesign = "com.google.android.material:material:${Versions.material}"
-    val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
     val junit = "junit:junit:${Versions.jUnit}"
     val lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -62,6 +63,7 @@ object Dependencies {
     val animationNavController  = "com.google.accompanist:accompanist-navigation-animation:${Versions.animateNavcontroller}"
     val playCore = "com.google.android.play:core:${Versions.playCore}"
     val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
+    val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
 }
 
 
