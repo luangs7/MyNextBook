@@ -22,7 +22,7 @@ class BookRemoteRepositoryImplTest {
     private val prefMapper: PreferencesRepoMapper by lazy { PreferencesRepoMapper() }
     private val repository: BookRemoteRepository by lazy { BookRemoteRepositoryImpl(dataSourceRemote, prefMapper, bookMapper) }
     private val bookData: BookData by lazy { BookData(Random.nextInt().toString()) }
-    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, null, null) }
+    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, false, null) }
 
     @Test
     fun whenGetRandomBook_passingParams_shouldResponseWithABook() = runTest {

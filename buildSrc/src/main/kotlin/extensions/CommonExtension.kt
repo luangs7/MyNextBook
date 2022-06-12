@@ -56,7 +56,7 @@ fun CommonExtension<*, *, *, *>.configureBuildTypes() {
             dimension = "api"
         }
         forEach {
-            it.buildConfigField("String","API_URL","\"https://api.github.com/\"")
+            it.buildConfigField("String","API_URL","\"https://www.googleapis.com/books/v1/\"")
         }
     }
 }

@@ -25,7 +25,7 @@ object Versions {
     const val lifecycleKtx = "2.4.1"
     const val lifecycleCompiler = "2.3.0"
     const val navigationCompose = "2.4.1"
-    const val coilKt = "2.0.0-rc02"
+    const val coilKt = "2.1.0"
     const val paging = "1.0.0-alpha14"
     const val animateNavcontroller = "0.24.5-alpha"
     const val  roboletric = "4.8"

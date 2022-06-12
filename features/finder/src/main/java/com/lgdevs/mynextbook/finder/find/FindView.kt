@@ -8,8 +8,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.lgdevs.mynextbook.designsystem.ui.components.InformationView
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
-import com.lgdevs.mynextbook.filter.PreferencesView
+import com.lgdevs.mynextbook.filter.ui.PreferencesView
 import com.lgdevs.mynextbook.finder.R
+import com.lgdevs.mynextbook.navigation.NavigationItem
 
 @Composable
 fun FindView(navController: NavController) {
@@ -23,10 +24,10 @@ fun FindView(navController: NavController) {
             "Buscar",
             R.raw.book_preferences,
             onInformation = { isPreferencesOpen.value = true },
-            onNext = {  }
+            onNext = { navController.navigate(NavigationItem.Preview.route) }
         )
 
-        if(isPreferencesOpen.value){
+        if (isPreferencesOpen.value) {
             PreferencesView(onDismiss = { isPreferencesOpen.value = false })
         }
     }

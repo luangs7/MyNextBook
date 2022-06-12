@@ -7,14 +7,14 @@ internal class AppPreferencesMapper {
     fun toDatastore(model: AppPreferencesRepo) = AppPreferenceDatastore(
         model.isEbook,
         model.keyword,
-        model.language,
+        model.isPortuguese,
         model.subject
     )
 
     fun toRepo(model: AppPreferenceDatastore) = AppPreferencesRepo(
         model.isEbook,
         model.keyword,
-        model.language,
+        model.isPortuguese,
         model.subject
     )
 }

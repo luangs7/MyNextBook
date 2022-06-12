@@ -1,22 +1,26 @@
-package com.lgdevs.mynextbook.filter
+@file:OptIn(ExperimentalComposeUiApi::class)
+
+package com.lgdevs.mynextbook.filter.ui
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.implementation.UpdatePreferencesImpl
+import com.lgdevs.mynextbook.designsystem.ui.theme.blackWithTransparency
 import com.lgdevs.mynextbook.domain.model.AppPreferences
+import com.lgdevs.mynextbook.filter.ui.components.PreferenceCheckItem
+import com.lgdevs.mynextbook.filter.ui.components.PreferenceInputItem
 import com.lgdevs.mynextbook.filter.viewmodel.PreferencesViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -26,14 +30,21 @@ fun PreferencesView(
     viewModel: PreferencesViewModel = getViewModel()
 ) {
     MyNextBookTheme {
-
         val prefState = viewModel.preferencesState.collectAsState()
         Crossfade(targetState = prefState) { state ->
             when (val value = state.value) {
                 is ViewState.Success -> {
-                    Dialog(onDismissRequest = { onDismiss.invoke() }) {
+                    Dialog(
+                        onDismissRequest = { onDismiss.invoke() },
+                        properties = DialogProperties(
+                            dismissOnBackPress = false,
+                            dismissOnClickOutside = false,
+                            usePlatformDefaultWidth = false
+                        )
+                    ) {
                         PreferenceContent(value.result) { isEbook, keyword, isPortuguese ->
                             viewModel.setPreferences(isEbook, keyword, isPortuguese)
+                            onDismiss.invoke()
                         }
                     }
                 }
@@ -53,12 +64,13 @@ internal fun PreferenceContent(
 ) {
     val isEbookState = remember { mutableStateOf(model.isEbook) }
     val keywordState = remember { mutableStateOf(TextFieldValue(model.keyword.orEmpty())) }
-    val isPortugueseState = remember { mutableStateOf(false) }
+    val isPortugueseState = remember { mutableStateOf(model.isPortuguese) }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .background(blackWithTransparency),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PreferenceCheckItem(
@@ -77,6 +89,7 @@ internal fun PreferenceContent(
         )
         PreferenceInputItem(
             label = "Palavra chave",
+            hint = "Insira uma palavra chave",
             state = keywordState,
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,56 +105,16 @@ internal fun PreferenceContent(
                     isPortugueseState.value
                 )
             }) {
-            Text(text = "Confirmar")
+            Text(text = "Confirmar", style = MaterialTheme.typography.body1)
         }
     }
 }
 
-@Composable
-internal fun PreferenceCheckItem(
-    label: String,
-    state: MutableState<Boolean>,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(label, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
-        Spacer(modifier = Modifier.weight(1f))
-        Checkbox(checked = state.value, onCheckedChange = { state.value = it })
-    }
-}
-
-@Composable
-fun PreferenceInputItem(
-    label: String,
-    state: MutableState<TextFieldValue>,
-    modifier: Modifier = Modifier
-) {
-    Row(modifier = modifier) {
-        Text(
-            label, modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp)
-                .weight(2f)
-        )
-        BasicTextField(
-            value = state.value,
-            onValueChange = { state.value = it },
-            textStyle = TextStyle(textAlign = TextAlign.End),
-            modifier =
-            Modifier
-                .weight(3f)
-                .fillMaxWidth()
-                .wrapContentHeight()
-        )
-    }
-}
 
 @Preview(showBackground = false)
 @Composable
 internal fun showView() {
     PreferenceContent(
-        AppPreferences(true, null, null, null),
-    ) { isEbook, keyword, isPortuguese -> }
+        AppPreferences(true, null, false, null),
+    ) { _, _, _ -> }
 }

@@ -14,7 +14,7 @@ data class BookData(
     val language: String? = null,
     val previewLink: String? = null,
     val infoLink: String? = null,
-    val averageRating: Long? = null,
+    val averageRating: String? = null,
     val ratingsCount: Long? = null,
     val publishedDate: String? = null
 )

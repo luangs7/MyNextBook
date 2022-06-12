@@ -89,3 +89,10 @@ val descriptionStyle = TextStyle(
     fontSize = 14.sp,
     color = Color.Black.copy(alpha = 0.3f)
 )
+
+val placeholder = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 12.sp,
+    color = Color.Gray.copy(alpha = 0.5f)
+)

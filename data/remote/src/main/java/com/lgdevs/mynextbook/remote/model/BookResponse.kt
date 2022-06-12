@@ -25,7 +25,7 @@ data class VolumeInfo (
     val previewLink: String? = null,
     val infoLink: String? = null,
     val canonicalVolumeLink: String? = null,
-    val averageRating: Long? = null,
+    val averageRating: String? = null,
     val ratingsCount: Long? = null,
     val publishedDate: String? = null
 )

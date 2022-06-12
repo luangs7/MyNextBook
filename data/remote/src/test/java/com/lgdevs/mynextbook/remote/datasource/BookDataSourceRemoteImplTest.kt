@@ -47,7 +47,7 @@ class BookDataSourceRemoteImplTest {
         )
         coEvery { service.getBooks(any(), any(), any()) } returns Response.success(apiCall)
 
-        val params = AppPreferencesRepo(false, String(), String(), String())
+        val params = AppPreferencesRepo(false, String(), false, String())
 
         bookDataSourceRemote.getBooksFromQuery(params).collect { Assert.assertNotNull(it) }
 
@@ -60,7 +60,7 @@ class BookDataSourceRemoteImplTest {
     fun whenGetBookList_withSuccessfulCall_andBodyNull_shouldShowError() = runTest {
         coEvery { service.getBooks(any(), any(), any()) } returns Response.success(null)
 
-        val params = AppPreferencesRepo(false, String(), String(), String())
+        val params = AppPreferencesRepo(false, String(), false, String())
         bookDataSourceRemote.getBooksFromQuery(params)
             .catch { assert(it is Exception) }
             .collect { Assert.assertNull(it) }
@@ -78,7 +78,7 @@ class BookDataSourceRemoteImplTest {
             String().toResponseBody(null)
         )
 
-        val params = AppPreferencesRepo(false, String(), String(), String())
+        val params = AppPreferencesRepo(false, String(), false, String())
 
         bookDataSourceRemote.getBooksFromQuery(params)
             .catch { assert(it is Exception) }

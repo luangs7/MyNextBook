@@ -8,4 +8,5 @@ dependencies {
     implementation(project(Modules.navigation))
     implementation(project(Modules.designsystem))
     implementation(project(Features.preferences))
+    implementation(project(Modules.domain))
 }

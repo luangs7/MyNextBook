@@ -1,18 +1,18 @@
 package com.lgdevs.mynextbook.remote.service
 
+import com.lgdevs.mynextbook.remote.datasource.BookDataSourceRemoteImpl
 import com.lgdevs.mynextbook.remote.model.BookResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface BookService {
-//    https://www.googleapis.com/books/v1/volumes?q=subject:fiction&langRestrict=pt&maxResults=40&filter=ebooks
     @GET("volumes")
     suspend fun getBooks(
-        @Query("q") query:String,
-        @Query("langRestrict") language:String?,
-        @Query("filter") filter:String?,
-        @Query("orderBy") orderBy:String = "relevance",
-        @Query("maxResults") maxResults:Int = 40,
+        @Query(BookDataSourceRemoteImpl.QUERY, encoded = false) query: String,
+        @Query(BookDataSourceRemoteImpl.LANGUAGE_RESTRICT_QUERY) language: String?,
+        @Query(BookDataSourceRemoteImpl.FILTER_QUERY) filter: String?,
+        @Query(BookDataSourceRemoteImpl.ORDERBY_QUERY) orderBy: String = BookDataSourceRemoteImpl.ORDERBY_QUERY_VALUE,
+        @Query(BookDataSourceRemoteImpl.MAXRESULTS_QUERY) maxResults: Int = BookDataSourceRemoteImpl.MAXRESULTS_VALUE,
     ): Response<BookResponse>
 }

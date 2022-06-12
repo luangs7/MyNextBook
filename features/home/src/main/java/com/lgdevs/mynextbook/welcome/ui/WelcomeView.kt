@@ -1,26 +1,12 @@
-package com.lgdevs.mynextbook.welcome
+package com.lgdevs.mynextbook.welcome.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
-import com.airbnb.lottie.compose.*
 import com.lgdevs.mynextbook.designsystem.ui.components.InformationView
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
-import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
 import com.lgdevs.mynextbook.navigation.NavigationItem
+import com.lgdevs.mynextbook.welcome.R
 
 @Composable
 fun BookWelcomeView(navController: NavController) {

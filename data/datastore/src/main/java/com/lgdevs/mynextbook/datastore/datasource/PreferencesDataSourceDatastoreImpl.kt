@@ -31,7 +31,7 @@ internal class PreferencesDataSourceDatastoreImpl(
 
 
     private fun createDefaultPreferences(): AppPreferenceDatastore =
-        AppPreferenceDatastore(false, null, null, null)
+        AppPreferenceDatastore(false, null, false, null)
 
     companion object {
         val PREFERENCES_KEY = stringPreferencesKey("prefkey")

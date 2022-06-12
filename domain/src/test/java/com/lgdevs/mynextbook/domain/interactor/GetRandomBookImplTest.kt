@@ -19,7 +19,7 @@ class GetRandomBookImplTest {
     private val repository: BookRemoteRepository = mockk()
     private val useCase: GetRandomBook by lazy { GetRandomBookImpl(repository) }
     private val bookData: Book by lazy { Book(Random.nextInt().toString()) }
-    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, null, null) }
+    private val bookParam: AppPreferences by lazy { AppPreferences(false, null, false, null) }
 
 
     @Test

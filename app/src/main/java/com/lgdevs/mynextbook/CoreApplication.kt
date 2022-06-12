@@ -5,6 +5,8 @@ import com.lgdevs.local.di.localModule
 import com.lgdevs.mynextbook.di.datastoreModule
 import com.lgdevs.mynextbook.domain.di.domainModule
 import com.lgdevs.mynextbook.filter.di.preferencesModule
+import com.lgdevs.mynextbook.finder.di.finderModule
+import com.lgdevs.mynextbook.remote.di.networkModule
 import com.lgdevs.mynextbook.remote.di.remoteModule
 import com.lgdevs.mynextbook.repository.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -22,10 +24,12 @@ class CoreApplication : Application() {
             modules(
                 datastoreModule +
                         remoteModule +
+                        networkModule +
                         localModule +
                         repositoryModule +
                         domainModule +
-                        preferencesModule
+                        preferencesModule +
+                        finderModule
             )
         }
 
