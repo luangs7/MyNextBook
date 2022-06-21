@@ -25,6 +25,8 @@ import com.lgdevs.mynextbook.filter.ui.components.PreferenceCheckItem
 import com.lgdevs.mynextbook.filter.ui.components.PreferenceInputItem
 import com.lgdevs.mynextbook.filter.viewmodel.PreferencesViewModel
 import org.koin.androidx.compose.getViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun PreferencesView(
@@ -37,7 +39,7 @@ fun PreferencesView(
             when (val value = state.value) {
                 is ViewState.Success -> PreferenceDialog(value.result, onDismiss)
                 is ViewState.Loading -> {}
-                else ->  onDismiss.invoke()
+                else ->  onDismiss()()
             }
         }
     }
@@ -50,7 +52,7 @@ internal fun PreferenceDialog(
     viewModel: PreferencesViewModel = getViewModel()
 ){
     Dialog(
-        onDismissRequest = { onDismiss.invoke() },
+        onDismissRequest = { onDismiss()() },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false,
@@ -59,7 +61,7 @@ internal fun PreferenceDialog(
     ) {
         PreferenceContent(model) { isEbook, keyword, isPortuguese ->
             viewModel.setPreferences(isEbook, keyword, isPortuguese)
-            onDismiss.invoke()
+            onDismiss()()
         }
     }
 }
@@ -77,6 +79,7 @@ internal fun PreferenceContent(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .padding(16.dp)
             .background(blackWithTransparency),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -106,7 +109,7 @@ internal fun PreferenceContent(
         Button(
             modifier = Modifier.padding(16.dp),
             onClick = {
-                onConfirm.invoke(
+                onConfirm()(
                     isEbookState.value,
                     keywordState.value.text,
                     isPortugueseState.value

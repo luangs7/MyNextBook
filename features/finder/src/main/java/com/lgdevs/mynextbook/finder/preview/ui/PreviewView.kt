@@ -43,43 +43,20 @@ import kotlin.math.min
 
 @Composable
 fun PreviewView(
-    navController: NavController,
-    viewModel: PreviewViewModel = getViewModel()
+    navController: NavController
 ) {
     val scaffoldState: ScaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-    val snackbarState = viewModel.snackbarFlow.collectAsState(initial = null)
 
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(backgroundDark),
-        snackbarHost = {
-            SnackbarHost(it) { data ->
-                Snackbar(
-                    backgroundColor = Color.Black,
-                    snackbarData = data
-                )
-            }
-        }
+            .background(backgroundDark)
     ) {
         PreviewViewContent(onReturn = {
             navController.popBackStack()
         })
-    }
-
-    Crossfade(targetState = snackbarState) { snackbarState ->
-        if (snackbarState.value.isNullOrEmpty().not()) {
-            LaunchedEffect(scaffoldState.snackbarHostState) {
-                coroutineScope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = snackbarState.value.orEmpty()
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -98,16 +75,18 @@ internal fun PreviewViewContent(
             is ViewState.Success -> PreviewBottomSheet(state.result, onPreview = {
                 uriHandler.openUri(it.previewLink.orEmpty())
             }, onFavorite = {
-                viewModel.handleWishlist(it)
+                viewModel.itemFavoriteBook(it)
             }, onShare = {
                 shareIntent(context, it.previewLink.orEmpty())
             })
-            else -> { onReturn.invoke() }
+            else -> {
+                onReturn()()
+            }
         }
     }
 }
 
-private fun shareIntent(context: Context, message: String){
+private fun shareIntent(context: Context, message: String) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(

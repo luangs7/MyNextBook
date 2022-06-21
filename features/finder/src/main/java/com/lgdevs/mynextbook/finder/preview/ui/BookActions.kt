@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.lgdevs.mynextbook.common.base.ViewState
+import com.lgdevs.mynextbook.designsystem.ui.components.ActionButtons
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.finder.preview.viewmodel.PreviewViewModel
 import org.koin.androidx.compose.getViewModel
@@ -30,67 +31,38 @@ internal fun BookActions(
     viewModel: PreviewViewModel = getViewModel()
 ) {
     val bookState = remember { mutableStateOf(book) }
-    val addFavoriteState = viewModel.addFavoriteBookFlow.collectAsState(initial = null)
-    val removeFavoriteState = viewModel.removeFavoriteBookFlow.collectAsState(initial = null)
-    val favColor = if (bookState.value.isFavorited) Color.Red else Color.White
+    val bookFavoriteState = viewModel.bookFavoriteFlow.collectAsState(initial = ViewState.Empty)
+    var favColor by remember { mutableStateOf(if (bookState.value.isFavorited) Color.Red else Color.White) }
 
-    Row(
+    ActionButtons(
+        onFavorite = { onFavorite()(bookState.value) },
+        onPreview = { onPreview()(bookState.value) },
+        onShare = { onShare()(bookState.value) },
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        ActionButton(
-            onClick = { onFavorite.invoke(bookState.value) },
-            icon = Icons.Filled.Favorite,
-            contentColor = favColor
-        )
-        ActionButton(
-            onClick = { onShare.invoke(bookState.value) },
-            icon = Icons.Filled.Share,
-            contentColor = Color.White
-        )
-        ActionButton(
-            onClick = { onPreview.invoke(bookState.value) },
-            icon = Icons.Default.Info,
-            contentColor = Color.White
-        )
+        mutableFavColor = favColor
+    )
+
+    LaunchedEffect(bookFavoriteState.value){
+        when (bookFavoriteState.value) {
+            is ViewState.Success -> {
+                if(bookState.value.isFavorited){
+                    bookState.value = bookState.value.copy(
+                        isFavorited = false
+                    )
+                    favColor = Color.White
+                } else {
+                    bookState.value = bookState.value.copy(
+                        isFavorited = true
+                    )
+                    favColor = Color.Red
+                }
+
+            }
+            else -> {}
+        }
     }
 
-    when (addFavoriteState.value) {
-        is ViewState.Success -> {
-            bookState.value.isFavorited = true
-            viewModel.showSnackbar("Item adicionado aos favoritos.")
-        }
-        else -> {}
-    }
 
-    when (removeFavoriteState.value) {
-        is ViewState.Success -> {
-            bookState.value.isFavorited = false
-            viewModel.showSnackbar("Item removido dos favoritos.")
-        }
-        else -> {}
-    }
 }
 
 
-@Composable
-fun ActionButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
-    contentColor: Color
-) {
-    OutlinedButton(
-        onClick = { onClick.invoke() },
-        modifier = modifier
-            .size(50.dp)
-            .padding(8.dp),
-        shape = CircleShape,
-        border = BorderStroke(1.dp, Color.White),
-        contentPadding = PaddingValues(4.dp),
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor)
-    ) {
-        Icon(icon, contentDescription = String())
-    }
-}

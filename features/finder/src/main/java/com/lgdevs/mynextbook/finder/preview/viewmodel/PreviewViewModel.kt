@@ -21,24 +21,18 @@ class PreviewViewModel(
     private val removeBookFromFavorite: RemoveBookFromFavorite
 ) : ViewModel() {
 
-    private val addSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
-    private val removeSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
-    private val snackbarSharedFlow: MutableSharedFlow<String> = MutableSharedFlow(replay = 1)
+    private val itemFavoriteSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
 
-    val addFavoriteBookFlow = addSharedFlow.flatMapMerge {
-        addFavoriteBook.execute(it).flatMapMerge { apiResult ->
-            afterAddFavoriteBook(apiResult)
+    val bookFavoriteFlow = itemFavoriteSharedFlow.flatMapMerge {
+        if(it.isFavorited){
+            addFavoriteBook.execute(it).flatMapMerge { apiResult ->
+                afterAddFavoriteBook(apiResult)
+            }
+        } else {
+            removeBookFromFavorite.execute(it).flatMapMerge { apiResult ->
+                afterRemoveFavoriteBook(apiResult)
+            }
         }
-    }
-
-    val removeFavoriteBookFlow = removeSharedFlow.flatMapMerge {
-        removeBookFromFavorite.execute(it).flatMapMerge { apiResult ->
-            afterRemoveFavoriteBook(apiResult)
-        }
-    }
-
-    val snackbarFlow = snackbarSharedFlow.flatMapMerge {
-        snackbarFlow(it)
     }
 
     fun getRandomBook(): Flow<ViewState<Book>> = flow {
@@ -59,7 +53,7 @@ class PreviewViewModel(
         }
     }
 
-    private fun addFavoriteBook(book: Book) = addSharedFlow.tryEmit(book)
+    fun itemFavoriteBook(book: Book) = itemFavoriteSharedFlow.tryEmit(book)
 
     private fun afterAddFavoriteBook(result: ApiResult<Unit>) = flow {
         val viewResult = when (result) {
@@ -71,8 +65,6 @@ class PreviewViewModel(
         emit(viewResult)
     }
 
-    private fun removeFavoriteBook(book: Book) = removeSharedFlow.tryEmit(book)
-
     private fun afterRemoveFavoriteBook(result: ApiResult<Unit>) = flow {
         val viewResult = when (result) {
             ApiResult.Empty -> ViewState.Empty
@@ -82,14 +74,4 @@ class PreviewViewModel(
         }
         emit(viewResult)
     }
-
-    fun handleWishlist(book: Book) {
-        if (book.isFavorited) removeFavoriteBook(book) else addFavoriteBook(book)
-    }
-
-    private fun snackbarFlow(message: String) = flow {
-        emit(message)
-    }
-
-    fun showSnackbar(message: String) = snackbarSharedFlow.tryEmit(message)
 }

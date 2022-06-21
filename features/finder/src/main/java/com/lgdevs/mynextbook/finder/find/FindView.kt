@@ -12,23 +12,25 @@ import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import com.lgdevs.mynextbook.filter.ui.PreferencesView
 import com.lgdevs.mynextbook.finder.R
 import com.lgdevs.mynextbook.navigation.NavigationItem
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun FindView(navController: NavController) {
     MyNextBookTheme {
-        val isPreferencesOpen = remember { mutableStateOf(false) }
+        var isPreferencesOpen by remember { mutableStateOf(false) }
 
         InformationView(
             stringResource(R.string.information_filter_title),
             stringResource(R.string.information_filter_subtitle),
             stringResource(R.string.btn_search),
             R.raw.book_preferences,
-            onInformation = { isPreferencesOpen.value = true },
+            onInformation = { isPreferencesOpen = true },
             onNext = { navController.navigate(NavigationItem.Preview.route) }
         )
 
-        if (isPreferencesOpen.value) {
-            PreferencesView(onDismiss = { isPreferencesOpen.value = false })
+        if (isPreferencesOpen) {
+            PreferencesView(onDismiss = { isPreferencesOpen = false })
         }
     }
 }

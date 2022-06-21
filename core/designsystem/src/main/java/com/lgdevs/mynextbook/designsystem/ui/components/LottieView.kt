@@ -8,15 +8,17 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun LottieView(
     resId: Int,
     modifier: Modifier = Modifier
 ) {
-    val composition = rememberLottieComposition(LottieCompositionSpec.RawRes(resId))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(resId))
     LottieAnimation(
-        composition.value,
+        composition,
         modifier = modifier,
         iterations = LottieConstants.IterateForever
     )
