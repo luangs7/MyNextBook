@@ -17,5 +17,5 @@ data class Book(
     val averageRating: String? = null,
     val ratingsCount: Long? = null,
     val publishedDate: String? = null,
-    val isFavorited: Boolean = false
+    var isFavorited: Boolean = false
 )

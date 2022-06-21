@@ -3,6 +3,7 @@ package com.lgdevs.mynextbook.finder.find
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -18,9 +19,9 @@ fun FindView(navController: NavController) {
         val isPreferencesOpen = remember { mutableStateOf(false) }
 
         InformationView(
-            "Você pode utilizar alguns filtros para ajudar na nossa busca.",
-            "Basta clicar aqui para alterar suas preferencias.",
-            "Buscar",
+            stringResource(R.string.information_filter_title),
+            stringResource(R.string.information_filter_subtitle),
+            stringResource(R.string.btn_search),
             R.raw.book_preferences,
             onInformation = { isPreferencesOpen.value = true },
             onNext = { navController.navigate(NavigationItem.Preview.route) }

@@ -16,10 +16,11 @@ class PreferencesViewModel(
     private val getPreferences: GetPreferences
 ) : ViewModel() {
 
-    private val _setPreferencesState =
-        MutableStateFlow<ViewState<AppPreferences>>(ViewState.Loading)
-    val setPreferencesState: StateFlow<ViewState<AppPreferences>>
-        get() = _setPreferencesState
+    private val preferencesSharedFlow = MutableSharedFlow<AppPreferences>(replay = 1)
+
+    val addPreferences = preferencesSharedFlow.flatMapMerge {
+        onSetPreferences(it)
+    }
 
     fun getPreferences(): Flow<ViewState<AppPreferences>> = flow {
         getPreferences.execute(Unit)
@@ -30,15 +31,16 @@ class PreferencesViewModel(
             }
     }
 
-    fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) {
-        viewModelScope.launch {
-            val preferences = AppPreferences(isEbook, keyword, isPortuguese, null)
+    fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) =
+        preferencesSharedFlow.tryEmit(AppPreferences(isEbook, keyword, isPortuguese, null))
+
+    private fun onSetPreferences(preferences: AppPreferences) =
+        flow<ViewState<AppPreferences>> {
             setPreferences.execute(preferences)
-                .catch { _setPreferencesState.value = ViewState.Error(it) }
-                .onStart { _setPreferencesState.value = ViewState.Loading }
+                .catch { emit(ViewState.Error(it)) }
+                .onStart { emit(ViewState.Loading) }
                 .collect {
-                    _setPreferencesState.value = ViewState.Success(preferences)
+                    emit(ViewState.Success(preferences))
                 }
         }
-    }
 }

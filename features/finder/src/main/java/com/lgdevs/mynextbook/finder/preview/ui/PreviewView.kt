@@ -1,5 +1,6 @@
 package com.lgdevs.mynextbook.finder.preview.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.Crossfade
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -46,7 +48,7 @@ fun PreviewView(
 ) {
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
-    val snackbarState = viewModel.snackbarState.collectAsState()
+    val snackbarState = viewModel.snackbarFlow.collectAsState(initial = null)
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -63,15 +65,17 @@ fun PreviewView(
             }
         }
     ) {
-        PreviewViewContent()
+        PreviewViewContent(onReturn = {
+            navController.popBackStack()
+        })
     }
 
     Crossfade(targetState = snackbarState) { snackbarState ->
-        if (snackbarState.value.isNotEmpty()) {
+        if (snackbarState.value.isNullOrEmpty().not()) {
             LaunchedEffect(scaffoldState.snackbarHostState) {
                 coroutineScope.launch {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = snackbarState.value
+                        message = snackbarState.value.orEmpty()
                     )
                 }
             }
@@ -81,6 +85,7 @@ fun PreviewView(
 
 @Composable
 internal fun PreviewViewContent(
+    onReturn: () -> Unit,
     viewModel: PreviewViewModel = getViewModel()
 ) {
     val bookState = viewModel.getRandomBook().collectAsState(ViewState.Loading)
@@ -93,22 +98,26 @@ internal fun PreviewViewContent(
             is ViewState.Success -> PreviewBottomSheet(state.result, onPreview = {
                 uriHandler.openUri(it.previewLink.orEmpty())
             }, onFavorite = {
-                viewModel.addFavoriteBook(it)
+                viewModel.handleWishlist(it)
             }, onShare = {
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        "Encontrei um livro pra você: ${it.previewLink.orEmpty()}"
-                    )
-                    type = "text/plain"
-                }
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                context.startActivity(shareIntent)
+                shareIntent(context, it.previewLink.orEmpty())
             })
-            else -> {}
+            else -> { onReturn.invoke() }
         }
     }
+}
+
+private fun shareIntent(context: Context, message: String){
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT,
+            context.getString(R.string.share_message, message)
+        )
+        type = context.getString(R.string.intent_type)
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    context.startActivity(shareIntent)
 }
 
 @Composable

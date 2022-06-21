@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm">Confirmar</string>
+    <string name="keyword_title">Palavra chave</string>
+    <string name="keyword_description">Insira uma palavra chave</string>
+    <string name="language_title">Apenas em Português</string>
+    <string name="ebook_only">Apenas Ebook</string>
+</resources>

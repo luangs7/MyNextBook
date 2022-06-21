@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intent_type">text/plain</string>
+    <string name="share_message">Encontrei um livro pra você: %s</string>
+    <string name="information_filter_title">Você pode utilizar alguns filtros para ajudar na nossa busca.</string>
+    <string name="information_filter_subtitle">Basta clicar aqui para alterar suas preferencias.</string>
+    <string name="btn_search">Buscar</string>
+</resources>

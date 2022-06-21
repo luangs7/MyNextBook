@@ -1,6 +1,7 @@
 package com.lgdevs.mynextbook.welcome.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -13,9 +14,9 @@ import com.lgdevs.mynextbook.welcome.R
 fun BookWelcomeView(navController: NavController) {
     MyNextBookTheme {
         InformationView(
-            "Está com dúvida de qual vai ser seu próximo livro?",
-            "Deixa que vamos te ajudar!",
-            "Vamos lá!",
+            stringResource(R.string.welcome_title),
+            stringResource(R.string.welcome_subtitle),
+            stringResource(R.string.btn_go),
             R.raw.book_idea,
             onNext = { navController.navigate(NavigationItem.Finder.route) }
         )

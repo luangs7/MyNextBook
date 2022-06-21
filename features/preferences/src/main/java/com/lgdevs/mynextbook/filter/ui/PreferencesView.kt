@@ -12,6 +12,7 @@ import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -19,6 +20,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.designsystem.ui.theme.blackWithTransparency
 import com.lgdevs.mynextbook.domain.model.AppPreferences
+import com.lgdevs.mynextbook.filter.R
 import com.lgdevs.mynextbook.filter.ui.components.PreferenceCheckItem
 import com.lgdevs.mynextbook.filter.ui.components.PreferenceInputItem
 import com.lgdevs.mynextbook.filter.viewmodel.PreferencesViewModel
@@ -79,22 +81,22 @@ internal fun PreferenceContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PreferenceCheckItem(
-            label = "Apenas Ebook",
+            label = stringResource(R.string.ebook_only),
             state = isEbookState,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
         )
         PreferenceCheckItem(
-            label = "Apenas em Português",
+            label = stringResource(R.string.language_title),
             state = isPortugueseState,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
         )
         PreferenceInputItem(
-            label = "Palavra chave",
-            hint = "Insira uma palavra chave",
+            label = stringResource(R.string.keyword_title),
+            hint = stringResource(R.string.keyword_description),
             state = keywordState,
             modifier = Modifier
                 .fillMaxWidth()
@@ -110,7 +112,7 @@ internal fun PreferenceContent(
                     isPortugueseState.value
                 )
             }) {
-            Text(text = "Confirmar", style = MaterialTheme.typography.body1)
+            Text(text = stringResource(R.string.confirm), style = MaterialTheme.typography.body1)
         }
     }
 }
