@@ -25,7 +25,8 @@ internal class BookRepoMapper {
             model.infoLink,
             model.averageRating,
             model.ratingsCount,
-            model.publishedDate
+            model.publishedDate,
+            model.isFavorited
         )
     }
 
@@ -48,7 +49,8 @@ internal class BookRepoMapper {
         model.infoLink,
         model.averageRating,
         model.ratingsCount,
-        model.publishedDate
+        model.publishedDate,
+        model.isFavorited
     )
 
     private fun toDomain(model: BookImageData?) =

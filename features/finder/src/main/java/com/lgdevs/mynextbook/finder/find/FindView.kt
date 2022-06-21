@@ -15,7 +15,6 @@ import com.lgdevs.mynextbook.navigation.NavigationItem
 @Composable
 fun FindView(navController: NavController) {
     MyNextBookTheme {
-
         val isPreferencesOpen = remember { mutableStateOf(false) }
 
         InformationView(

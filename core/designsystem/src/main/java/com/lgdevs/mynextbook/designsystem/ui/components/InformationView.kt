@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -29,12 +30,13 @@ fun InformationView(
         .fillMaxHeight()
         .clickable { onInformation?.invoke() }
         .background(backgroundDark)) {
-        val guideline = createGuidelineFromTop(0.4f)
+        val guideline = createGuidelineFromTop(0.5f)
         val (lottieGif, titleId, subtitleId, btnNext) = createRefs()
 
         LottieView(
             resId,
             modifier = Modifier
+                .size(220.dp)
                 .padding(bottom = 16.dp)
                 .constrainAs(lottieGif) {
                     start.linkTo(parent.start)
@@ -49,6 +51,7 @@ fun InformationView(
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp)
                 .constrainAs(titleId) {
                     start.linkTo(parent.start)
                     top.linkTo(guideline)
@@ -60,7 +63,7 @@ fun InformationView(
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                 .constrainAs(subtitleId) {
                     start.linkTo(parent.start)
                     top.linkTo(titleId.bottom)

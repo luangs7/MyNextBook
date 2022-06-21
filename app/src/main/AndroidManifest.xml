@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNextBook"
+        android:usesCleartextTraffic="true"
         android:name=".CoreApplication">
         <activity
             android:name=".MainActivity"

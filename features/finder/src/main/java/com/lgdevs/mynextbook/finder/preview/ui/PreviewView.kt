@@ -1,25 +1,26 @@
 package com.lgdevs.mynextbook.finder.preview.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -34,6 +35,7 @@ import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.finder.R
 import com.lgdevs.mynextbook.finder.preview.viewmodel.PreviewViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import kotlin.math.min
 
@@ -42,111 +44,69 @@ fun PreviewView(
     navController: NavController,
     viewModel: PreviewViewModel = getViewModel()
 ) {
-    Box(
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarState = viewModel.snackbarState.collectAsState()
+
+    Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(backgroundDark)
+            .background(backgroundDark),
+        snackbarHost = {
+            SnackbarHost(it) { data ->
+                Snackbar(
+                    backgroundColor = Color.Black,
+                    snackbarData = data
+                )
+            }
+        }
     ) {
-        PreviewViewContent(viewModel)
+        PreviewViewContent()
+    }
+
+    Crossfade(targetState = snackbarState) { snackbarState ->
+        if (snackbarState.value.isNotEmpty()) {
+            LaunchedEffect(scaffoldState.snackbarHostState) {
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = snackbarState.value
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
 internal fun PreviewViewContent(
-    viewModel: PreviewViewModel
+    viewModel: PreviewViewModel = getViewModel()
 ) {
-    val state = viewModel.getRandomBook().collectAsState(ViewState.Loading)
+    val bookState = viewModel.getRandomBook().collectAsState(ViewState.Loading)
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
-    Crossfade(targetState = state) { viewState ->
-        when (val result = viewState.value) {
+    Crossfade(targetState = bookState) { viewState ->
+        when (val state = viewState.value) {
             ViewState.Loading -> LottieLoadingView()
-            is ViewState.Success -> PreviewItem(result.result, onPreview = {}, onFavorite = {})
-            else -> {}
-        }
-    }
-}
-
-@Composable
-internal fun PreviewItem(
-    book: Book,
-    onFavorite: () -> Unit,
-    onPreview: () -> Unit,
-) {
-    val scrollState = rememberScrollState()
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Image(
-            painter = rememberAsyncImagePainter(book.imageLinks?.thumbnail),
-            contentDescription = String(),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(16.dp)
-                .height(300.dp)
-                .graphicsLayer {
-                    alpha = min(1f, 1 - (scrollState.value / 600f))
-                    translationY = -scrollState.value * 0.1f
+            is ViewState.Success -> PreviewBottomSheet(state.result, onPreview = {
+                uriHandler.openUri(it.previewLink.orEmpty())
+            }, onFavorite = {
+                viewModel.addFavoriteBook(it)
+            }, onShare = {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "Encontrei um livro pra você: ${it.previewLink.orEmpty()}"
+                    )
+                    type = "text/plain"
                 }
-        )
-        Text(
-            text = book.title.orEmpty(),
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-        )
-        Text(
-            text = book.description.orEmpty(),
-            style = MaterialTheme.typography.body2,
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-        )
-
-        BookActions(
-            onFavorite = { onFavorite.invoke() },
-            onPreview = { onPreview.invoke() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-    }
-}
-
-@Composable
-internal fun BookActions(
-    onFavorite: () -> Unit,
-    onPreview: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        OutlinedButton(
-            onClick = { onFavorite.invoke() },
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        ) {
-            Text(text = "Favoritar", style = MaterialTheme.typography.body1)
-        }
-        OutlinedButton(
-            onClick = { onPreview.invoke() },
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        ) {
-            Text(
-                text = "Ver preview",
-                style = MaterialTheme.typography.body1
-            )
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                context.startActivity(shareIntent)
+            })
+            else -> {}
         }
     }
 }

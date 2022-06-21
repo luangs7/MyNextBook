@@ -16,30 +16,21 @@ class PreferencesViewModel(
     private val getPreferences: GetPreferences
 ) : ViewModel() {
 
-    private val _preferencesState = MutableStateFlow<ViewState<AppPreferences>>(ViewState.Loading)
-    val preferencesState: StateFlow<ViewState<AppPreferences>>
-        get() = _preferencesState
-
-    private val _setPreferencesState = MutableStateFlow<ViewState<AppPreferences>>(ViewState.Loading)
+    private val _setPreferencesState =
+        MutableStateFlow<ViewState<AppPreferences>>(ViewState.Loading)
     val setPreferencesState: StateFlow<ViewState<AppPreferences>>
         get() = _setPreferencesState
 
-    init {
-        getPreferences()
+    fun getPreferences(): Flow<ViewState<AppPreferences>> = flow {
+        getPreferences.execute(Unit)
+            .catch { emit(ViewState.Error(it)) }
+            .onStart { emit(ViewState.Loading) }
+            .collect {
+                emit(ViewState.Success(it))
+            }
     }
 
-    private fun getPreferences() {
-        viewModelScope.launch {
-            getPreferences.execute(Unit)
-                .catch { _preferencesState.value = ViewState.Error(it) }
-                .onStart { _preferencesState.value = ViewState.Loading }
-                .collect {
-                    _preferencesState.value = ViewState.Success(it)
-                }
-        }
-    }
-
-    fun setPreferences(isEbook: Boolean, keyword:String?, isPortuguese: Boolean) {
+    fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) {
         viewModelScope.launch {
             val preferences = AppPreferences(isEbook, keyword, isPortuguese, null)
             setPreferences.execute(preferences)

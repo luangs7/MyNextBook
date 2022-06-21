@@ -16,5 +16,6 @@ data class Book(
     val infoLink: String? = null,
     val averageRating: String? = null,
     val ratingsCount: Long? = null,
-    val publishedDate: String? = null
+    val publishedDate: String? = null,
+    val isFavorited: Boolean = false
 )

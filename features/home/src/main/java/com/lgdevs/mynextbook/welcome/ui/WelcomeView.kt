@@ -3,6 +3,7 @@ package com.lgdevs.mynextbook.welcome.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.lgdevs.mynextbook.designsystem.ui.components.InformationView
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import com.lgdevs.mynextbook.navigation.NavigationItem
@@ -24,10 +25,5 @@ fun BookWelcomeView(navController: NavController) {
 @Composable
 @Preview(showBackground = true)
 internal fun showPreview() {
-    InformationView(
-        "Está com dúvida de qual vai ser seu próximo livro?",
-        "Deixa que vamos te ajudar!",
-        "Vamos lá!",
-        R.raw.book_idea
-    ) { }
+    BookWelcomeView(rememberNavController())
 }

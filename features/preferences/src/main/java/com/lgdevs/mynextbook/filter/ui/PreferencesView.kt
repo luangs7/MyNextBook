@@ -30,29 +30,34 @@ fun PreferencesView(
     viewModel: PreferencesViewModel = getViewModel()
 ) {
     MyNextBookTheme {
-        val prefState = viewModel.preferencesState.collectAsState()
+        val prefState = viewModel.getPreferences().collectAsState(ViewState.Loading)
         Crossfade(targetState = prefState) { state ->
             when (val value = state.value) {
-                is ViewState.Success -> {
-                    Dialog(
-                        onDismissRequest = { onDismiss.invoke() },
-                        properties = DialogProperties(
-                            dismissOnBackPress = false,
-                            dismissOnClickOutside = false,
-                            usePlatformDefaultWidth = false
-                        )
-                    ) {
-                        PreferenceContent(value.result) { isEbook, keyword, isPortuguese ->
-                            viewModel.setPreferences(isEbook, keyword, isPortuguese)
-                            onDismiss.invoke()
-                        }
-                    }
-                }
+                is ViewState.Success -> PreferenceDialog(value.result, onDismiss)
                 is ViewState.Loading -> {}
-                else -> {
-                    onDismiss.invoke()
-                }
+                else ->  onDismiss.invoke()
             }
+        }
+    }
+}
+
+@Composable
+internal fun PreferenceDialog(
+    model: AppPreferences,
+    onDismiss: () -> Unit,
+    viewModel: PreferencesViewModel = getViewModel()
+){
+    Dialog(
+        onDismissRequest = { onDismiss.invoke() },
+        properties = DialogProperties(
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false,
+            usePlatformDefaultWidth = false
+        )
+    ) {
+        PreferenceContent(model) { isEbook, keyword, isPortuguese ->
+            viewModel.setPreferences(isEbook, keyword, isPortuguese)
+            onDismiss.invoke()
         }
     }
 }

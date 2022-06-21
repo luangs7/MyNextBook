@@ -17,9 +17,13 @@ class PreviewViewModel(
     private val addFavoriteBook: AddFavoriteBook
 ) : ViewModel() {
 
-    private val _getBookState = MutableStateFlow<ViewState<Book>>(ViewState.Loading)
-    val getBookState: StateFlow<ViewState<Book>>
-        get() = _getBookState
+    private val _addFavoriteBookState = MutableStateFlow<ViewState<Unit?>>(ViewState.Loading)
+    val addFavoriteBookState: StateFlow<ViewState<Unit?>>
+        get() = _addFavoriteBookState
+
+    private val _snackbarState = MutableStateFlow(String())
+    val snackbarState: StateFlow<String>
+        get() = _snackbarState
 
     fun getRandomBook(): Flow<ViewState<Book>> = flow {
         getPreferences.execute(Unit).transform { preferences ->
@@ -39,15 +43,21 @@ class PreviewViewModel(
         }
     }
 
-    fun addFavoriteBook(book: Book): Flow<ViewState<Unit?>> = flow {
-        addFavoriteBook.execute(book).collect {
-            val result = when (it) {
-                ApiResult.Empty -> ViewState.Empty
-                is ApiResult.Error -> ViewState.Error(it.error)
-                ApiResult.Loading -> ViewState.Loading
-                is ApiResult.Success -> ViewState.Success(it.data)
+    fun addFavoriteBook(book: Book) {
+        viewModelScope.launch {
+            addFavoriteBook.execute(book).collect {
+                val result = when (it) {
+                    ApiResult.Empty -> ViewState.Empty
+                    is ApiResult.Error -> ViewState.Error(it.error)
+                    ApiResult.Loading -> ViewState.Loading
+                    is ApiResult.Success -> ViewState.Success(it.data)
+                }
+                _addFavoriteBookState.value = result
             }
-            this.emit(result)
         }
+    }
+
+    fun showSnackbar(message: String){
+        _snackbarState.value = message
     }
 }

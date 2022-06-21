@@ -17,7 +17,7 @@ fun LottieView(
     val composition = rememberLottieComposition(LottieCompositionSpec.RawRes(resId))
     LottieAnimation(
         composition.value,
-        modifier = modifier.size(220.dp),
+        modifier = modifier,
         iterations = LottieConstants.IterateForever
     )
 }

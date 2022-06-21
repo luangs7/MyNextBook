@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     factory<BookLocalRepository> { BookLocalRepositoryImpl(get(), get()) }
-    factory<BookRemoteRepository> { BookRemoteRepositoryImpl(get(), get(), get()) }
+    factory<BookRemoteRepository> { BookRemoteRepositoryImpl(get(), get(), get(), get()) }
     factory<PreferencesRepository> { PreferencesRepositoryImpl(get(), get()) }
     single { BookRepoMapper() }
     single { PreferencesRepoMapper() }

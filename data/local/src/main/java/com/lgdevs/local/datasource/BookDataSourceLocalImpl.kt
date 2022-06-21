@@ -18,9 +18,9 @@ internal class BookDataSourceLocalImpl(
     private val mapper: BookEntityMapper
 ) : BookDataSourceLocal {
 
-    override suspend fun getFavoriteBook(id: String): Flow<List<BookData>> = flow {
-        val list = dao.getFavoritesById(id)
-        emit(list.map { mapper.toRepo(it) })
+    override suspend fun getFavoriteBook(id: String): Flow<BookData?> = flow {
+        val item = dao.getFavoritesById(id)
+        item?.let { emit(mapper.toRepo(it)) } ?: emit(null)
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getFavoritesBooks(): Flow<List<BookData>> = flow {
