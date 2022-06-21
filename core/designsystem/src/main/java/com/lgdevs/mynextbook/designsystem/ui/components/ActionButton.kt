@@ -23,7 +23,7 @@ fun ActionButton(
     borderColor: Color = Color.White
 ) {
     OutlinedButton(
-        onClick = { onClick()() },
+        onClick = { onClick() },
         modifier = modifier
             .size(50.dp)
             .padding(8.dp),

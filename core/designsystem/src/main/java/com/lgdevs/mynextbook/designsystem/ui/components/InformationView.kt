@@ -71,7 +71,7 @@ fun InformationView(
                 },
             textAlign = TextAlign.Center
         )
-        Button(onClick = { onNext()() },
+        Button(onClick = { onNext() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

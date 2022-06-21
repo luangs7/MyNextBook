@@ -26,17 +26,17 @@ fun ActionButtons(
         horizontalArrangement = Arrangement.Center
     ) {
         ActionButton(
-            onClick = { onFavorite()() },
+            onClick = { onFavorite() },
             icon = Icons.Filled.Favorite,
             contentColor = mutableFavColor
         )
         ActionButton(
-            onClick = { onShare()() },
+            onClick = { onShare() },
             icon = Icons.Filled.Share,
             contentColor = Color.White
         )
         ActionButton(
-            onClick = { onPreview()() },
+            onClick = { onPreview() },
             icon = Icons.Default.Info,
             contentColor = Color.White
         )

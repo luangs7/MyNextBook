@@ -35,9 +35,9 @@ internal fun BookActions(
     var favColor by remember { mutableStateOf(if (bookState.value.isFavorited) Color.Red else Color.White) }
 
     ActionButtons(
-        onFavorite = { onFavorite()(bookState.value) },
-        onPreview = { onPreview()(bookState.value) },
-        onShare = { onShare()(bookState.value) },
+        onFavorite = { onFavorite(bookState.value) },
+        onPreview = { onPreview(bookState.value) },
+        onShare = { onShare(bookState.value) },
         modifier = modifier,
         mutableFavColor = favColor
     )

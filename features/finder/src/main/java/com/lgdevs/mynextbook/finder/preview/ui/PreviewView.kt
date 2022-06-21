@@ -80,7 +80,7 @@ internal fun PreviewViewContent(
                 shareIntent(context, it.previewLink.orEmpty())
             })
             else -> {
-                onReturn()()
+                onReturn()
             }
         }
     }

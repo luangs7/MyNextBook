@@ -39,7 +39,7 @@ fun PreferencesView(
             when (val value = state.value) {
                 is ViewState.Success -> PreferenceDialog(value.result, onDismiss)
                 is ViewState.Loading -> {}
-                else ->  onDismiss()()
+                else ->  onDismiss()
             }
         }
     }
@@ -52,7 +52,7 @@ internal fun PreferenceDialog(
     viewModel: PreferencesViewModel = getViewModel()
 ){
     Dialog(
-        onDismissRequest = { onDismiss()() },
+        onDismissRequest = { onDismiss() },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false,
@@ -61,7 +61,7 @@ internal fun PreferenceDialog(
     ) {
         PreferenceContent(model) { isEbook, keyword, isPortuguese ->
             viewModel.setPreferences(isEbook, keyword, isPortuguese)
-            onDismiss()()
+            onDismiss()
         }
     }
 }
@@ -109,7 +109,7 @@ internal fun PreferenceContent(
         Button(
             modifier = Modifier.padding(16.dp),
             onClick = {
-                onConfirm()(
+                onConfirm(
                     isEbookState.value,
                     keywordState.value.text,
                     isPortugueseState.value
