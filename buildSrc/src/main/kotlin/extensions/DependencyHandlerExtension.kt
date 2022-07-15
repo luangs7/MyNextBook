@@ -15,7 +15,7 @@ import org.gradle.kotlin.dsl.project
 fun DependencyHandler.addCommonDependencies() {
     implementation(Dependencies.lifecycle)
     implementation(Dependencies.kotlin)
-    implementation(Dependencies.pagingCompose)
+    implementation(Compose.pagingCompose)
     implementation(Dependencies.animationNavController)
     kapt(AnnotationProcessor.lifecycle)
     testImplementation(project(Modules.tests))
@@ -37,15 +37,15 @@ fun DependencyHandler.addDesignDependencies() {
 }
 
 fun DependencyHandler.addComposeDependencies(){
-    implementation(Dependencies.composeUi)
-    implementation(Dependencies.composeMaterial)
-    implementation(Dependencies.composePreview)
-    implementation(Dependencies.composeActivity)
-    implementation(Dependencies.navigationCompose)
-    implementation(Dependencies.coilKt)
-    implementation(Dependencies.lottieCompose)
-    implementation(Dependencies.constraintLayout)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
+    implementation(Compose.composeUi)
+    implementation(Compose.composeMaterial)
+    implementation(Compose.composePreview)
+    implementation(Compose.composeActivity)
+    implementation(Compose.navigationCompose)
+    implementation(Compose.coilKt)
+    implementation(Compose.lottieCompose)
+    implementation(Compose.constraintLayout)
+    androidTestImplementation(Tests.composeJunit)
 }
 
 fun DependencyHandler.addCoroutinesDependencies(){

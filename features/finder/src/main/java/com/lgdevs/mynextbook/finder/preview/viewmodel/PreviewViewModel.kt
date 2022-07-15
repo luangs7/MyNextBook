@@ -1,5 +1,6 @@
 package com.lgdevs.mynextbook.finder.preview.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
@@ -22,20 +23,25 @@ class PreviewViewModel(
 ) : ViewModel() {
 
     private val itemFavoriteSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
+    private val itemRandomSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow(replay = 1)
 
     val bookFavoriteFlow = itemFavoriteSharedFlow.flatMapMerge {
         if(it.isFavorited){
-            addFavoriteBook.execute(it).flatMapMerge { apiResult ->
-                afterAddFavoriteBook(apiResult)
+            removeBookFromFavorite.execute(it).transform { apiResult ->
+                afterRemoveFavoriteBook(apiResult).collect { viewState -> emit(viewState) }
             }
         } else {
-            removeBookFromFavorite.execute(it).flatMapMerge { apiResult ->
-                afterRemoveFavoriteBook(apiResult)
+            addFavoriteBook.execute(it).transform { apiResult ->
+                afterAddFavoriteBook(apiResult).collect { viewState -> emit(viewState) }
             }
         }
     }
 
-    fun getRandomBook(): Flow<ViewState<Book>> = flow {
+    val randomBookFlow = itemRandomSharedFlow.flatMapMerge {
+        getRandomBook()
+    }
+
+    private fun getRandomBook(): Flow<ViewState<Book>> = flow {
         getPreferences.execute(Unit).transform { preferences ->
             getRandomBook.execute(preferences).collect { emit(it) }
         }.collect {
@@ -52,6 +58,8 @@ class PreviewViewModel(
                 ?: ViewState.Empty
         }
     }
+
+    fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     fun itemFavoriteBook(book: Book) = itemFavoriteSharedFlow.tryEmit(book)
 

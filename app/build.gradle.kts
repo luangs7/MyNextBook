@@ -3,12 +3,12 @@ import extensions.*
 plugins {
     id(GradlePlugin.ANDROID_APPLICATION)
     id(GradlePlugin.KOTLIN_ANDROID)
-    id(GradlePlugin.COMPOSE)
     kotlin("kapt")
 }
 
 android {
     addDefaultConfig()
+    addComposeConfig()
     defaultConfig {
         applicationId = ConfigData.applicationId
         versionCode = ConfigData.versionCode
@@ -27,6 +27,7 @@ android {
         jvmTarget = "1.8"
     }
 
+    setDynamicFeatures(setOf(":features:favorites"))
 }
 
 repositories {
@@ -45,7 +46,14 @@ dependencies {
     implementation(project(Features.preferences))
     implementation(project(Features.finder))
     implementation(project(Features.home))
+    implementation(project(Modules.split))
+    implementation(Dependencies.playCore)
+    implementation(Dependencies.splashCore)
     addKoinDependencies()
     addCoroutinesDependencies()
     addCommonDependencies()
+    addComposeDependencies()
+    debugApi(Compose.composeTooling)
+    debugApi(Compose.composeCustomview)
+    debugApi(Compose.composePoolingContainer)
 }

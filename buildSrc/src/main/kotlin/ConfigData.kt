@@ -7,7 +7,7 @@ object ConfigData {
     const val versionCode = 1
     const val versionName = "1.0"
     const val minifyEnable = true
-    const val applicationId = "com.luan.teste.git"
+    const val applicationId = "com.lgdevs.mynextbook"
 }
 
 object Modules{
@@ -19,14 +19,14 @@ object Modules{
     const val domain = ":domain"
     const val repository = ":data:repository"
     const val designsystem = ":core:designsystem"
-    const val navigation = ":library:navigation"
-    const val tests = ":library:tests"
+    const val navigation = ":libraries:navigation"
+    const val tests = ":libraries:tests"
+    const val split = ":libraries:splitfeature"
 }
 
 object Features {
     const val favorites = ":features:favorites"
     const val preferences = ":features:preferences"
-    const val swipe = ":features:swipe"
     const val home = ":features:home"
     const val finder = ":features:finder"
 }

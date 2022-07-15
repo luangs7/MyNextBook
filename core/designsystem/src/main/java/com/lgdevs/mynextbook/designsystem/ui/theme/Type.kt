@@ -89,7 +89,7 @@ val placeholder = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 12.sp,
-    color = Color.Gray.copy(alpha = 0.5f)
+    color = Color.White.copy(alpha = 0.6f)
 )
 
 val titleStyle = TextStyle(
@@ -105,5 +105,13 @@ val subtitleStyle = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     color = Color.Black.copy(alpha = 0.5f),
+    textAlign = TextAlign.Center
+)
+
+val listTitleStyle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    color = Color.White.copy(alpha = 0.5f),
     textAlign = TextAlign.Center
 )

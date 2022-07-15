@@ -32,13 +32,17 @@ object Versions {
     const val playCore = "1.10.0"
     const val dataStore = "1.0.0"
     const val lottieCompose = "5.2.0"
+    const val tooling = "1.1.1"
+    const val composeCustomview = "1.2.0-alpha01"
+    const val composePoolingContainer = "1.0.0-rc01"
+    const val composeJunit = "1.0.0-rc01"
+    const val splashCore = "1.0.0-rc01"
 }
 
 object Dependencies {
     val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     val materialDesign = "com.google.android.material:material:${Versions.material}"
-    val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
     val junit = "junit:junit:${Versions.jUnit}"
     val lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -50,20 +54,28 @@ object Dependencies {
     val circleimageview = "de.hdodenhof:circleimageview:${Versions.circleimageview}"
     val room = "androidx.room:room-runtime:${Versions.room}"
     val roomCoroutines = "androidx.room:room-ktx:${Versions.room}"
-    val composeUi = "androidx.compose.ui:ui:${Versions.composeVersion}"
-    val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
-    val composePreview = "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
     val lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}"
-    val composeActivity = "androidx.activity:activity-compose:${Versions.composeActivity}"
-    val navigationCompose = "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
     val gson  = "com.squareup.retrofit2:converter-gson:${Versions.retrofitConverter}"
     val retrofitLogger  = "com.squareup.okhttp3:logging-interceptor:${Versions.retrofitLogging}"
-    val coilKt  = "io.coil-kt:coil-compose:${Versions.coilKt}"
-    val pagingCompose  = "androidx.paging:paging-compose:${Versions.paging}"
     val animationNavController  = "com.google.accompanist:accompanist-navigation-animation:${Versions.animateNavcontroller}"
     val playCore = "com.google.android.play:core:${Versions.playCore}"
     val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
+    val splashCore = "androidx.core:core-splashscreen:${Versions.splashCore}"
+}
+
+object Compose {
+    val navigationCompose = "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
+    val coilKt  = "io.coil-kt:coil-compose:${Versions.coilKt}"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
+    val composeActivity = "androidx.activity:activity-compose:${Versions.composeActivity}"
     val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
+    val composeUi = "androidx.compose.ui:ui:${Versions.composeVersion}"
+    val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
+    val composePreview = "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
+    val pagingCompose  = "androidx.paging:paging-compose:${Versions.paging}"
+    val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.tooling}"
+    val composeCustomview = "androidx.customview:customview:${Versions.composeCustomview}"
+    val composePoolingContainer = "androidx.customview:customview-poolingcontainer:${Versions.composePoolingContainer}"
 }
 
 
@@ -81,5 +93,6 @@ object Tests {
     val jUnitExt = "androidx.test.ext:junit-ktx:${Versions.jUnitExt}"
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     val roboletric = "org.robolectric:robolectric:${Versions.roboletric}"
+    val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.composeJunit}"
 }
 

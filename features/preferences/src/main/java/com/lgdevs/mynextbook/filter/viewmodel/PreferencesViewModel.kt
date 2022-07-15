@@ -8,6 +8,7 @@ import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
 import com.lgdevs.mynextbook.domain.interactor.abstraction.UpdatePreferences
 import com.lgdevs.mynextbook.domain.model.AppPreferences
+import com.lgdevs.mynextbook.domain.model.Book
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -16,7 +17,10 @@ class PreferencesViewModel(
     private val getPreferences: GetPreferences
 ) : ViewModel() {
 
-    private val preferencesSharedFlow = MutableSharedFlow<AppPreferences>(replay = 1)
+    private val preferencesSharedFlow: MutableSharedFlow<AppPreferences> =
+        MutableSharedFlow(replay = 1)
+
+    private var eventHandled: Boolean = false
 
     val addPreferences = preferencesSharedFlow.flatMapMerge {
         onSetPreferences(it)
@@ -31,16 +35,20 @@ class PreferencesViewModel(
             }
     }
 
-    fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) =
+    fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) {
+        eventHandled = false
         preferencesSharedFlow.tryEmit(AppPreferences(isEbook, keyword, isPortuguese, null))
+    }
 
     private fun onSetPreferences(preferences: AppPreferences) =
         flow<ViewState<AppPreferences>> {
+            if (eventHandled) return@flow
             setPreferences.execute(preferences)
                 .catch { emit(ViewState.Error(it)) }
                 .onStart { emit(ViewState.Loading) }
                 .collect {
                     emit(ViewState.Success(preferences))
+                    eventHandled = true
                 }
         }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirmation_install_deny">Não, obrigado</string>
+    <string name="downloading_description">Isso pode demorar alguns minutos</string>
+    <string name="confirmation_install_accept">Download</string>
+    <string name="downloading_title">Transferindo funcionalidade</string>
+    <string name="confirmation_install_description">Esta funcionalidade precisa ser transferida do Google Play antes de você poder usá-la. Transferir através de uma rede móvel ou enquanto faz roaming de dados pode causar cobranças adicionais.</string>
+    <string name="confirmation_install_title">Transferir nova funcionalidade</string>
+    <string name="confirmation_install_error_title">Download não pode ser realizado</string>
+    <string name="confirmation_install_error_description">Esta funcionalidade não pode ser baixado no momento. Tente novamente mais tarde.</string>
+    <string name="confirmation_install_ok">Ok</string>
+</resources>

@@ -59,9 +59,18 @@ internal fun PreferenceDialog(
             usePlatformDefaultWidth = false
         )
     ) {
+
+        val saveState = viewModel.addPreferences.collectAsState(initial = null)
+
         PreferenceContent(model) { isEbook, keyword, isPortuguese ->
             viewModel.setPreferences(isEbook, keyword, isPortuguese)
-            onDismiss()
+        }
+
+        LaunchedEffect(key1 = saveState.value){
+            when(saveState.value){
+                is ViewState.Success -> onDismiss()
+                else -> {}
+            }
         }
     }
 }

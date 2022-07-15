@@ -48,22 +48,25 @@ fun PreviewBottomSheet(
                 .fillMaxHeight()
         ) {
             val (preview, actions) = createRefs()
-            val guidelineTop = createGuidelineFromTop(0.5f)
+            val guidelineTop = createGuidelineFromTop(0.50f)
+            val guidelineStart = createGuidelineFromStart(0.2f)
+            val guidelineEnd = createGuidelineFromEnd(0.2f)
             Image(
                 painter = rememberAsyncImagePainter(book.imageLinks?.thumbnail),
                 contentDescription = String(),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
-                    .width(220.dp)
+                    .fillMaxWidth()
                     .padding(top = 16.dp)
-                    .shadow(10.dp, shape = RoundedCornerShape(10.dp))
-                    .clip(RoundedCornerShape(10.dp))
+                    .shadow(10.dp, shape = RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(16.dp))
                     .constrainAs(preview) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
+                        start.linkTo(guidelineStart)
+                        end.linkTo(guidelineEnd)
                         top.linkTo(parent.top)
                         bottom.linkTo(guidelineTop)
                         height = Dimension.fillToConstraints
+                        width = Dimension.fillToConstraints
                     }
             )
             BookActions(
@@ -73,7 +76,7 @@ fun PreviewBottomSheet(
                 onShare = onShare,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
+                    .padding(top = 8.dp)
                     .constrainAs(actions) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)

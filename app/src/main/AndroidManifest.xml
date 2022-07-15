@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNextBook"
         android:usesCleartextTraffic="true"
-        android:name=".CoreApplication">
+        android:name=".application.CoreApplication">
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

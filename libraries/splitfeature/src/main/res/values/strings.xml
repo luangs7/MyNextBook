@@ -1,0 +1,11 @@
+<resources>
+    <string name="confirmation_install_accept">Download</string>
+    <string name="confirmation_install_deny">No, thanks</string>
+    <string name="downloading_description">This may take several minutes</string>
+    <string name="confirmation_install_title">Download new feature</string>
+    <string name="downloading_title">Downloading feature</string>
+    <string name="confirmation_install_description">This feature needs to be downloaded from Google Play before you can use it. Downloading over a mobile network or while roaming may cause additional charges.</string>
+    <string name="confirmation_install_error_title">Download could not be completed</string>
+    <string name="confirmation_install_error_description">This feature could not be downloaded at this time. Please try again later.</string>
+    <string name="confirmation_install_ok">Ok</string>
+</resources>

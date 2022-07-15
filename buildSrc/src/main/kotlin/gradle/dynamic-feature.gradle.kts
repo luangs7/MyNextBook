@@ -2,6 +2,7 @@ package gradle
 
 import Dependencies
 import extensions.addDefaultConfig
+import extensions.configureBuildTypes
 
 plugins {
     id("com.android.dynamic-feature")
@@ -10,6 +11,7 @@ plugins {
 
 android {
     addDefaultConfig()
+    configureBuildTypes()
 }
 
 dependencies {

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyNextBook</string>
     <string name="title_activity_main2">MainActivity2</string>
+    <string name="dynamic_feature_title_favorites" translatable="false">Favorite Books</string>
 </resources>
