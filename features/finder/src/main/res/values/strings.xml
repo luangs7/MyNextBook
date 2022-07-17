@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="information_filter_title">Você pode utilizar alguns filtros para ajudar\nna nossa busca.</string>
-    <string name="information_filter_subtitle">Basta clicar aqui para alterar suas preferencias.</string>
-    <string name="btn_search">Buscar</string>
+    <string name="information_filter_title">You can use any filter to help\nin our search.</string>
+    <string name="information_filter_subtitle">Click here to change your preferences.</string>
+    <string name="btn_search">Search</string>
 </resources>

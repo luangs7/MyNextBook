@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.lgdevs.mynextbook.designsystem.ui.components.actionbutton.ActionButtonsContainer
 import com.lgdevs.mynextbook.designsystem.ui.theme.listTitleStyle
@@ -29,8 +31,7 @@ fun FavoritesItem(
     Column(
         modifier = modifier
             .wrapContentWidth()
-            .wrapContentHeight()
-            .padding(top = 16.dp),
+            .wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp)){
         Image(
@@ -42,7 +43,11 @@ fun FavoritesItem(
                 .shadow(10.dp, shape = RoundedCornerShape(8.dp))
                 .height(160.dp)
         )
-        Text(text = book.title.orEmpty(), style = listTitleStyle, modifier = Modifier.padding(6.dp))
+        Text(text = book.title.orEmpty(),
+            style = listTitleStyle,
+            modifier = Modifier.padding(6.dp),
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis)
         ActionButtonsContainer(
             onFavorite = { onFavorite(book) },
             onPreview = { onPreview(book) },

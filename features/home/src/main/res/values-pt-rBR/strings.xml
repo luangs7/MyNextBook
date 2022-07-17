@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_title">Está com dúvida de qual vai ser seu próximo livro?</string>
+    <string name="welcome_subtitle">Deixa que vamos te ajudar!</string>
+    <string name="btn_go">Vamos lá!</string>
+</resources>

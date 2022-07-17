@@ -49,8 +49,8 @@ fun PreviewBottomSheet(
         ) {
             val (preview, actions) = createRefs()
             val guidelineTop = createGuidelineFromTop(0.50f)
-            val guidelineStart = createGuidelineFromStart(0.2f)
-            val guidelineEnd = createGuidelineFromEnd(0.2f)
+            val guidelineStart = createGuidelineFromStart(0.25f)
+            val guidelineEnd = createGuidelineFromEnd(0.25f)
             Image(
                 painter = rememberAsyncImagePainter(book.imageLinks?.thumbnail),
                 contentDescription = String(),

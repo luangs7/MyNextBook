@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="empty_favorites">Você ainda não favoritou nenhum livro.</string>
+    <string name="empty_favorites">You have not bookmarked any books yet.</string>
 </resources>
