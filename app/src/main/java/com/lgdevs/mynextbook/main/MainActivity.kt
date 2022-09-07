@@ -23,7 +23,7 @@ import com.lgdevs.mynextbook.navigation.NavigationItem
 @OptIn(ExperimentalFoundationApi::class)
 class MainActivity : ComponentActivity() {
 
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +45,8 @@ class MainActivity : ComponentActivity() {
 internal fun MainView() {
     val navController = rememberNavController()
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
-    val hasBack =
-        currentBackStackEntry.value?.destination?.route?.contains(NavigationItem.Welcome.route)
-            ?.not() ?: true
+    val hasBack = currentBackStackEntry.value?.destination?.route?.let {
+        !(it.contains(NavigationItem.Welcome.route) || it.contains(NavigationItem.Favorites.route)) } ?: true
 
     ScaffoldView(
         topBar = {

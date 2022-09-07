@@ -8,34 +8,32 @@ import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.abstraction.GetFavoriteBooks
 import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
 import com.lgdevs.mynextbook.domain.model.Book
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
     private val getFavoriteBooks: GetFavoriteBooks,
-    private val removeBookFromFavorite: RemoveBookFromFavorite
-): ViewModel() {
+    private val removeBookFromFavorite: RemoveBookFromFavorite,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel() {
 
-    fun getFavoriteItems(): Flow<ViewState<List<Book>>> = flow {
+    fun getFavoriteItems(): Flow<ViewState<List<Book>>> = flow<ViewState<List<Book>>> {
         getFavoriteBooks.execute(Unit)
-            .catch { emit(ViewState.Error(it)) }
             .collect {
-                val result = when(it){
+                val result = when (it) {
                     ApiResult.Empty -> ViewState.Empty
                     is ApiResult.Error -> ViewState.Error(it.error)
                     ApiResult.Loading -> ViewState.Loading
-                    is ApiResult.Success -> it.data?.let { list -> ViewState.Success(list) } ?: ViewState.Empty
+                    is ApiResult.Success -> it.data?.let { list -> ViewState.Success(list) }
+                        ?: ViewState.Empty
                 }
                 emit(result)
             }
-    }
+    }.catch { emit(ViewState.Error(it)) }.flowOn(dispatcher)
 
-    fun removeItem(book: Book) {
-        viewModelScope.launch {
-            removeBookFromFavorite.execute(book)
-                .collect {
-                    Log.d("RemoveBookFromFavorite::", it.toString())
-                }
-        }
-    }
+    suspend fun removeItem(book: Book): Flow<ApiResult<Unit>> = flow {
+        removeBookFromFavorite.execute(book).collect { emit(it) }
+    }.catch { emit(ApiResult.Error(it)) }.flowOn(dispatcher)
 }

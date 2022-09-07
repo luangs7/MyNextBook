@@ -9,7 +9,7 @@ object Versions {
     const val retrofit = "2.7.1"
     const val retrofitConverter = "2.9.0"
     const val retrofitLogging = "4.9.0"
-    const val lifecycle = "2.2.0"
+    const val lifecycle = "2.6.0-alpha01"
     const val room = "2.4.0"
     const val jUnit = "4.12"
     const val jUnitExt = "1.1.3"
@@ -18,12 +18,10 @@ object Versions {
     const val androidxExpresso = "3.3.0"
     const val androidxCore = "1.4.0"
     const val mockK = "1.12.4"
-    const val coroutines = "1.4.2"
+    const val coroutines = "1.6.0"
     const val coreTesting = "2.0.1"
     const val composeVersion = "1.1.1"
     const val composeActivity = "1.4.0"
-    const val lifecycleKtx = "2.4.1"
-    const val lifecycleCompiler = "2.3.0"
     const val navigationCompose = "2.4.1"
     const val coilKt = "2.1.0"
     const val paging = "1.0.0-alpha14"
@@ -54,7 +52,7 @@ object Dependencies {
     val circleimageview = "de.hdodenhof:circleimageview:${Versions.circleimageview}"
     val room = "androidx.room:room-runtime:${Versions.room}"
     val roomCoroutines = "androidx.room:room-ktx:${Versions.room}"
-    val lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}"
+    val lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     val gson  = "com.squareup.retrofit2:converter-gson:${Versions.retrofitConverter}"
     val retrofitLogger  = "com.squareup.okhttp3:logging-interceptor:${Versions.retrofitLogging}"
     val animationNavController  = "com.google.accompanist:accompanist-navigation-animation:${Versions.animateNavcontroller}"
@@ -81,7 +79,7 @@ object Compose {
 
 object AnnotationProcessor {
     val room = "androidx.room:room-compiler:${Versions.room}"
-    val lifecycle = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycleCompiler}"
+    val lifecycle = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
 }
 
 object Tests {

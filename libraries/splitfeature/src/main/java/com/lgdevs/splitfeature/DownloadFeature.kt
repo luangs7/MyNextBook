@@ -13,6 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import com.lgdevs.mynextbook.designsystem.ui.components.dialog.DefaultDialog
 import com.lgdevs.mynextbook.designsystem.ui.components.dialog.DialogArguments
 
@@ -24,20 +26,29 @@ fun DownloadFeature(
     setState: (SplitState) -> Unit
 ) {
     var isDialogOpen by rememberSaveable { mutableStateOf(true) }
-    LaunchedEffect(featureName) {
+    DisposableEffect(featureName) {
         val request = SplitInstallRequest.newBuilder()
             .addModule(featureName)
             .build()
 
+
+        val listener = SplitInstallStateUpdatedListener {
+
+            when (it.status()) {
+                SplitInstallSessionStatus.PENDING -> isDialogOpen = true
+                SplitInstallSessionStatus.INSTALLED -> {
+                    isDialogOpen = false
+                    setState(SplitState.FeatureReady)
+                    onDismiss()
+                }
+                else -> {}
+            }
+        }
+
+        manager.registerListener(listener)
         manager.startInstall(request)
-            .addOnSuccessListener {
-                isDialogOpen = false
-                setState(SplitState.FeatureReady)
-                onDismiss()
-            }
-            .addOnFailureListener {
-                setState(SplitState.Error)
-            }
+
+        onDispose { manager.unregisterListener(listener) }
     }
 
     if (isDialogOpen) {

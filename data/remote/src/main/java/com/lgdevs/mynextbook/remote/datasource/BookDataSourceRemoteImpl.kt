@@ -26,7 +26,7 @@ internal class BookDataSourceRemoteImpl(
         } else {
             throw Exception(response.errorBody()?.toString())
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
 
 

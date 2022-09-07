@@ -24,16 +24,7 @@ class PreferencesViewModel(
 
     val addPreferences = preferencesSharedFlow.flatMapMerge {
         onSetPreferences(it)
-    }
-
-    fun getPreferences(): Flow<ViewState<AppPreferences>> = flow {
-        getPreferences.execute(Unit)
-            .catch { emit(ViewState.Error(it)) }
-            .onStart { emit(ViewState.Loading) }
-            .collect {
-                emit(ViewState.Success(it))
-            }
-    }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
     fun setPreferences(isEbook: Boolean, keyword: String?, isPortuguese: Boolean) {
         eventHandled = false
@@ -43,12 +34,15 @@ class PreferencesViewModel(
     private fun onSetPreferences(preferences: AppPreferences) =
         flow<ViewState<AppPreferences>> {
             if (eventHandled) return@flow
-            setPreferences.execute(preferences)
-                .catch { emit(ViewState.Error(it)) }
-                .onStart { emit(ViewState.Loading) }
-                .collect {
-                    emit(ViewState.Success(preferences))
-                    eventHandled = true
-                }
+            setPreferences.execute(preferences).collect {
+                emit(ViewState.Success(preferences))
+                eventHandled = true
+            }
+        }.catch { emit(ViewState.Error(it)) }.onStart { emit(ViewState.Loading) }
+
+    fun getPreferences(): Flow<ViewState<AppPreferences>> = flow<ViewState<AppPreferences>> {
+        getPreferences.execute(Unit).collect {
+                emit(ViewState.Success(it))
         }
+    }.catch { emit(ViewState.Error(it)) }.onStart { emit(ViewState.Loading) }
 }

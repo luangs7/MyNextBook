@@ -1,5 +1,6 @@
 package com.lgdevs.mynextbook.favorites
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,10 @@ import com.lgdevs.mynextbook.designsystem.ui.components.stateview.model.ViewStat
 import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.favorites.R
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import com.lgdevs.mynextbook.common.R as commonR
 
@@ -44,6 +49,7 @@ fun FavoritesContent(
     itemState: State<ViewState<List<Book>>>,
     viewModel: FavoritesViewModel = getViewModel()
 ) {
+    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val emptyParam = ViewStateParam(
         commonR.raw.lottie_empty,
@@ -65,7 +71,14 @@ fun FavoritesContent(
                 } else {
                     FavoritesList(
                         list = listState,
-                        onFavorite = { viewModel.removeItem(it) },
+                        onFavorite = {
+                            scope.launch {
+                                viewModel.removeItem(it)
+                                    .onEach { Log.d("RemoveBookFromFavorite::", it.toString()) }
+                                    .distinctUntilChanged()
+                                    .stateIn(this)
+                            }
+                        },
                         onPreview = { uriHandler.openUri(it.previewLink.orEmpty()) }
                     )
                 }

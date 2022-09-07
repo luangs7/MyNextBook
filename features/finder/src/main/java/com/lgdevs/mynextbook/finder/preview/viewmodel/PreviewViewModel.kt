@@ -10,6 +10,8 @@ import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
 import com.lgdevs.mynextbook.domain.interactor.abstraction.GetRandomBook
 import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
 import com.lgdevs.mynextbook.domain.model.Book
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,27 +21,23 @@ class PreviewViewModel(
     private val getPreferences: GetPreferences,
     private val getRandomBook: GetRandomBook,
     private val addFavoriteBook: AddFavoriteBook,
-    private val removeBookFromFavorite: RemoveBookFromFavorite
+    private val removeBookFromFavorite: RemoveBookFromFavorite,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val itemFavoriteSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
     private val itemRandomSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow(replay = 1)
 
-    val bookFavoriteFlow = itemFavoriteSharedFlow.flatMapMerge {
-        if(it.isFavorited){
-            removeBookFromFavorite.execute(it).transform { apiResult ->
-                afterRemoveFavoriteBook(apiResult).collect { viewState -> emit(viewState) }
-            }
-        } else {
-            addFavoriteBook.execute(it).transform { apiResult ->
-                afterAddFavoriteBook(apiResult).collect { viewState -> emit(viewState) }
-            }
-        }
-    }
+    val bookFavoriteFlow = itemFavoriteSharedFlow.flatMapLatest {
+        handleBook(it).catch { throwable -> emit(ViewState.Error(throwable)) }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-    val randomBookFlow = itemRandomSharedFlow.flatMapMerge {
-        getRandomBook()
-    }
+    val randomBookFlow = itemRandomSharedFlow.flatMapLatest {
+        getRandomBook().catch { emit(ViewState.Error(it)) }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
+
+
+    fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     private fun getRandomBook(): Flow<ViewState<Book>> = flow {
         getPreferences.execute(Unit).transform { preferences ->
@@ -47,7 +45,7 @@ class PreviewViewModel(
         }.collect {
             this.emit(afterGetRandomBook(it))
         }
-    }
+    }.flowOn(dispatcher)
 
     private fun afterGetRandomBook(apiResult: ApiResult<Book>): ViewState<Book> {
         return when (apiResult) {
@@ -59,27 +57,36 @@ class PreviewViewModel(
         }
     }
 
-    fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     fun itemFavoriteBook(book: Book) = itemFavoriteSharedFlow.tryEmit(book)
 
-    private fun afterAddFavoriteBook(result: ApiResult<Unit>) = flow {
-        val viewResult = when (result) {
-            ApiResult.Empty -> ViewState.Empty
-            is ApiResult.Error -> ViewState.Error(result.error)
-            ApiResult.Loading -> ViewState.Loading
-            is ApiResult.Success -> ViewState.Success(result.data)
+    private fun handleBook(item: Book) = flow {
+        if (item.isFavorited) {
+            removeBookFromFavorite.execute(item).collect {
+                emit(afterRemoveFavoriteBook(it))
+            }
+        } else {
+            addFavoriteBook.execute(item).collect {
+                emit(afterAddFavoriteBook(it))
+            }
         }
-        emit(viewResult)
     }
 
-    private fun afterRemoveFavoriteBook(result: ApiResult<Unit>) = flow {
-        val viewResult = when (result) {
+    private fun afterAddFavoriteBook(result: ApiResult<Unit>): ViewState<Unit> {
+        return when (result) {
             ApiResult.Empty -> ViewState.Empty
             is ApiResult.Error -> ViewState.Error(result.error)
             ApiResult.Loading -> ViewState.Loading
-            is ApiResult.Success -> ViewState.Success(result.data)
+            is ApiResult.Success -> ViewState.Success(Unit)
         }
-        emit(viewResult)
+    }
+
+    private fun afterRemoveFavoriteBook(result: ApiResult<Unit>): ViewState<Unit> {
+        return when (result) {
+            ApiResult.Empty -> ViewState.Empty
+            is ApiResult.Error -> ViewState.Error(result.error)
+            ApiResult.Loading -> ViewState.Loading
+            is ApiResult.Success -> ViewState.Success(Unit)
+        }
     }
 }

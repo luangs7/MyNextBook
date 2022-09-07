@@ -36,7 +36,10 @@ fun NavGraph(navController: NavHostController) {
             LoadFeature(
                 context = context,
                 featureName = NavigationItem.Favorites.name.toLowerCase(Locale.current),
-                onDismiss = { navController.popBackStack() }) {
+                onDismiss = {
+                    if(navController.currentDestination?.route?.equals(NavigationItem.Favorites.route) == true)
+                        navController.popBackStack()
+                }) {
                 // https://issuetracker.google.com/issues/183677219
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(FavoritesDeepLink)

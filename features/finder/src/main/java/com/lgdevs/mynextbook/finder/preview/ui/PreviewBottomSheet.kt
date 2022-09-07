@@ -30,9 +30,10 @@ fun PreviewBottomSheet(
     onPreview: (book: Book) -> Unit,
     onShare: (book: Book) -> Unit
 ) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
-    val sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * 0.35).dp
+    val sheetPeekHeight = (screenHeight * 0.35).dp
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -48,9 +49,9 @@ fun PreviewBottomSheet(
                 .fillMaxHeight()
         ) {
             val (preview, actions) = createRefs()
-            val guidelineTop = createGuidelineFromTop(0.50f)
-            val guidelineStart = createGuidelineFromStart(0.25f)
-            val guidelineEnd = createGuidelineFromEnd(0.25f)
+            val guidelineTop = createGuidelineFromTop( 0.5f)
+            val guidelineStart = createGuidelineFromStart(0.15f)
+            val guidelineEnd = createGuidelineFromEnd(0.15f)
             Image(
                 painter = rememberAsyncImagePainter(book.imageLinks?.thumbnail),
                 contentDescription = String(),

@@ -13,6 +13,7 @@ class BookServiceMock: BookService {
         orderBy: String,
         maxResults: Int
     ): Response<BookResponse> {
-        throw Exception()
+        val response = JsonReader.readMockedJson("BookResponse.json")
+        return Response.success(Gson().fromJson(response, BookResponse::class.java))
     }
 }
