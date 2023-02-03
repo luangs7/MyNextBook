@@ -35,7 +35,7 @@ fun InformationView(
         val (lottieGif, titleId, subtitleId, btnNext) = createRefs()
 
         LottieView(
-            resId,
+            resId= resId,
             modifier = Modifier
                 .size(280.dp)
                 .padding(16.dp)
@@ -44,7 +44,8 @@ fun InformationView(
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
                     bottom.linkTo(guideline)
-                }
+                },
+            1
         )
         Text(
             text = title,

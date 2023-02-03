@@ -13,11 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lgdevs.mynextbook.navigation.NavGraph
 import com.lgdevs.mynextbook.designsystem.ui.components.material.ScaffoldView
 import com.lgdevs.mynextbook.designsystem.ui.components.material.TopBar
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
+import com.lgdevs.mynextbook.navigation.NavGraph
 import com.lgdevs.mynextbook.navigation.NavigationItem
 
 @OptIn(ExperimentalFoundationApi::class)

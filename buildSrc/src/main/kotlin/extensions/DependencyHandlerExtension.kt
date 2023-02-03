@@ -1,11 +1,16 @@
 package extensions
 
+import AnnotationProcessor
+import Compose
+import Dependencies
+import Firebase
+import Modules
+import Tests
 import org.gradle.api.Action
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 /**
@@ -22,6 +27,7 @@ fun DependencyHandler.addCommonDependencies() {
     testImplementation(Tests.mockk)
     androidTestImplementation(project(Modules.tests))
     implementation(project(Modules.tests))
+    api(Dependencies.lifecycleLivedata)
 }
 
 fun DependencyHandler.addKoinDependencies(){
@@ -46,6 +52,7 @@ fun DependencyHandler.addComposeDependencies(){
     implementation(Compose.lottieCompose)
     implementation(Compose.constraintLayout)
     androidTestImplementation(Tests.composeJunit)
+    androidTestImplementation(Tests.composeUITest)
 }
 
 fun DependencyHandler.addCoroutinesDependencies(){
@@ -102,3 +109,12 @@ private fun DependencyHandler.androidTestImplementation(
 ): ExternalModuleDependency = addDependencyTo(
     this, "androidTestImplementation", dependencyNotation, dependencyConfiguration
 )
+
+fun DependencyHandler.addFirebaseDependencies(){
+    implementation(Firebase.firebaseMessaging)
+    implementation(Firebase.firebaseAnalytics)
+    implementation(Firebase.firebaseInApp)
+    implementation(Firebase.firebaseAuth)
+    implementation(Firebase.firebaseConfig)
+    implementation(Firebase.firebaseFirestore)
+}

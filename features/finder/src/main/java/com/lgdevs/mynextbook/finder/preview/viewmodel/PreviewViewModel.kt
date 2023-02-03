@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.AddFavoriteBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetRandomBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
+import com.lgdevs.mynextbook.domain.interactor.implementation.AddFavoriteBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetPreferencesUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +18,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class PreviewViewModel(
-    private val getPreferences: GetPreferences,
-    private val getRandomBook: GetRandomBook,
-    private val addFavoriteBook: AddFavoriteBook,
-    private val removeBookFromFavorite: RemoveBookFromFavorite,
+    private val getPreferences: GetPreferencesUseCase,
+    private val getRandomBook: GetRandomBookUseCase,
+    private val addFavoriteBook: AddFavoriteBookUseCase,
+    private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
@@ -40,8 +40,8 @@ class PreviewViewModel(
     fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     private fun getRandomBook(): Flow<ViewState<Book>> = flow {
-        getPreferences.execute(Unit).transform { preferences ->
-            getRandomBook.execute(preferences).collect { emit(it) }
+        getPreferences().transform { preferences ->
+            getRandomBook(preferences).collect { emit(it) }
         }.collect {
             this.emit(afterGetRandomBook(it))
         }
@@ -62,11 +62,11 @@ class PreviewViewModel(
 
     private fun handleBook(item: Book) = flow {
         if (item.isFavorited) {
-            removeBookFromFavorite.execute(item).collect {
+            removeBookFromFavorite(item).collect {
                 emit(afterRemoveFavoriteBook(it))
             }
         } else {
-            addFavoriteBook.execute(item).collect {
+            addFavoriteBook(item).collect {
                 emit(afterAddFavoriteBook(it))
             }
         }

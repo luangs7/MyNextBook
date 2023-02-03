@@ -5,16 +5,16 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
-import com.lgdevs.mynextbook.domain.interactor.abstraction.UpdatePreferences
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetPreferencesUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.UpdatePreferencesUseCase
 import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.model.Book
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class PreferencesViewModel(
-    private val setPreferences: UpdatePreferences,
-    private val getPreferences: GetPreferences
+    private val setPreferencesUseCase: UpdatePreferencesUseCase,
+    private val getPreferencesUseCase: GetPreferencesUseCase
 ) : ViewModel() {
 
     private val preferencesSharedFlow: MutableSharedFlow<AppPreferences> =
@@ -34,14 +34,14 @@ class PreferencesViewModel(
     private fun onSetPreferences(preferences: AppPreferences) =
         flow<ViewState<AppPreferences>> {
             if (eventHandled) return@flow
-            setPreferences.execute(preferences).collect {
+            setPreferencesUseCase(preferences).run {
                 emit(ViewState.Success(preferences))
                 eventHandled = true
             }
         }.catch { emit(ViewState.Error(it)) }.onStart { emit(ViewState.Loading) }
 
     fun getPreferences(): Flow<ViewState<AppPreferences>> = flow<ViewState<AppPreferences>> {
-        getPreferences.execute(Unit).collect {
+        getPreferencesUseCase().collect {
                 emit(ViewState.Success(it))
         }
     }.catch { emit(ViewState.Error(it)) }.onStart { emit(ViewState.Loading) }

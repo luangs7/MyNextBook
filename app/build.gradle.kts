@@ -31,6 +31,7 @@ android {
 }
 
 repositories {
+    google()
     jcenter()
 }
 
@@ -47,6 +48,9 @@ dependencies {
     implementation(project(Features.finder))
     implementation(project(Features.home))
     implementation(project(Modules.split))
+    implementation(project(Features.login))
+    implementation(project(Modules.cloudservices))
+    implementation(project(Modules.firebase))
     implementation(Dependencies.playCore)
     implementation(Dependencies.splashCore)
     addKoinDependencies()
@@ -57,3 +61,4 @@ dependencies {
     debugApi(Compose.composeCustomview)
     debugApi(Compose.composePoolingContainer)
 }
+apply(plugin = GradlePlugin.GOOGLE_PLUGIN)
