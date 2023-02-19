@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface UserDataRepository {
     suspend fun doLogin(loginParam: LoginParam): Flow<ApiResult<Boolean>>
     suspend fun getCurrentUser(): Flow<ApiResult<User>>
-    suspend fun updatePreferences(email: String)
+    suspend fun updatePreferences(email: String): Flow<Unit>
     suspend fun loadPreferences(): Flow<String>
 }

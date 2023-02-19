@@ -5,4 +5,6 @@ import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.domain.model.AppPreferences
 import kotlinx.coroutines.flow.Flow
 
-fun interface GetRandomBookUseCase: suspend (AppPreferences) -> Flow<ApiResult<Book>>
+fun interface GetRandomBookUseCase: OnGetRandomBook
+
+typealias OnGetRandomBook = suspend (AppPreferences) -> Flow<ApiResult<Book>>

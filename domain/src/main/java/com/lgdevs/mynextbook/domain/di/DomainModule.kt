@@ -7,7 +7,6 @@ import com.lgdevs.mynextbook.domain.repositories.UserDataRepository
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { AddFavoriteBookUseCase(get<BookRepository>()::addFavorites) }
     factory { GetFavoriteBooksUseCase(get<BookRepository>()::getFavorites) }
     factory { GetPreferencesUseCase(get<PreferencesRepository>()::loadPreferences) }
     factory { GetRandomBookUseCase(get<BookRepository>()::getRandomBook) }
@@ -15,4 +14,12 @@ val domainModule = module {
     factory { UpdatePreferencesUseCase(get<PreferencesRepository>()::updatePreferences) }
     factory { GetEmailLoginUseCase(get<UserDataRepository>()::loadPreferences) }
     factory { DoLoginUseCase(get<UserDataRepository>()::doLogin) }
+    factory { GetUserUseCase(get<UserDataRepository>()::getCurrentUser) }
+    factory { SetEmailLoginUseCase(get<UserDataRepository>()::updatePreferences) }
+
+    factory {
+        AddFavoriteBookUseCase { book, currentUser ->
+            favoriteBookFactory(book, currentUser, get<BookRepository>())
+        }
+    }
 }

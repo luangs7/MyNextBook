@@ -53,6 +53,7 @@ dependencies {
     implementation(project(Modules.firebase))
     implementation(Dependencies.playCore)
     implementation(Dependencies.splashCore)
+    implementation(project(Modules.observer))
     addKoinDependencies()
     addCoroutinesDependencies()
     addCommonDependencies()

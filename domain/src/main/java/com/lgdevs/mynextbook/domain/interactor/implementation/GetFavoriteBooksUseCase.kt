@@ -4,4 +4,6 @@ import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.domain.model.Book
 import kotlinx.coroutines.flow.Flow
 
-fun interface GetFavoriteBooksUseCase: suspend () -> Flow<ApiResult<List<Book>>>
+fun interface GetFavoriteBooksUseCase: OnGetFavoritesBooks
+
+typealias OnGetFavoritesBooks = suspend () -> Flow<ApiResult<List<Book>>>

@@ -24,6 +24,7 @@ object Modules{
     const val split = ":libraries:splitfeature"
     const val cloudservices = ":cloudservices"
     const val firebase = ":firebase"
+    const val observer = ":libraries:observer"
 }
 
 object Features {

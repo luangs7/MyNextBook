@@ -16,9 +16,10 @@ internal class UserDataSourceDatastoreImpl(private val context: Context) : UserD
         }
     }
 
-    override suspend fun updateEmail(email: String) {
+    override suspend fun updateEmail(email: String) = flow{
         context.preferences.edit {
             it[EMAIL_KEY] = email
+            emit(Unit)
         }
     }
 

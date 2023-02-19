@@ -5,16 +5,23 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+enum class TopBarAction {
+    FAVORITES,
+    LOGOUT
+}
+
 @Composable
 fun TopBar(
     hasBack: Boolean,
     navigationIconClick: () -> Unit,
-    actionClick: (() -> Unit)? = null
+    hasAction: Boolean,
+    actionClick: ((TopBarAction) -> Unit)? = null
 ) {
     TopAppBar(
         backgroundColor = Color.Transparent,
@@ -28,9 +35,14 @@ fun TopBar(
             }
         },
         actions = {
-            actionClick?.let {
-                IconButton(onClick = { it.invoke() }) {
-                    Icon(Icons.Outlined.Favorite, String(), tint = Color.White)
+            if(hasAction) {
+                actionClick?.let {
+                    IconButton(onClick = { it.invoke(TopBarAction.FAVORITES) }) {
+                        Icon(Icons.Outlined.Favorite, String(), tint = Color.White)
+                    }
+                    IconButton(onClick = { it.invoke(TopBarAction.LOGOUT) }) {
+                        Icon(Icons.Outlined.ExitToApp, String(), tint = Color.White)
+                    }
                 }
             }
         }

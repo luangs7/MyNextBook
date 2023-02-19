@@ -2,4 +2,6 @@ package com.lgdevs.mynextbook.domain.interactor.implementation
 
 import kotlinx.coroutines.flow.Flow
 
-fun interface GetEmailLoginUseCase: suspend () -> Flow<String>
+fun interface GetEmailLoginUseCase: OnGetEmailLogin
+
+typealias OnGetEmailLogin = suspend () -> Flow<String>

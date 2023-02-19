@@ -41,7 +41,8 @@ class FavoriteActivity : ComponentActivity() {
         ScaffoldView(
             topBar = {
                 TopBar(true,
-                    navigationIconClick = { onBackPressed() })
+                    navigationIconClick = { onBackPressed() },
+                hasAction = false)
             }, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()

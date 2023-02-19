@@ -44,7 +44,7 @@ internal class UserDataRepositoryImpl(
             }
     }
 
-    override suspend fun updatePreferences(email: String) {
+    override suspend fun updatePreferences(email: String): Flow<Unit> {
         return userDataRepositoryImpl.updateEmail(email)
     }
 

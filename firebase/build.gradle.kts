@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(Modules.common))
     implementation(platform(Firebase.firebaseBom))
     implementation(project(Modules.cloudservices))
     addFirebaseDependencies()
