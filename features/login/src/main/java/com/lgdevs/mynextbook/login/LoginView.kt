@@ -38,6 +38,7 @@ import com.lgdevs.mynextbook.designsystem.ui.components.textinput.text
 import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import com.lgdevs.mynextbook.designsystem.ui.theme.linked
 import com.lgdevs.mynextbook.navigation.NavigationItem
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -101,6 +102,7 @@ private fun LoginContent(
         remember { mutableStateOf<TextInputState>(TextInputState.Default(TextFieldValue())) }
     var loadingState by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+
 
     ConstraintLayout(
         modifier = Modifier
@@ -181,7 +183,8 @@ private fun LoginContent(
                         .distinctUntilChanged()
                         .launchIn(this)
                 }
-            }
+            },
+            showGoogleButton = viewModel.showGoogleButton()
         )
     }
 }
@@ -239,20 +242,25 @@ private fun LoginDataContent(
 @Composable
 private fun LoginFooter(
     modifier: Modifier = Modifier,
+    showGoogleButton: Flow<Boolean>,
     onGoogleListener: () -> Unit,
     onSignIn: () -> Unit
 ) {
+
+    val showButtonState by showGoogleButton.collectAsState(initial = false)
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GoogleButton(
-            text = stringResource(id = R.string.signin_google),
-            textColor = Color.Black,
-            backgroundColor = Color.White,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            onGoogleListener.invoke()
+        if(showButtonState){
+            GoogleButton(
+                text = stringResource(id = R.string.signin_google),
+                textColor = Color.Black,
+                backgroundColor = Color.White,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                onGoogleListener.invoke()
+            }
         }
         Button(
             onClick = { onSignIn.invoke() },

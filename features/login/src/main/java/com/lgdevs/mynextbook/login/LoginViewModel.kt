@@ -2,6 +2,7 @@ package com.lgdevs.mynextbook.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lgdevs.mynextbook.cloudservices.remoteconfig.CloudServicesRemoteConfig
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginUseCase
@@ -10,6 +11,8 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.SetEmailLoginUseCase
 import com.lgdevs.mynextbook.domain.model.LoginParam
 import com.lgdevs.mynextbook.domain.model.User
+import com.lgdevs.mynextbook.remoteconfig.LOGIN_WITH_GOOGLE_BUTTON
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
@@ -18,7 +21,8 @@ class LoginViewModel(
     private val doLoginUseCase: DoLoginUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val saveEmail: SetEmailLoginUseCase,
-    private val getEmail: GetEmailLoginUseCase
+    private val getEmail: GetEmailLoginUseCase,
+    private val cloudServicesRemoteConfig: CloudServicesRemoteConfig
 ) : ViewModel() {
 
     private val userSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow(replay = 1)
@@ -69,4 +73,12 @@ class LoginViewModel(
                 emit(result)
             }
     }
+
+
+    fun showGoogleButton() = flow<Boolean>{
+        cloudServicesRemoteConfig.run {
+            fetch()
+            emit(getBoolean(LOGIN_WITH_GOOGLE_BUTTON))
+        }
+    }.flowOn(Dispatchers.IO)
 }
