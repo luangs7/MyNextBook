@@ -17,18 +17,18 @@ internal class BookRepositoryImpl(
     private val localSourceLocal: BookDataSourceLocal,
     private val prefMapper: PreferencesRepoMapper
 ) : BookRepository {
-    override suspend fun addFavorites(book: Book): Flow<ApiResult<Unit>> = flow {
+    override suspend fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>> = flow {
         emit(ApiResult.Loading)
-        dataSourceLocal.setFavoriteBook(mapper.toRepo(book))
+        dataSourceLocal.setFavoriteBook(mapper.toRepo(book), userId)
             .catch { emit(ApiResult.Error(it)) }
             .collect {
                 emit(ApiResult.Success(it))
             }
     }
 
-    override suspend fun getFavorites(): Flow<ApiResult<List<Book>>> = flow {
+    override suspend fun getFavorites(userId: String): Flow<ApiResult<List<Book>>> = flow {
         emit(ApiResult.Loading)
-        dataSourceLocal.getFavoritesBooks()
+        dataSourceLocal.getFavoritesBooks(userId)
             .catch { emit(ApiResult.Error(it)) }
             .collect { response ->
                 val result = if (response.isEmpty()) {

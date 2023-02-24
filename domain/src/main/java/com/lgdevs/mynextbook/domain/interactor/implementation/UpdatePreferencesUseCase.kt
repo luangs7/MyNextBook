@@ -5,4 +5,4 @@ import kotlinx.coroutines.flow.Flow
 
 fun interface UpdatePreferencesUseCase: OnUpdatePreferences
 
-typealias OnUpdatePreferences = suspend (AppPreferences) -> Unit
+typealias OnUpdatePreferences = suspend (AppPreferences ,String) -> Unit

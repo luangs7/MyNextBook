@@ -5,4 +5,4 @@ import kotlinx.coroutines.flow.Flow
 
 fun interface GetPreferencesUseCase: OnGetPreferences
 
-typealias OnGetPreferences = suspend () -> Flow<AppPreferences>
+typealias OnGetPreferences = suspend (String) -> Flow<AppPreferences>

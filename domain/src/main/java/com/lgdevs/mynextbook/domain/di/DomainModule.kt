@@ -14,6 +14,7 @@ val domainModule = module {
     factory { UpdatePreferencesUseCase(get<PreferencesRepository>()::updatePreferences) }
     factory { GetEmailLoginUseCase(get<UserDataRepository>()::loadPreferences) }
     factory { DoLoginUseCase(get<UserDataRepository>()::doLogin) }
+    factory { DoLoginWithTokenUseCase(get<UserDataRepository>()::doLoginWithToken) }
     factory { GetUserUseCase(get<UserDataRepository>()::getCurrentUser) }
     factory { SetEmailLoginUseCase(get<UserDataRepository>()::updatePreferences) }
 

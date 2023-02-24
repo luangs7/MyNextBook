@@ -1,11 +1,13 @@
-package com.lgdevs.mynextbook.login
+package com.lgdevs.mynextbook.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.signin.internal.SignInClientImpl
 import com.lgdevs.mynextbook.cloudservices.remoteconfig.CloudServicesRemoteConfig
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginWithTokenUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetEmailLoginUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.SetEmailLoginUseCase
@@ -22,6 +24,7 @@ class LoginViewModel(
     private val getUserUseCase: GetUserUseCase,
     private val saveEmail: SetEmailLoginUseCase,
     private val getEmail: GetEmailLoginUseCase,
+    private val doLoginWithTokenUseCase: DoLoginWithTokenUseCase,
     private val cloudServicesRemoteConfig: CloudServicesRemoteConfig
 ) : ViewModel() {
 
@@ -74,6 +77,22 @@ class LoginViewModel(
             }
     }
 
+    suspend fun doLoginWithToken(email:String, token: String): Flow<ViewState<Boolean>> = flow {
+        doLoginWithTokenUseCase(token)
+            .catch { emit(ViewState.Error(it)) }
+            .collect {
+                val result = when(it){
+                    ApiResult.Empty -> ViewState.Empty
+                    is ApiResult.Error -> ViewState.Error(it.error)
+                    ApiResult.Loading -> ViewState.Loading
+                    is ApiResult.Success -> {
+                        saveEmail(email).collect()
+                        ViewState.Success(it.data ?: false)
+                    }
+                }
+                emit(result)
+            }
+    }
 
     fun showGoogleButton() = flow<Boolean>{
         cloudServicesRemoteConfig.run {

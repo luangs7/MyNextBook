@@ -1,6 +1,7 @@
 package com.lgdevs.mynextbook.firebase.auth
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.lgdevs.mynextbook.cloudservices.auth.CloudServicesAuth
 import com.lgdevs.mynextbook.cloudservices.auth.CurrentUser
 import kotlinx.coroutines.flow.Flow
@@ -45,4 +46,8 @@ class FirebaseAuthImpl : CloudServicesAuth, KoinComponent {
         emit(auth.signOut())
     }
 
+    override suspend fun signInWithProvider(token: String): Flow<Boolean> = flow {
+        val result = auth.signInWithCredential(GoogleAuthProvider.getCredential(token, null))
+        emit(result.await() != null)
+    }
 }

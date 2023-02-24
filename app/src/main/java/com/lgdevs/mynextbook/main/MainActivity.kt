@@ -9,7 +9,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -70,13 +72,15 @@ internal fun MainView(
 ) {
     val navController = rememberNavController()
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
-    val hasBack = currentBackStackEntry.value?.destination?.route?.let {
-        !(it.contains(NavigationItem.Welcome.route) || it.contains(NavigationItem.Favorites.route))
-    } ?: true
+    val route = currentBackStackEntry.value?.destination?.route ?: ""
+    val hasBack = when {
+        route.contains(NavigationItem.Welcome.route) ||
+                route.contains(NavigationItem.Login.route) -> false
+        else -> true
+    }
     val scope = rememberCoroutineScope()
-    val hasAction =
-        currentBackStackEntry.value?.destination?.route?.contains(NavigationItem.Login.route)?.not()
-            ?: false
+    val hasAction = route.contains(NavigationItem.Login.route).not()
+
 
     AppView(
         hasBack= hasBack,

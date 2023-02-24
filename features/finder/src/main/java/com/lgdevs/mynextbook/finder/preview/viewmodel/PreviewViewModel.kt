@@ -11,6 +11,7 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookUseCa
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
+import com.lgdevs.mynextbook.extensions.collectIfSuccess
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -42,10 +43,12 @@ class PreviewViewModel(
     fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     private fun getRandomBook(): Flow<ViewState<Book>> = flow {
-        getPreferences().transform { preferences ->
-            getRandomBook(preferences).collect { emit(it) }
-        }.collect {
-            this.emit(afterGetRandomBook(it))
+        getCurrentUser().collectIfSuccess { user ->
+            getPreferences(user.uuid).transform { preferences ->
+                getRandomBook(preferences).collect { emit(it) }
+            }.collect {
+                this.emit(afterGetRandomBook(it))
+            }
         }
     }.flowOn(dispatcher)
 
@@ -63,18 +66,16 @@ class PreviewViewModel(
     fun itemFavoriteBook(book: Book) = itemFavoriteSharedFlow.tryEmit(book)
 
     private fun handleBook(item: Book) = flow {
-        getCurrentUser().collect { response ->
-            if(response is ApiResult.Success) {
+        getCurrentUser().collectIfSuccess { response ->
                 if (item.isFavorited) {
                     removeBookFromFavorite(item).collect {
                         emit(afterRemoveFavoriteBook(it))
                     }
                 } else {
-                    addFavoriteBook(item, response.data).collect {
+                    addFavoriteBook(item, response).collect {
                         emit(afterAddFavoriteBook(it))
                     }
                 }
-            }
         }
     }
 

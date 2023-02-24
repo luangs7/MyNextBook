@@ -70,6 +70,7 @@ fun GoogleButton(
             Spacer(Modifier.width(16.dp))
             Text(text = text, color = textColor)
             if (clicked.value) {
+                clicked.value = false
                 onClicked()
             }
         }

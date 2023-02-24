@@ -10,7 +10,7 @@ import com.lgdevs.mynextbook.domain.di.domainModule
 import com.lgdevs.mynextbook.filter.di.preferencesModule
 import com.lgdevs.mynextbook.finder.di.finderModule
 import com.lgdevs.mynextbook.firebase.di.firebaseModule
-import com.lgdevs.mynextbook.login.loginModule
+import com.lgdevs.mynextbook.di.loginModule
 import com.lgdevs.mynextbook.remote.di.networkModule
 import com.lgdevs.mynextbook.remote.di.remoteModule
 import com.lgdevs.mynextbook.repository.di.repositoryModule

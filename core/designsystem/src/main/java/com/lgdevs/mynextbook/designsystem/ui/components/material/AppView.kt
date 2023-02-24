@@ -25,7 +25,7 @@ fun AppView(
     ScaffoldView(
         topBar = {
             TopBar(
-                hasBack,
+                hasBack= hasBack,
                 navigationIconClick = { OnNavigationIconClickListener.invoke() },
                 actionClick = {
                     when(it) {

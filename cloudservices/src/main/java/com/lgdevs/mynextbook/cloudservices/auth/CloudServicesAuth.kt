@@ -8,4 +8,6 @@ interface CloudServicesAuth {
     suspend fun isUserRegistered(email: String): Flow<Boolean>
     suspend fun currentUser(): Flow<CurrentUser?>
     suspend fun signOut(): Flow<Unit>
+    suspend fun signInWithProvider(token: String): Flow<Boolean>
+
 }

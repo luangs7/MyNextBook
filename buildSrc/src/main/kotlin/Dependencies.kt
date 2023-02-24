@@ -18,7 +18,7 @@ object Versions {
     const val androidxExpresso = "3.3.0"
     const val androidxCore = "1.4.0"
     const val mockK = "1.12.4"
-    const val coroutines = "1.6.0"
+    const val coroutines = "1.6.4"
     const val coreTesting = "2.0.1"
     const val composeVersion = "1.1.1"
     const val composeActivity = "1.4.0"

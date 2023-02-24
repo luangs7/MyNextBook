@@ -15,5 +15,6 @@ data class BookEntity(
     val categories: List<String>,
     val imageLinks: BookImageEntity,
     val language: String,
-    val previewLink: String?
+    val previewLink: String?,
+    val user_id: String
 )

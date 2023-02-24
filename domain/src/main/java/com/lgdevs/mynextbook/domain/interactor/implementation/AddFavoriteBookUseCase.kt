@@ -25,7 +25,7 @@ suspend inline fun favoriteBookFactory (
 ):  Flow<ApiResult<Unit>> {
 
     user?.let {
-        return repository.addFavorites(book)
+        return repository.addFavorites(book, it.uuid)
     }
     return flow { emit(ApiResult.Error(InvalidParameterException())) }
 }

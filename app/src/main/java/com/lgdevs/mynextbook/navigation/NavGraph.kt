@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import com.lgdevs.mynextbook.common.helper.convertToSafeDynamicFeatureModuleIntent
 import com.lgdevs.mynextbook.finder.find.FindView
 import com.lgdevs.mynextbook.finder.preview.ui.PreviewView
-import com.lgdevs.mynextbook.login.LoginView
+import com.lgdevs.mynextbook.login.ui.LoginView
 import com.lgdevs.mynextbook.welcome.ui.BookWelcomeView
 import com.lgdevs.splitfeature.LoadFeature
 
