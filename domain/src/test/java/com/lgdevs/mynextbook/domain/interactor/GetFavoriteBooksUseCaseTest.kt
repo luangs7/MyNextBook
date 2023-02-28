@@ -20,11 +20,12 @@ class GetFavoriteBooksUseCaseTest {
         listOf(
             Book(Random.nextInt().toString()),
             Book(Random.nextInt().toString()),
-            Book(Random.nextInt().toString())
+            Book(Random.nextInt().toString()),
         )
     }
 
     private val userId = Random.nextInt().toString()
+
     @Test
     fun whenGetFavorites_withItemsOnList_shouldRespondWithSuccess_andItemsAsDomainObject() =
         runTest {
@@ -51,5 +52,4 @@ class GetFavoriteBooksUseCaseTest {
             assert(response.last() is ApiResult.Error)
             assert((response.last() as ApiResult.Error).error is Exception)
         }
-
 }

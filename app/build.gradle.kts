@@ -1,11 +1,16 @@
-import extensions.*
+import extensions.addCommonDependencies
+import extensions.addComposeConfig
+import extensions.addComposeDependencies
+import extensions.addCoroutinesDependencies
+import extensions.addDefaultConfig
+import extensions.addKoinDependencies
+import extensions.configureBuildTypes
 
 plugins {
     id(GradlePlugin.ANDROID_APPLICATION)
     id(GradlePlugin.KOTLIN_ANDROID)
     kotlin("kapt")
 }
-
 android {
     addDefaultConfig()
     addComposeConfig()

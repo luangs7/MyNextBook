@@ -9,18 +9,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.common.compose.onViewState
-import com.lgdevs.mynextbook.common.helper.shareIntent
 import com.lgdevs.mynextbook.designsystem.ui.components.stateview.StatusView
 import com.lgdevs.mynextbook.designsystem.ui.components.stateview.model.ViewStateParam
 import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
 import com.lgdevs.mynextbook.domain.model.Book
-import com.lgdevs.mynextbook.favorites.R
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -30,7 +27,7 @@ import com.lgdevs.mynextbook.common.R as commonR
 
 @Composable
 fun FavoritesView(
-    viewModel: FavoritesViewModel = getViewModel()
+    viewModel: FavoritesViewModel = getViewModel(),
 ) {
     val itemState = viewModel.getFavoriteItems().collectAsState(initial = ViewState.Loading)
 
@@ -38,7 +35,7 @@ fun FavoritesView(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(backgroundDark)
+            .background(backgroundDark),
     ) {
         FavoritesContent(itemState)
     }
@@ -47,22 +44,23 @@ fun FavoritesView(
 @Composable
 fun FavoritesContent(
     itemState: State<ViewState<List<Book>>>,
-    viewModel: FavoritesViewModel = getViewModel()
+    viewModel: FavoritesViewModel = getViewModel(),
 ) {
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val emptyParam = ViewStateParam(
         commonR.raw.lottie_empty,
-        stringResource(id = R.string.empty_favorites)
+        stringResource(id = R.string.empty_favorites),
     )
 
     Crossfade(itemState.value) { state ->
         onViewState(
             state = state,
             errorState = ViewStateParam(
-                commonR.raw.lottie_error, stringResource(id = commonR.string.error_message)
+                commonR.raw.lottie_error,
+                stringResource(id = commonR.string.error_message),
             ),
-            emptyState = emptyParam
+            emptyState = emptyParam,
         ) { data ->
             data?.let { result ->
                 val listState = remember { mutableStateOf(result) }
@@ -79,7 +77,7 @@ fun FavoritesContent(
                                     .stateIn(this)
                             }
                         },
-                        onPreview = { uriHandler.openUri(it.previewLink.orEmpty()) }
+                        onPreview = { uriHandler.openUri(it.previewLink.orEmpty()) },
                     )
                 }
             }
@@ -91,7 +89,7 @@ fun FavoritesContent(
 internal fun FavoritesList(
     list: MutableState<List<Book>>,
     onFavorite: (Book) -> Unit,
-    onPreview: (Book) -> Unit
+    onPreview: (Book) -> Unit,
 ) {
     val state = rememberLazyGridState()
 
@@ -100,7 +98,7 @@ internal fun FavoritesList(
         state = state,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 6.dp, bottom = 8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         items(list.value.count()) { index ->
             val item = list.value[index]
@@ -111,7 +109,8 @@ internal fun FavoritesList(
                     list.value = list.value.toMutableList()
                         .also { mutableList -> mutableList.remove(item) }
                 },
-                onPreview = { onPreview(item) })
+                onPreview = { onPreview(item) },
+            )
         }
     }
 }

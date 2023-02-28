@@ -37,19 +37,21 @@ class FavoriteActivity : ComponentActivity() {
     }
 
     @Composable
-    internal fun FavoritesMainView(){
+    internal fun FavoritesMainView() {
         ScaffoldView(
             topBar = {
-                TopBar(true,
+                TopBar(
+                    true,
                     navigationIconClick = { onBackPressed() },
-                hasAction = false)
-            }, modifier = Modifier
+                    hasAction = false,
+                )
+            },
+            modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(backgroundDark)
+                .background(backgroundDark),
         ) {
             FavoritesView()
         }
-
     }
 }

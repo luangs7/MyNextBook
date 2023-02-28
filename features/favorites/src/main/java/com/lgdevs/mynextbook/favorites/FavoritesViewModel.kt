@@ -1,8 +1,6 @@
 package com.lgdevs.mynextbook.favorites
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetFavoriteBooksUseCase
@@ -13,13 +11,12 @@ import com.lgdevs.mynextbook.extensions.collectIfSuccess
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
     private val getFavoriteBooks: GetFavoriteBooksUseCase,
     private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase,
     private val getCurrentUser: GetUserUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     fun getFavoriteItems(): Flow<ViewState<List<Book>>> = flow<ViewState<List<Book>>> {
