@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 
-class GetFavoriteBooksImplTest {
+class GetFavoriteBooksUseCaseTest {
 
     private val repository: BookRepository = mockk()
     private val useCase: GetFavoriteBooksUseCase by lazy { GetFavoriteBooksUseCase(repository::getFavorites) }
@@ -24,11 +24,12 @@ class GetFavoriteBooksImplTest {
         )
     }
 
+    private val userId = Random.nextInt().toString()
     @Test
     fun whenGetFavorites_withItemsOnList_shouldRespondWithSuccess_andItemsAsDomainObject() =
         runTest {
-            coEvery { repository.getFavorites() } returns flow { emit(ApiResult.Success(bookDataList)) }
-            val response = useCase().toList()
+            coEvery { repository.getFavorites(any()) } returns flow { emit(ApiResult.Success(bookDataList)) }
+            val response = useCase(userId).toList()
             assert(response.last() is ApiResult.Success)
             assert((response.last() as ApiResult.Success).data?.size == bookDataList.size)
             assert((response.last() as ApiResult.Success).data?.first() is Book)
@@ -37,16 +38,16 @@ class GetFavoriteBooksImplTest {
     @Test
     fun whenGetFavorites_withoutItemsOnList_shouldRespondWithEmpty() =
         runTest {
-            coEvery { repository.getFavorites() } returns flow { emit(ApiResult.Empty) }
-            val response = useCase().toList()
+            coEvery { repository.getFavorites(any()) } returns flow { emit(ApiResult.Empty) }
+            val response = useCase(userId).toList()
             assert(response.last() is ApiResult.Empty)
         }
 
     @Test
     fun whenGetFavorites_withException_shouldRespondWithError() =
         runTest {
-            coEvery { repository.getFavorites() } returns flow { emit(ApiResult.Error(Exception())) }
-            val response = useCase().toList()
+            coEvery { repository.getFavorites(any()) } returns flow { emit(ApiResult.Error(Exception())) }
+            val response = useCase(userId).toList()
             assert(response.last() is ApiResult.Error)
             assert((response.last() as ApiResult.Error).error is Exception)
         }

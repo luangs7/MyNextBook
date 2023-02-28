@@ -53,6 +53,7 @@ internal class UserDataRepositoryImpl(
     }
 
     override suspend fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>> = flow{
+        emit(ApiResult.Loading)
         cloudServicesAuth.signInWithProvider(token)
             .catch { emit(ApiResult.Error(it)) }
             .collect { emit(ApiResult.Success(it)) }

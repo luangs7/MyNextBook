@@ -23,7 +23,7 @@ class KObserver<T> : Subject<T> {
 
     override fun notifyObservers() {
         observers.forEach {
-            data?.let { value -> it.update(value)  }
+            data?.let { value -> it.update(value) }
         }
     }
 

@@ -49,8 +49,17 @@ fun LoginContent(
 ) {
 
     val emailState =
-        remember { mutableStateOf<TextInputState>(TextInputState.Default(TextFieldValue(getEmailState))) }
-    val passwordState = remember { mutableStateOf<TextInputState>(TextInputState.Default(TextFieldValue())) }
+        remember {
+            mutableStateOf<TextInputState>(
+                TextInputState.Default(
+                    TextFieldValue(
+                        getEmailState
+                    )
+                )
+            )
+        }
+    val passwordState =
+        remember { mutableStateOf<TextInputState>(TextInputState.Default(TextFieldValue())) }
     var loadingState by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -63,27 +72,28 @@ fun LoginContent(
         )
     }
 
-    val onLoginLoadingListener:(Boolean) -> Unit = { loadingState = it }
-    val onLoginSuccessListener = { navController.navigate(NavigationItem.Welcome.route)  }
+    val onLoginLoadingListener: (Boolean) -> Unit = { loadingState = it }
+    val onLoginSuccessListener = { navController.navigate(NavigationItem.Welcome.route) }
 
     val context = LocalContext.current
     val oneTapClient = Identity.getSignInClient(context)
     val signInRequest = LoginFactory.beginSignInRequest()
-    val launcher = LoginFactory.doLauncher(oneTapClient = oneTapClient, onCredentialsListener = { credential ->
-        val idToken = credential.googleIdToken
-        if (idToken != null) {
-            scope.launch {
+    val launcher =
+        LoginFactory.doLauncher(oneTapClient = oneTapClient, onCredentialsListener = { credential ->
+            val idToken = credential.googleIdToken
+            if (idToken != null) {
                 scope.launch {
-                    viewModel.doLoginWithToken(String(), idToken).handleLogin(
-                        onLoginLoadingListener,
-                        onLoginSuccessListener,
-                        onLoginErrorListener
-                    )
-                        .launchIn(this)
+                    scope.launch {
+                        viewModel.doLoginWithToken(String(), idToken).handleLogin(
+                            onLoginLoadingListener,
+                            onLoginSuccessListener,
+                            onLoginErrorListener
+                        )
+                            .launchIn(this)
+                    }
                 }
             }
-        }
-    })
+        })
 
     ConstraintLayout(
         modifier = Modifier
@@ -95,7 +105,7 @@ fun LoginContent(
 
         if (loadingState) {
             LoginLoading(
-                modifier= Modifier
+                modifier = Modifier
                     .constrainAs(loading) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
@@ -142,9 +152,8 @@ fun LoginContent(
             onGoogleListener = {
                 scope.launch {
                     val result = oneTapClient.beginSignIn(signInRequest).await()
-
-                    // Now construct the IntentSenderRequest the launcher requires
-                    val intentSenderRequest = IntentSenderRequest.Builder(result.pendingIntent).build()
+                    val intentSenderRequest =
+                        IntentSenderRequest.Builder(result.pendingIntent).build()
                     launcher.launch(intentSenderRequest)
                 }
 
@@ -152,7 +161,7 @@ fun LoginContent(
             onSignIn = {
                 doSign(
                     viewModel = viewModel,
-                    scope= scope,
+                    scope = scope,
                     OnLoginErrorListener = onLoginErrorListener,
                     OnLoginLoadingListener = onLoginLoadingListener,
                     OnLoginSuccessListener = onLoginSuccessListener,
@@ -168,9 +177,11 @@ fun LoginContent(
 @Composable
 private fun LoginLoading(
     modifier: Modifier = Modifier
-){
-    Box(modifier = modifier
-        .fillMaxWidth()) {
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
         LoadingView(stateParam = ViewStateParam(animation = R.raw.lottie_error))
     }
 }
@@ -185,7 +196,7 @@ private fun doSign(
     email: String,
     password: String
 
-){
+) {
     scope.launch {
         viewModel.doLogin(email, password).handleLogin(
             OnLoginLoadingListener,
@@ -200,12 +211,13 @@ internal fun Flow<ViewState<Boolean>>.handleLogin(
     OnLoginLoadingListener: OnLoginLoading,
     OnLoginSuccessListener: OnLoginSuccess,
     OnLoginErrorListener: OnLoginError,
-): Flow<ViewState<Boolean>>{
+): Flow<ViewState<Boolean>> {
     return this.onEach { state ->
         OnLoginLoadingListener.invoke(state is ViewState.Loading)
         when (state) {
             ViewState.Empty,
             is ViewState.Error -> OnLoginErrorListener.invoke()
+
             is ViewState.Success -> OnLoginSuccessListener.invoke()
             else -> {}
         }

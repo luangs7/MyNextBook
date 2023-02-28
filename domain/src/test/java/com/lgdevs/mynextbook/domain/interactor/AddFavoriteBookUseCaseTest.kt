@@ -16,7 +16,7 @@ import org.junit.Test
 import java.security.InvalidParameterException
 import kotlin.random.Random
 
-class AddFavoriteBookImplTest {
+class AddFavoriteBookUseCaseTest {
 
     private val repository: BookRepository = mockk()
     private val useCase: AddFavoriteBookUseCase by lazy { AddFavoriteBookUseCase { book, user ->
@@ -27,7 +27,7 @@ class AddFavoriteBookImplTest {
     private val user = User(String(),"Test User", String(), null)
     @Test
     fun whenAddFavorite_withSuccess_shouldRespondWithApiSuccess() = runTest {
-        coEvery { repository.addFavorites(any()) } returns flow { emit(ApiResult.Success(Unit)) }
+        coEvery { repository.addFavorites(any(), any()) } returns flow { emit(ApiResult.Success(Unit)) }
 
         val response = useCase(bookParam, user).toList()
 
@@ -36,7 +36,7 @@ class AddFavoriteBookImplTest {
 
     @Test
     fun whenAddFavorite_withException_shouldRespondWithApiError() = runTest {
-        coEvery { repository.addFavorites(any()) } returns flow { emit(ApiResult.Error(Exception())) }
+        coEvery { repository.addFavorites(any(), any()) } returns flow { emit(ApiResult.Error(Exception())) }
 
         val response = useCase(bookParam, user).toList()
 
@@ -47,7 +47,7 @@ class AddFavoriteBookImplTest {
     @Test
     fun whenAddFavorite_withoutUser_shouldThrowsException() = runTest {
         val response = useCase(bookParam, null).toList()
-        coVerify(exactly = 0) { repository.addFavorites(any()) }
+        coVerify(exactly = 0) { repository.addFavorites(any(), any()) }
         assert(response.last() is ApiResult.Error)
         assert((response.last() as ApiResult.Error).error is InvalidParameterException)
     }

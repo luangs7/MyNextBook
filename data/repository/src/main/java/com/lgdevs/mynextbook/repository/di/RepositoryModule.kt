@@ -11,7 +11,7 @@ import com.lgdevs.mynextbook.repository.mapper.PreferencesRepoMapper
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory<BookRepository> { BookRepositoryImpl(get(), get(), get(), get(), get()) }
+    factory<BookRepository> { BookRepositoryImpl(get(), get(), get(), get()) }
     factory<PreferencesRepository> { PreferencesRepositoryImpl(get(), get()) }
     factory<UserDataRepository> { UserDataRepositoryImpl(get(), get()) }
     single { BookRepoMapper() }

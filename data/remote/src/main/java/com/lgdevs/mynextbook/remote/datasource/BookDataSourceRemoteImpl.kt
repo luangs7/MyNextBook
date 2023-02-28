@@ -14,26 +14,30 @@ internal class BookDataSourceRemoteImpl(
     private val service: BookService,
     private val mapper: BookRemoteMapper
 ) : BookDataSourceRemote {
-    override suspend fun getBooksFromQuery(appPreferencesRepo: AppPreferencesRepo): Flow<BookData> = flow {
-        val filter = if (appPreferencesRepo.isEbook) EBOOK_QUERY else null
-        val query = createQueryParams(appPreferencesRepo)
-        val response = service.getBooks(query, if (appPreferencesRepo.isPortuguese) LANGUAGE_PT else null, filter)
-        if (response.isSuccessful) {
-            response.body()?.let {
-                val item = mapper.toRepo(it).random()
-                emit(item)
-            } ?: throw Exception()
-        } else {
-            throw Exception(response.errorBody()?.toString())
+    override suspend fun getBooksFromQuery(appPreferencesRepo: AppPreferencesRepo): Flow<BookData> =
+        flow {
+            val filter = if (appPreferencesRepo.isEbook) EBOOK_QUERY else null
+            val query = createQueryParams(appPreferencesRepo)
+            val response = service.getBooks(
+                query,
+                if (appPreferencesRepo.isPortuguese) LANGUAGE_PT else null,
+                filter
+            )
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    val item = mapper.toRepo(it).random()
+                    emit(item)
+                } ?: throw Exception()
+            } else {
+                throw Exception(response.errorBody()?.toString())
+            }
         }
-    }
 
 
-
-    private fun createQueryParams(appPreferencesRepo: AppPreferencesRepo):String {
+    private fun createQueryParams(appPreferencesRepo: AppPreferencesRepo): String {
         val query = StringBuilder().also {
             val keyword = appPreferencesRepo.keyword?.replace(DIVIDER_OLD, DIVIDER)
-            if(keyword.isNullOrEmpty().not()){
+            if (keyword.isNullOrEmpty().not()) {
                 it.append(keyword)
             }
         }

@@ -17,6 +17,7 @@ import org.koin.androidx.compose.getViewModel
 typealias OnLoginSuccess = () -> Unit
 typealias OnLoginError = () -> Unit
 typealias OnLoginLoading = (Boolean) -> Unit
+
 @Composable
 fun LoginView(
     navController: NavController,
@@ -32,10 +33,12 @@ fun LoginView(
             is ViewState.Error -> {
                 Login(navController, viewModel)
             }
+
             is ViewState.Success -> if (hasRedirected.not()) {
                 navController.navigate(NavigationItem.Welcome.route)
                 hasRedirected = true
             }
+
             else -> {}
         }
     }

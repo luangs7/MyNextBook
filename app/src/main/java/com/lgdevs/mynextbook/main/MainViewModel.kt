@@ -1,4 +1,5 @@
 package com.lgdevs.mynextbook.main
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.cloudservices.auth.CloudServicesAuth
@@ -14,7 +15,7 @@ class MainViewModel(
     private val cloudServicesAuth: CloudServicesAuth,
     private val logoutObserver: KObserver<Unit>,
     cloudServicesMessaging: CloudServicesMessaging
-): ViewModel(){
+) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()

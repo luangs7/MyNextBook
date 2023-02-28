@@ -11,8 +11,10 @@ import com.lgdevs.mynextbook.common.koin.injectOrNullable
 
 class FirebaseMessagingServiceImpl : FirebaseMessagingService() {
 
-    private val cloudServicesMessageTokenListener: CloudServicesMessageTokenListener? = injectOrNullable()
-    private val cloudServicesMessageReceivedListener: CloudServicesMessageReceivedListener? = injectOrNullable()
+    private val cloudServicesMessageTokenListener: CloudServicesMessageTokenListener? =
+        injectOrNullable()
+    private val cloudServicesMessageReceivedListener: CloudServicesMessageReceivedListener? =
+        injectOrNullable()
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)

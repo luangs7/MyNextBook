@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 
-class RemoveBookFromFavoriteImplTest {
+class RemoveBookFromFavoriteUseCaseTest {
 
     private val repository: BookRepository = mockk()
     private val useCase: RemoveBookFromFavoriteUseCase by lazy { RemoveBookFromFavoriteUseCase(repository::removeFavorite) }

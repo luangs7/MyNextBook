@@ -14,7 +14,6 @@ internal class BookRepositoryImpl(
     private val dataSourceLocal: BookDataSourceLocal,
     private val mapper: BookRepoMapper,
     private val dataSourceRemote: BookDataSourceRemote,
-    private val localSourceLocal: BookDataSourceLocal,
     private val prefMapper: PreferencesRepoMapper
 ) : BookRepository {
     override suspend fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>> = flow {
@@ -54,7 +53,7 @@ internal class BookRepositoryImpl(
         dataSourceRemote.getBooksFromQuery(prefMapper.toRepo(params))
             .catch { emit(ApiResult.Error(it)) }
             .transform { book ->
-                localSourceLocal.getFavoriteBook(book.id).collect { favorite ->
+                dataSourceLocal.getFavoriteBook(book.id).collect { favorite ->
                     emit(book.also { it.isFavorited = favorite != null })
                 }
             }.collect {

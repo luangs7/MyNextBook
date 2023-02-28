@@ -6,8 +6,10 @@ import com.lgdevs.mynextbook.repository.model.BookData
 import com.lgdevs.mynextbook.repository.model.BookImageData
 
 internal class BookEntityMapper {
-    fun toEntity(model: BookData,
-                 userId: String? = null) = BookEntity(
+    fun toEntity(
+        model: BookData,
+        userId: String? = null
+    ) = BookEntity(
         model.id,
         model.title.orEmpty(),
         model.subtitle.orEmpty(),

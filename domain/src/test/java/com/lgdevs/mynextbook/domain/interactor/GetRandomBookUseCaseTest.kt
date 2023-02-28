@@ -13,7 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.random.Random
 
-class GetRandomBookImplTest {
+class GetRandomBookUseCaseTest {
 
     private val repository: BookRepository = mockk()
     private val useCase: GetRandomBookUseCase by lazy { GetRandomBookUseCase(repository::getRandomBook) }

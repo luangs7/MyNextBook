@@ -49,9 +49,9 @@ class LoginViewModel(
         getUserUseCase()
             .catch { emit(ViewState.Error(it)) }
             .collect {
-                val result = when (it){
+                val result = when (it) {
                     ApiResult.Empty -> ViewState.Empty
-                    is ApiResult.Error ->  ViewState.Error(it.error)
+                    is ApiResult.Error -> ViewState.Error(it.error)
                     ApiResult.Loading -> ViewState.Loading
                     is ApiResult.Success -> ViewState.Success(it.data)
                 }
@@ -63,7 +63,7 @@ class LoginViewModel(
         doLoginUseCase(LoginParam(email, password))
             .catch { emit(ViewState.Error(it)) }
             .collect {
-                val result = when(it){
+                val result = when (it) {
                     ApiResult.Empty -> ViewState.Empty
                     is ApiResult.Error -> ViewState.Error(it.error)
                     ApiResult.Loading -> ViewState.Loading
@@ -77,11 +77,11 @@ class LoginViewModel(
             }
     }
 
-    suspend fun doLoginWithToken(email:String, token: String): Flow<ViewState<Boolean>> = flow {
+    suspend fun doLoginWithToken(email: String, token: String): Flow<ViewState<Boolean>> = flow {
         doLoginWithTokenUseCase(token)
             .catch { emit(ViewState.Error(it)) }
             .collect {
-                val result = when(it){
+                val result = when (it) {
                     ApiResult.Empty -> ViewState.Empty
                     is ApiResult.Error -> ViewState.Error(it.error)
                     ApiResult.Loading -> ViewState.Loading
@@ -94,7 +94,7 @@ class LoginViewModel(
             }
     }
 
-    fun showGoogleButton() = flow<Boolean>{
+    fun showGoogleButton() = flow<Boolean> {
         cloudServicesRemoteConfig.run {
             fetch()
             emit(getBoolean(LOGIN_WITH_GOOGLE_BUTTON))

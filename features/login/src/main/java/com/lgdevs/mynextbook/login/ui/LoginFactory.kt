@@ -14,7 +14,7 @@ typealias OnCredentialsListener = (SignInCredential) -> Unit
 
 object LoginFactory {
 
-    fun beginSignInRequest(): BeginSignInRequest =  BeginSignInRequest.builder()
+    fun beginSignInRequest(): BeginSignInRequest = BeginSignInRequest.builder()
         .setGoogleIdTokenRequestOptions(
             BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                 .setSupported(true)
@@ -33,7 +33,7 @@ object LoginFactory {
         oneTapClient: SignInClient,
         onCredentialsListener: OnCredentialsListener
     ): ActivityResultLauncher<IntentSenderRequest> = rememberLauncherForActivityResult(
-    ActivityResultContracts.StartIntentSenderForResult()
+        ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         if (result.resultCode != Activity.RESULT_OK) {
             return@rememberLauncherForActivityResult

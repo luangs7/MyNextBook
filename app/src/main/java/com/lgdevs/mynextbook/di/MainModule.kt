@@ -14,7 +14,7 @@ val LOGOUT_OBSERVER_QUALIFIER = named("logoutObserver")
 
 val mainModule = module {
     single(LOGOUT_OBSERVER_QUALIFIER) { KObserver<Unit>() }
-    viewModel {  MainViewModel(get(), get(LOGOUT_OBSERVER_QUALIFIER), get()) }
+    viewModel { MainViewModel(get(), get(LOGOUT_OBSERVER_QUALIFIER), get()) }
     factory { NotificationBuilder(androidContext()) }
 
     factory {

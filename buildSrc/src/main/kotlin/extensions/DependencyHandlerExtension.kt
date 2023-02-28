@@ -30,7 +30,7 @@ fun DependencyHandler.addCommonDependencies() {
     api(Dependencies.lifecycleLivedata)
 }
 
-fun DependencyHandler.addKoinDependencies(){
+fun DependencyHandler.addKoinDependencies() {
     implementation(Dependencies.koinAndroid)
     implementation(Dependencies.koinCompose)
 }
@@ -42,7 +42,7 @@ fun DependencyHandler.addDesignDependencies() {
     api(Dependencies.lifecycleKtx)
 }
 
-fun DependencyHandler.addComposeDependencies(){
+fun DependencyHandler.addComposeDependencies() {
     implementation(Compose.composeUi)
     implementation(Compose.composeMaterial)
     implementation(Compose.composePreview)
@@ -55,25 +55,25 @@ fun DependencyHandler.addComposeDependencies(){
     androidTestImplementation(Tests.composeUITest)
 }
 
-fun DependencyHandler.addCoroutinesDependencies(){
+fun DependencyHandler.addCoroutinesDependencies() {
     implementation(Dependencies.coroutinesCore)
     implementation(Dependencies.coroutinesAndroid)
 }
 
-fun DependencyHandler.addRoomDependencies(){
+fun DependencyHandler.addRoomDependencies() {
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
     kapt(AnnotationProcessor.room)
 }
 
-fun DependencyHandler.addTestDependencies(){
+fun DependencyHandler.addTestDependencies() {
     api(Tests.coroutines)
     api(Tests.coreTesting)
     api(Tests.jUnit)
     api(Tests.jUnitExt)
 }
 
-fun DependencyHandler.addTestApiDependencies(){
+fun DependencyHandler.addTestApiDependencies() {
     testApi(Tests.androidxCore)
     testApi(Tests.coroutines)
     testApi(Tests.coreTesting)
@@ -110,7 +110,7 @@ private fun DependencyHandler.androidTestImplementation(
     this, "androidTestImplementation", dependencyNotation, dependencyConfiguration
 )
 
-fun DependencyHandler.addFirebaseDependencies(){
+fun DependencyHandler.addFirebaseDependencies() {
     implementation(Firebase.firebaseMessaging)
     implementation(Firebase.firebaseAnalytics)
     implementation(Firebase.firebaseInApp)

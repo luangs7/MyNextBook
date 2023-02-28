@@ -37,7 +37,7 @@ fun LoginFooter(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(showButtonState){
+        if (showButtonState) {
             GoogleButton(
                 text = stringResource(id = R.string.signin_google),
                 textColor = Color.Black,

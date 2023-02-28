@@ -4,12 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.AddFavoriteBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetRandomBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
+import com.lgdevs.mynextbook.domain.interactor.implementation.AddFavoriteBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetPreferencesUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.AppPreferences
 import com.lgdevs.mynextbook.domain.model.Book
+import com.lgdevs.mynextbook.domain.model.User
 import com.lgdevs.mynextbook.finder.preview.viewmodel.PreviewViewModel
 import com.lgdevs.mynextbook.tests.BaseTest
 import com.lgdevs.mynextbook.tests.CoroutineTestRule
@@ -29,19 +31,25 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import kotlin.random.Random
 
 class PreviewViewModelTest : BaseTest() {
 
-    private val getPreferences: GetPreferences = mockk()
-    private val getRandomBook: GetRandomBook = mockk()
-    private val addFavoriteBook: AddFavoriteBook = mockk()
-    private val removeBookFromFavorite: RemoveBookFromFavorite = mockk()
+    private val getPreferences: GetPreferencesUseCase = mockk()
+    private val getRandomBook: GetRandomBookUseCase = mockk()
+    private val addFavoriteBook: AddFavoriteBookUseCase = mockk()
+    private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase = mockk()
+    private val getCurrentUser: GetUserUseCase = mockk()
+    private val userId = Random.nextInt().toString()
+    private val user = User(userId, "Teste", "teste@adbc.com",null)
+
     private val viewModel: PreviewViewModel by lazy {
         PreviewViewModel(
             getPreferences,
             getRandomBook,
             addFavoriteBook,
             removeBookFromFavorite,
+            getCurrentUser,
             testDispatcher
         )
     }
@@ -56,8 +64,8 @@ class PreviewViewModelTest : BaseTest() {
 
     private val commonValidation = {
         coVerify(exactly = 1) {
-            getPreferences.execute(Unit)
-            getRandomBook.execute(any())
+            getPreferences(userId)
+            getRandomBook(any())
         }
     }
 
@@ -65,13 +73,14 @@ class PreviewViewModelTest : BaseTest() {
     @Test
     fun `when getRandomBook() is called and data is valid, should return loading and success status and item id should be valid`() =
         runTest {
-            coEvery { getPreferences.execute(Unit) } returns flow {
+            coEvery { getPreferences(any()) } returns flow {
                 emit(appPreferences)
             }
-            coEvery { getRandomBook.execute(any()) } returns flow {
+            coEvery { getRandomBook(any()) } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Success(Book(id = "1234")))
             }
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Book>>()
             viewModel.randomBookFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -91,13 +100,14 @@ class PreviewViewModelTest : BaseTest() {
     @Test
     fun `when getRandomBook() is called and data is empty, should return loading and empty status`() =
         runTest {
-            coEvery { getPreferences.execute(Unit) } returns flow {
+            coEvery { getPreferences(any()) } returns flow {
                 emit(appPreferences)
             }
-            coEvery { getRandomBook.execute(any()) } returns flow {
+            coEvery { getRandomBook(any()) } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Empty)
             }
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Book>>()
             viewModel.randomBookFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -115,13 +125,14 @@ class PreviewViewModelTest : BaseTest() {
     @Test
     fun `when getRandomBook() is called and data is invalid, should return loading and error`() =
         runTest {
-            coEvery { getPreferences.execute(Unit) } returns flow {
+            coEvery { getPreferences(any()) } returns flow {
                 emit(appPreferences)
             }
-            coEvery { getRandomBook.execute(any()) } returns flow {
+            coEvery { getRandomBook(any()) } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Error(Exception()))
             }
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Book>>()
             viewModel.randomBookFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -138,10 +149,11 @@ class PreviewViewModelTest : BaseTest() {
 
     @Test
     fun `when getRandomBook() is called and throws error, should return error`() = runTest {
-        coEvery { getPreferences.execute(Unit) } returns flow {
+        coEvery { getPreferences(any()) } returns flow {
             emit(appPreferences)
         }
-        coEvery { getRandomBook.execute(any()) } throws Exception()
+        coEvery { getRandomBook(any()) } throws Exception()
+        coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
         val emittedResults = mutableListOf<ViewState<Book>>()
         viewModel.randomBookFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -160,11 +172,12 @@ class PreviewViewModelTest : BaseTest() {
     fun `when itemFavoriteBook() is called and book is favorite, should call removeBookFromFavorite with result success`() =
         runTest {
             coEvery {
-                removeBookFromFavorite.execute(any())
+                removeBookFromFavorite(any())
             } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Success(Unit))
             }
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Unit?>>()
             viewModel.bookFavoriteFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -173,8 +186,8 @@ class PreviewViewModelTest : BaseTest() {
 
             runCurrent()
 
-            coVerify(exactly = 1) { removeBookFromFavorite.execute(any()) }
-            coVerify(exactly = 0) { addFavoriteBook.execute(any()) }
+            coVerify(exactly = 1) { removeBookFromFavorite(any()) }
+            coVerify(exactly = 0) { addFavoriteBook(any(), any()) }
 
             assert(emittedResults.size == 2)
             assert(emittedResults.first() is ViewState.Loading)
@@ -185,8 +198,9 @@ class PreviewViewModelTest : BaseTest() {
     fun `when itemFavoriteBook() is called and book is favorite, should call removeBookFromFavorite with result error`() =
         runTest {
             coEvery {
-                removeBookFromFavorite.execute(any())
+                removeBookFromFavorite(any())
             } throws Exception()
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Unit?>>()
             viewModel.bookFavoriteFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -195,8 +209,8 @@ class PreviewViewModelTest : BaseTest() {
 
             runCurrent()
 
-            coVerify(exactly = 1) { removeBookFromFavorite.execute(any()) }
-            coVerify(exactly = 0) { addFavoriteBook.execute(any()) }
+            coVerify(exactly = 1) { removeBookFromFavorite(any()) }
+            coVerify(exactly = 0) { addFavoriteBook(any(), any()) }
 
             assert(emittedResults.size == 1)
             assert(emittedResults.last() is ViewState.Error)
@@ -207,11 +221,12 @@ class PreviewViewModelTest : BaseTest() {
     fun `when itemFavoriteBook() is called and book is not a favorite, should call addFavoriteBook with result success`() =
         runTest {
             coEvery {
-                addFavoriteBook.execute(any())
+                addFavoriteBook(any(), any())
             } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Success(Unit))
             }
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Unit?>>()
             viewModel.bookFavoriteFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -220,8 +235,8 @@ class PreviewViewModelTest : BaseTest() {
 
             runCurrent()
 
-            coVerify(exactly = 0) { removeBookFromFavorite.execute(any()) }
-            coVerify(exactly = 1) { addFavoriteBook.execute(any()) }
+            coVerify(exactly = 0) { removeBookFromFavorite(any()) }
+            coVerify(exactly = 1) { addFavoriteBook(any(), any()) }
 
             assert(emittedResults.size == 2)
             assert(emittedResults.first() is ViewState.Loading)
@@ -232,8 +247,9 @@ class PreviewViewModelTest : BaseTest() {
     fun `when itemFavoriteBook() is called and book is not a favorite, should call addFavoriteBook with result error`() =
         runTest {
             coEvery {
-                addFavoriteBook.execute(any())
+                addFavoriteBook(any(), any())
             } throws Exception()
+            coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
             val emittedResults = mutableListOf<ViewState<Unit?>>()
             viewModel.bookFavoriteFlow.onEach(emittedResults::add).launchIn(testScheduler.toScope())
@@ -245,8 +261,8 @@ class PreviewViewModelTest : BaseTest() {
 
             runCurrent()
 
-            coVerify(exactly = 0) { removeBookFromFavorite.execute(any()) }
-            coVerify(exactly = 1) { addFavoriteBook.execute(any()) }
+            coVerify(exactly = 0) { removeBookFromFavorite(any()) }
+            coVerify(exactly = 1) { addFavoriteBook(any(), any()) }
 
             assert(emittedResults.size == 1)
             assert(emittedResults.last() is ViewState.Error)
