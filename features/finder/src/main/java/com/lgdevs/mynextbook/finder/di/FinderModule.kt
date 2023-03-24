@@ -5,5 +5,5 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val finderModule = module {
-    viewModel { PreviewViewModel(get(), get(), get(), get(), get()) }
+    viewModel { PreviewViewModel(get(), get(), get(), get(), get(), get()) }
 }

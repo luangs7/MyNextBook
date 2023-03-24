@@ -22,7 +22,7 @@ object LoginFactory {
                 .setServerClientId("417858212880-htig812klg5nlhrftnkgbj6h7q24qmg4.apps.googleusercontent.com")
                 // Only show accounts previously used to sign in.
                 .setFilterByAuthorizedAccounts(false)
-                .build()
+                .build(),
         )
         // Automatically sign in when exactly one credential is retrieved.
         .setAutoSelectEnabled(true)
@@ -31,9 +31,9 @@ object LoginFactory {
     @Composable
     fun doLauncher(
         oneTapClient: SignInClient,
-        onCredentialsListener: OnCredentialsListener
+        onCredentialsListener: OnCredentialsListener,
     ): ActivityResultLauncher<IntentSenderRequest> = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
+        ActivityResultContracts.StartIntentSenderForResult(),
     ) { result ->
         if (result.resultCode != Activity.RESULT_OK) {
             return@rememberLauncherForActivityResult

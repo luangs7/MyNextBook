@@ -3,16 +3,14 @@ package com.lgdevs.mynextbook.remote.datasource
 import com.lgdevs.mynextbook.remote.mapper.BookRemoteMapper
 import com.lgdevs.mynextbook.remote.service.BookService
 import com.lgdevs.mynextbook.repository.datasource.BookDataSourceRemote
-import com.lgdevs.mynextbook.repository.model.BookData
 import com.lgdevs.mynextbook.repository.model.AppPreferencesRepo
-import kotlinx.coroutines.Dispatchers
+import com.lgdevs.mynextbook.repository.model.BookData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 internal class BookDataSourceRemoteImpl(
     private val service: BookService,
-    private val mapper: BookRemoteMapper
+    private val mapper: BookRemoteMapper,
 ) : BookDataSourceRemote {
     override suspend fun getBooksFromQuery(appPreferencesRepo: AppPreferencesRepo): Flow<BookData> =
         flow {
@@ -21,7 +19,7 @@ internal class BookDataSourceRemoteImpl(
             val response = service.getBooks(
                 query,
                 if (appPreferencesRepo.isPortuguese) LANGUAGE_PT else null,
-                filter
+                filter,
             )
             if (response.isSuccessful) {
                 response.body()?.let {
@@ -32,7 +30,6 @@ internal class BookDataSourceRemoteImpl(
                 throw Exception(response.errorBody()?.toString())
             }
         }
-
 
     private fun createQueryParams(appPreferencesRepo: AppPreferencesRepo): String {
         val query = StringBuilder().also {

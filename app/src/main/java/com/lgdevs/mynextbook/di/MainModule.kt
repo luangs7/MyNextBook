@@ -1,6 +1,8 @@
 package com.lgdevs.mynextbook.di
 
 import com.lgdevs.mynextbook.cloudservices.messaging.CloudServicesMessageReceivedListener
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProviderImpl
 import com.lgdevs.mynextbook.main.MainViewModel
 import com.lgdevs.mynextbook.notification.NotificationBuilder
 import com.lgdevs.mynextbook.observer.KObserver
@@ -19,5 +21,9 @@ val mainModule = module {
 
     factory {
         CloudServicesMessageReceivedListener(get<NotificationBuilder>()::onMessageReceive)
+    }
+
+    factory {
+        CoroutineDispatcherProvider(CoroutineDispatcherProviderImpl::io)
     }
 }

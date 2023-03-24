@@ -1,9 +1,6 @@
 package com.lgdevs.mynextbook.login.ui
 
-import android.app.Activity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.lgdevs.mynextbook.common.R
 import com.lgdevs.mynextbook.common.base.ViewState
@@ -45,17 +41,16 @@ import kotlinx.coroutines.tasks.await
 fun LoginContent(
     navController: NavController,
     viewModel: LoginViewModel,
-    getEmailState: String
+    getEmailState: String,
 ) {
-
     val emailState =
         remember {
             mutableStateOf<TextInputState>(
                 TextInputState.Default(
                     TextFieldValue(
-                        getEmailState
-                    )
-                )
+                        getEmailState,
+                    ),
+                ),
             )
         }
     val passwordState =
@@ -68,7 +63,7 @@ fun LoginContent(
             TextInputState.Error(TextFieldValue(emailState.text()), "")
         passwordState.value = TextInputState.Error(
             TextFieldValue(passwordState.text()),
-            "E-mail ou senha incorretos"
+            "E-mail ou senha incorretos",
         )
     }
 
@@ -87,7 +82,7 @@ fun LoginContent(
                         viewModel.doLoginWithToken(String(), idToken).handleLogin(
                             onLoginLoadingListener,
                             onLoginSuccessListener,
-                            onLoginErrorListener
+                            onLoginErrorListener,
                         )
                             .launchIn(this)
                     }
@@ -98,10 +93,11 @@ fun LoginContent(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxHeight(),
     ) {
         val guideline = createGuidelineFromTop(0.3f)
-        val (lottieGif, content, footer, loading) = createRefs()
+        val (lottieGif, content) = createRefs()
+        val (footer, loading) = createRefs()
 
         if (loadingState) {
             LoginLoading(
@@ -112,7 +108,8 @@ fun LoginContent(
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    })
+                    },
+            )
         }
 
         LottieView(
@@ -126,7 +123,7 @@ fun LoginContent(
                     start.linkTo(parent.start)
                     bottom.linkTo(guideline)
                     height = Dimension.fillToConstraints
-                }
+                },
         )
         LoginDataContent(
             emailState,
@@ -138,7 +135,7 @@ fun LoginContent(
                     end.linkTo(parent.end)
                     start.linkTo(parent.start)
                     top.linkTo(guideline)
-                }
+                },
         )
         LoginFooter(
             Modifier
@@ -156,7 +153,6 @@ fun LoginContent(
                         IntentSenderRequest.Builder(result.pendingIntent).build()
                     launcher.launch(intentSenderRequest)
                 }
-
             },
             onSignIn = {
                 doSign(
@@ -166,26 +162,25 @@ fun LoginContent(
                     OnLoginLoadingListener = onLoginLoadingListener,
                     OnLoginSuccessListener = onLoginSuccessListener,
                     password = passwordState.text(),
-                    email = emailState.text()
+                    email = emailState.text(),
                 )
             },
-            showGoogleButton = viewModel.showGoogleButton()
+            showGoogleButton = viewModel.showGoogleButton(),
         )
     }
 }
 
 @Composable
 private fun LoginLoading(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
-        LoadingView(stateParam = ViewStateParam(animation = R.raw.lottie_error))
+        LoadingView(stateParam = ViewStateParam(animation = R.raw.lottie_loading))
     }
 }
-
 
 private fun doSign(
     viewModel: LoginViewModel,
@@ -194,31 +189,32 @@ private fun doSign(
     OnLoginSuccessListener: OnLoginSuccess,
     OnLoginErrorListener: OnLoginError,
     email: String,
-    password: String
+    password: String,
 
 ) {
     scope.launch {
         viewModel.doLogin(email, password).handleLogin(
             OnLoginLoadingListener,
             OnLoginSuccessListener,
-            OnLoginErrorListener
+            OnLoginErrorListener,
         )
             .launchIn(this)
     }
 }
 
 internal fun Flow<ViewState<Boolean>>.handleLogin(
-    OnLoginLoadingListener: OnLoginLoading,
-    OnLoginSuccessListener: OnLoginSuccess,
-    OnLoginErrorListener: OnLoginError,
+    onLoginLoadingListener: OnLoginLoading,
+    onLoginSuccessListener: OnLoginSuccess,
+    onLoginErrorListener: OnLoginError,
 ): Flow<ViewState<Boolean>> {
     return this.onEach { state ->
-        OnLoginLoadingListener.invoke(state is ViewState.Loading)
+        onLoginLoadingListener.invoke(state is ViewState.Loading)
         when (state) {
             ViewState.Empty,
-            is ViewState.Error -> OnLoginErrorListener.invoke()
+            is ViewState.Error,
+            -> onLoginErrorListener.invoke()
 
-            is ViewState.Success -> OnLoginSuccessListener.invoke()
+            is ViewState.Success -> onLoginSuccessListener.invoke()
             else -> {}
         }
     }

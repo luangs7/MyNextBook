@@ -1,9 +1,8 @@
 package com.lgdevs.mynextbook.finder
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
 import com.lgdevs.mynextbook.domain.interactor.implementation.AddFavoriteBookUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetPreferencesUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookUseCase
@@ -14,23 +13,18 @@ import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.domain.model.User
 import com.lgdevs.mynextbook.finder.preview.viewmodel.PreviewViewModel
 import com.lgdevs.mynextbook.tests.BaseTest
-import com.lgdevs.mynextbook.tests.CoroutineTestRule
 import com.lgdevs.mynextbook.tests.toScope
-import io.mockk.Ordering
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.*
-import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 import kotlin.random.Random
 
 class PreviewViewModelTest : BaseTest() {
@@ -41,7 +35,8 @@ class PreviewViewModelTest : BaseTest() {
     private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase = mockk()
     private val getCurrentUser: GetUserUseCase = mockk()
     private val userId = Random.nextInt().toString()
-    private val user = User(userId, "Teste", "teste@adbc.com",null)
+    private val user = User(userId, "Teste", "teste@adbc.com", null)
+    private val coroutinesProvider = mockk<CoroutineDispatcherProvider>()
 
     private val viewModel: PreviewViewModel by lazy {
         PreviewViewModel(
@@ -50,16 +45,15 @@ class PreviewViewModelTest : BaseTest() {
             addFavoriteBook,
             removeBookFromFavorite,
             getCurrentUser,
-            testDispatcher
+            coroutinesProvider,
         )
     }
-
 
     private val appPreferences = AppPreferences(
         isEbook = false,
         isPortuguese = false,
         keyword = String(),
-        subject = String()
+        subject = String(),
     )
 
     private val commonValidation = {
@@ -69,6 +63,10 @@ class PreviewViewModelTest : BaseTest() {
         }
     }
 
+    @Before
+    fun before() {
+        every { coroutinesProvider.invoke() } returns testDispatcher
+    }
 
     @Test
     fun `when getRandomBook() is called and data is valid, should return loading and success status and item id should be valid`() =
@@ -95,7 +93,6 @@ class PreviewViewModelTest : BaseTest() {
             assert((emittedResults.last() as ViewState.Success).result.id == "1234")
             commonValidation.invoke()
         }
-
 
     @Test
     fun `when getRandomBook() is called and data is empty, should return loading and empty status`() =
@@ -167,7 +164,6 @@ class PreviewViewModelTest : BaseTest() {
         commonValidation.invoke()
     }
 
-
     @Test
     fun `when itemFavoriteBook() is called and book is favorite, should call removeBookFromFavorite with result success`() =
         runTest {
@@ -215,7 +211,6 @@ class PreviewViewModelTest : BaseTest() {
             assert(emittedResults.size == 1)
             assert(emittedResults.last() is ViewState.Error)
         }
-
 
     @Test
     fun `when itemFavoriteBook() is called and book is not a favorite, should call addFavoriteBook with result success`() =

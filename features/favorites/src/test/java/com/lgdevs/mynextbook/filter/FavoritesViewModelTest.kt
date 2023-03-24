@@ -4,6 +4,7 @@ package com.lgdevs.mynextbook.filter
 
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetFavoriteBooksUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
@@ -14,6 +15,7 @@ import com.lgdevs.mynextbook.tests.BaseTest
 import com.lgdevs.mynextbook.tests.toScope
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 import kotlin.random.Random
 
@@ -29,17 +32,23 @@ class FavoritesViewModelTest : BaseTest() {
     private val getFavoriteBook: GetFavoriteBooksUseCase = mockk()
     private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase = mockk()
     private val getCurrentUser: GetUserUseCase = mockk()
+    private val coroutinesDispatcher: CoroutineDispatcherProvider = mockk()
     private val viewModel: FavoritesViewModel by lazy {
         FavoritesViewModel(
             getFavoriteBook,
             removeBookFromFavorite,
             getCurrentUser,
-            testDispatcher
+            coroutinesDispatcher,
         )
     }
 
     private val userId = Random.nextInt().toString()
-    private val user = User(userId, "Teste", "teste@adbc.com",null)
+    private val user = User(userId, "Teste", "teste@adbc.com", null)
+
+    @Before
+    fun init() {
+        every { coroutinesDispatcher.invoke() } returns testDispatcher
+    }
 
     @Test
     fun `when getFavoriteItems() is called and the user has favorited books, should return items with success`() = runTest {

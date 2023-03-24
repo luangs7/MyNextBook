@@ -13,7 +13,7 @@ val datastoreModule = module {
     factory<PreferencesDataSourceDatastore> {
         PreferencesDataSourceDatastoreImpl(
             androidContext().preferences,
-            get()
+            get(),
         )
     }
     single { AppPreferencesMapper() }

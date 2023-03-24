@@ -31,7 +31,7 @@ import androidx.compose.runtime.setValue
 @Composable
 fun PreferencesView(
     onDismiss: () -> Unit,
-    viewModel: PreferencesViewModel = getViewModel()
+    viewModel: PreferencesViewModel = getViewModel(),
 ) {
     MyNextBookTheme {
         val prefState = viewModel.getPreferences().collectAsState(ViewState.Loading)

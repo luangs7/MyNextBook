@@ -1,10 +1,8 @@
 package com.lgdevs.mynextbook.datastore.datasource
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.lgdevs.mynextbook.datastore.model.AppPreferenceDatastore
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.map
 
 internal class PreferencesDataSourceDatastoreImpl(
     private val datastore: DataStore<Preferences>,
-    private val mapper: AppPreferencesMapper
+    private val mapper: AppPreferencesMapper,
 ) : PreferencesDataSourceDatastore {
     override suspend fun updatePreferences(preferences: AppPreferencesRepo, userId: String) {
         datastore.edit {
@@ -31,10 +29,8 @@ internal class PreferencesDataSourceDatastoreImpl(
             mapper.toRepo(Gson().fromJson(result, AppPreferenceDatastore::class.java))
         }
 
-
     private fun createDefaultPreferences(): AppPreferenceDatastore =
         AppPreferenceDatastore(false, null, false, null)
 
     private fun getPreferenceKey(param: String) = stringPreferencesKey("prefkey_$param")
-
 }

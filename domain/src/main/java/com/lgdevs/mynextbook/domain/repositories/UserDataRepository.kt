@@ -10,6 +10,6 @@ interface UserDataRepository {
     suspend fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>>
 
     suspend fun getCurrentUser(): Flow<ApiResult<User>>
-    suspend fun updatePreferences(email: String): Flow<Unit>
+    suspend fun updatePreferences(email: String): Unit
     suspend fun loadPreferences(): Flow<String>
 }

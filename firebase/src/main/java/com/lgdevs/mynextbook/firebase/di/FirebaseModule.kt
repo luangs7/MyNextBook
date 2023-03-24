@@ -25,7 +25,5 @@ val firebaseModule = module {
     single { FirebaseFirestoreQueryImpl() as CloudServicesRealTimeDatabase }
     single { FirebaseInAppImpl() as CloudServicesInApp }
     single { FirebaseAuthImpl() as CloudServicesAuth }
-
-
     single { FirebaseAnalytics.getInstance(get()) }
 }

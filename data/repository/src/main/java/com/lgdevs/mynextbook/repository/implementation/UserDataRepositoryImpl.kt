@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flow
 
 internal class UserDataRepositoryImpl(
     private val userDataRepositoryImpl: UserDataSourceDatastore,
-    private val cloudServicesAuth: CloudServicesAuth
+    private val cloudServicesAuth: CloudServicesAuth,
 ) : UserDataRepository {
     override suspend fun doLogin(params: LoginParam): Flow<ApiResult<Boolean>> = flow {
         emit(ApiResult.Loading)
@@ -32,7 +32,6 @@ internal class UserDataRepositoryImpl(
             }
     }
 
-
     override suspend fun getCurrentUser(): Flow<ApiResult<User>> = flow {
         emit(ApiResult.Loading)
         cloudServicesAuth.currentUser()
@@ -44,7 +43,7 @@ internal class UserDataRepositoryImpl(
             }
     }
 
-    override suspend fun updatePreferences(email: String): Flow<Unit> {
+    override suspend fun updatePreferences(email: String) {
         return userDataRepositoryImpl.updateEmail(email)
     }
 
@@ -52,7 +51,7 @@ internal class UserDataRepositoryImpl(
         return userDataRepositoryImpl.loadPreferences()
     }
 
-    override suspend fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>> = flow{
+    override suspend fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>> = flow {
         emit(ApiResult.Loading)
         cloudServicesAuth.signInWithProvider(token)
             .catch { emit(ApiResult.Error(it)) }
