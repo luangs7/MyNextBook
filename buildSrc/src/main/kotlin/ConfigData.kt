@@ -22,6 +22,9 @@ object Modules{
     const val navigation = ":libraries:navigation"
     const val tests = ":libraries:tests"
     const val split = ":libraries:splitfeature"
+    const val cloudservices = ":cloudservices"
+    const val firebase = ":firebase"
+    const val observer = ":libraries:observer"
 }
 
 object Features {
@@ -29,4 +32,5 @@ object Features {
     const val preferences = ":features:preferences"
     const val home = ":features:home"
     const val finder = ":features:finder"
+    const val login = ":features:login"
 }

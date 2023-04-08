@@ -1,28 +1,28 @@
 package com.lgdevs.mynextbook.finder.preview.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.AddFavoriteBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetPreferences
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetRandomBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
+import com.lgdevs.mynextbook.domain.interactor.implementation.AddFavoriteBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetPreferencesUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetRandomBookUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.lgdevs.mynextbook.extensions.collectIfSuccess
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class PreviewViewModel(
-    private val getPreferences: GetPreferences,
-    private val getRandomBook: GetRandomBook,
-    private val addFavoriteBook: AddFavoriteBook,
-    private val removeBookFromFavorite: RemoveBookFromFavorite,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val getPreferences: GetPreferencesUseCase,
+    private val getRandomBook: GetRandomBookUseCase,
+    private val addFavoriteBook: AddFavoriteBookUseCase,
+    private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase,
+    private val getCurrentUser: GetUserUseCase,
+    private val dispatcher: CoroutineDispatcherProvider,
 ) : ViewModel() {
 
     private val itemFavoriteSharedFlow: MutableSharedFlow<Book> = MutableSharedFlow(replay = 1)
@@ -36,16 +36,17 @@ class PreviewViewModel(
         getRandomBook().catch { emit(ViewState.Error(it)) }
     }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-
     fun randomBook() = itemRandomSharedFlow.tryEmit(Unit)
 
     private fun getRandomBook(): Flow<ViewState<Book>> = flow {
-        getPreferences.execute(Unit).transform { preferences ->
-            getRandomBook.execute(preferences).collect { emit(it) }
-        }.collect {
-            this.emit(afterGetRandomBook(it))
+        getCurrentUser().collectIfSuccess { user ->
+            getPreferences(user.uuid).transform { preferences ->
+                getRandomBook(preferences).collect { emit(it) }
+            }.collect {
+                this.emit(afterGetRandomBook(it))
+            }
         }
-    }.flowOn(dispatcher)
+    }.flowOn(dispatcher.invoke())
 
     private fun afterGetRandomBook(apiResult: ApiResult<Book>): ViewState<Book> {
         return when (apiResult) {
@@ -57,17 +58,18 @@ class PreviewViewModel(
         }
     }
 
-
     fun itemFavoriteBook(book: Book) = itemFavoriteSharedFlow.tryEmit(book)
 
     private fun handleBook(item: Book) = flow {
-        if (item.isFavorited) {
-            removeBookFromFavorite.execute(item).collect {
-                emit(afterRemoveFavoriteBook(it))
-            }
-        } else {
-            addFavoriteBook.execute(item).collect {
-                emit(afterAddFavoriteBook(it))
+        getCurrentUser().collectIfSuccess { response ->
+            if (item.isFavorited) {
+                removeBookFromFavorite(item).collect {
+                    emit(afterRemoveFavoriteBook(it))
+                }
+            } else {
+                addFavoriteBook(item, response).collect {
+                    emit(afterAddFavoriteBook(it))
+                }
             }
         }
     }

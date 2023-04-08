@@ -30,7 +30,7 @@ class BookDataSourceLocalImplTest {
     private lateinit var db: BookDatabase
     private lateinit var dataSource: BookDataSourceLocal
     private val mapper: BookEntityMapper by lazy { BookEntityMapper() }
-
+    private val userId = Random.nextInt(99).toString()
     @Before
     public fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -46,8 +46,8 @@ class BookDataSourceLocalImplTest {
     @Test
     fun whenSaveBookInFavorites_shouldSaveInLocalDatabase() = runTest {
         val book = BookData(Random.nextInt().toString())
-        dataSource.setFavoriteBook(book).collectLatest {
-            val list = dataSource.getFavoritesBooks().toList().last()
+        dataSource.setFavoriteBook(book, userId).collectLatest {
+            val list = dataSource.getFavoritesBooks(userId).toList().last()
             assert(list.isNotEmpty())
         }
     }
@@ -55,9 +55,9 @@ class BookDataSourceLocalImplTest {
     @Test
     fun whenDeleteBookInFavorites_shouldAlsoDeleteInLocalDatabase() = runTest {
         val book = BookData(Random.nextInt().toString())
-        dataSource.setFavoriteBook(book).collectLatest {
+        dataSource.setFavoriteBook(book, userId).collectLatest {
             dataSource.removeFavoriteBook(book).collectLatest {
-                val list = dataSource.getFavoritesBooks().toList().last()
+                val list = dataSource.getFavoritesBooks(userId).toList().last()
                 assert(list.isEmpty())
             }
         }
@@ -65,7 +65,7 @@ class BookDataSourceLocalImplTest {
 
     @Test
     fun whenLocalDatabaseIsEmpty_shouldReturnEmptyState() = runTest {
-        val list = dataSource.getFavoritesBooks().toList().last()
+        val list = dataSource.getFavoritesBooks(userId).toList().last()
         assert(list.isEmpty())
     }
 }

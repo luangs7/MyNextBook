@@ -28,3 +28,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+
+# Android private key
+*.pepk

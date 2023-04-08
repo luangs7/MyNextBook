@@ -4,6 +4,7 @@ import androidx.compose.material.Typography
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -53,7 +54,8 @@ val linked = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 14.sp,
-    color = Color.Blue
+    color = Color.White,
+    fontStyle = FontStyle.Italic
 )
 
 val dialogButton = TextStyle(
@@ -114,4 +116,11 @@ val listTitleStyle = TextStyle(
     fontSize = 14.sp,
     color = Color.White.copy(alpha = 0.5f),
     textAlign = TextAlign.Center
+)
+
+val errorStyle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 14.sp,
+    color = Color.Red
 )

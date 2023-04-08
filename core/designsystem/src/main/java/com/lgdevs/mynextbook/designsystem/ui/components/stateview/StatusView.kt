@@ -27,7 +27,8 @@ fun StatusView(
         ) {
             LottieView(
                 resId = stateParam.animation,
-                modifier = Modifier.size(180.dp)
+                modifier = Modifier.size(180.dp),
+                iterations = 1
             )
             stateParam.description?.let {
                 Text(

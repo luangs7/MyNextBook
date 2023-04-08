@@ -26,7 +26,7 @@ fun LoadFeature(
         remember(featureName) { isFeatureInstalled(manager = manager, featureName = featureName) }
     val initialState =
         remember(featureName) { if (isFeatureReady) SplitState.FeatureReady else SplitState.RequestDownload }
-    val state = rememberSaveable(featureName) { mutableStateOf(initialState) }
+    val state = remember(featureName) { mutableStateOf(initialState) }
     var statesHasChanged: Boolean by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = state.value) { statesHasChanged = true }
@@ -56,7 +56,7 @@ fun LoadFeature(
 
 @Composable
 internal fun LoadError(onDismiss: () -> Unit) {
-    var isDialogOpen by rememberSaveable { mutableStateOf(true) }
+    var isDialogOpen by remember { mutableStateOf(true) }
 
     val arguments = DialogArguments(
         title = stringResource(id = R.string.confirmation_install_error_title),

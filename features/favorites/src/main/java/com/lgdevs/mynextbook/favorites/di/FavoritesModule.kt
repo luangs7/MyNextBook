@@ -12,5 +12,5 @@ private val loadFeatureModules by lazy {
 }
 
 val favoritesModule = module {
-    viewModel { FavoritesViewModel(get(), get()) }
+    viewModel { FavoritesViewModel(get(), get(), get(), get()) }
 }

@@ -1,11 +1,16 @@
-import extensions.*
+import extensions.addCommonDependencies
+import extensions.addComposeConfig
+import extensions.addComposeDependencies
+import extensions.addCoroutinesDependencies
+import extensions.addDefaultConfig
+import extensions.addKoinDependencies
+import extensions.configureBuildTypes
 
 plugins {
     id(GradlePlugin.ANDROID_APPLICATION)
     id(GradlePlugin.KOTLIN_ANDROID)
     kotlin("kapt")
 }
-
 android {
     addDefaultConfig()
     addComposeConfig()
@@ -31,6 +36,7 @@ android {
 }
 
 repositories {
+    google()
     jcenter()
 }
 
@@ -47,8 +53,12 @@ dependencies {
     implementation(project(Features.finder))
     implementation(project(Features.home))
     implementation(project(Modules.split))
+    implementation(project(Features.login))
+    implementation(project(Modules.cloudservices))
+    implementation(project(Modules.firebase))
     implementation(Dependencies.playCore)
     implementation(Dependencies.splashCore)
+    implementation(project(Modules.observer))
     addKoinDependencies()
     addCoroutinesDependencies()
     addCommonDependencies()
@@ -57,3 +67,4 @@ dependencies {
     debugApi(Compose.composeCustomview)
     debugApi(Compose.composePoolingContainer)
 }
+apply(plugin = GradlePlugin.GOOGLE_PLUGIN)

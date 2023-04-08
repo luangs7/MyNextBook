@@ -18,7 +18,7 @@ object Versions {
     const val androidxExpresso = "3.3.0"
     const val androidxCore = "1.4.0"
     const val mockK = "1.12.4"
-    const val coroutines = "1.6.0"
+    const val coroutines = "1.6.4"
     const val coreTesting = "2.0.1"
     const val composeVersion = "1.1.1"
     const val composeActivity = "1.4.0"
@@ -35,6 +35,9 @@ object Versions {
     const val composePoolingContainer = "1.0.0-rc01"
     const val composeJunit = "1.0.0-rc01"
     const val splashCore = "1.0.0-rc01"
+    const val firebaseBom = "31.1.1"
+    const val livedata = "2.5.1"
+    const val googleServices = "20.4.1"
 }
 
 object Dependencies {
@@ -59,6 +62,8 @@ object Dependencies {
     val playCore = "com.google.android.play:core:${Versions.playCore}"
     val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
     val splashCore = "androidx.core:core-splashscreen:${Versions.splashCore}"
+    val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
+    val googleAuth = "com.google.android.gms:play-services-auth:${Versions.googleServices}"
 }
 
 object Compose {
@@ -92,5 +97,15 @@ object Tests {
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     val roboletric = "org.robolectric:robolectric:${Versions.roboletric}"
     val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.composeJunit}"
+    val composeUITest = "androidx.compose.ui:ui-test-manifest:${Versions.composeVersion}"
 }
 
+object Firebase {
+    val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
+    val firebaseAuth = "com.google.firebase:firebase-auth-ktx"
+    val firebaseMessaging = "com.google.firebase:firebase-messaging-ktx"
+    val firebaseInApp = "com.google.firebase:firebase-inappmessaging-ktx"
+    val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+    val firebaseFirestore = "com.google.firebase:firebase-firestore-ktx"
+    val firebaseConfig = "com.google.firebase:firebase-config-ktx"
+}

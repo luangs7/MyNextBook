@@ -24,7 +24,7 @@ fun FavoritesItem(
     book: Book,
     onFavorite: (Book) -> Unit,
     onPreview: (Book) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val favColor by remember { mutableStateOf(Color.Red) }
 
@@ -41,7 +41,7 @@ fun FavoritesItem(
             modifier = Modifier
                 .width(100.dp)
                 .shadow(10.dp, shape = RoundedCornerShape(8.dp))
-                .height(160.dp)
+                .height(160.dp),
         )
         Text(text = book.title.orEmpty(),
             style = listTitleStyle,

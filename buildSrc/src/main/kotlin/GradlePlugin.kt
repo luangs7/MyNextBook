@@ -7,4 +7,6 @@ object GradlePlugin {
     const val KAPT = "kotlin-kapt"
     const val ANDROID_TESTS = "gradle.android-tests"
     const val DYNAMIC_FEATURE = "gradle.dynamic-feature"
+    const val GOOGLE_PLUGIN = "com.google.gms.google-services"
+    const val KTLINT_PLUGIN = "org.jlleitschuh.gradle.ktlint"
 }

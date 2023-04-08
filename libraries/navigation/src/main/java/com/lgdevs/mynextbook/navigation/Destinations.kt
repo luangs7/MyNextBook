@@ -1,6 +1,7 @@
 package com.lgdevs.mynextbook.navigation
 
 object Destinations {
+    const val Login = "login"
     const val Welcome = "welcome"
     const val Finder = "finder"
     const val Preview = "preview"
@@ -18,6 +19,7 @@ object DestinationDeepLink {
 
 
 sealed class NavigationItem(var route: String, var name: String) {
+    object Login : NavigationItem(Destinations.Login, "Login")
     object Welcome : NavigationItem(Destinations.Welcome, "Home")
     object Finder : NavigationItem(Destinations.Finder, "Finder")
     object Preview : NavigationItem(Destinations.Preview, "Preview")

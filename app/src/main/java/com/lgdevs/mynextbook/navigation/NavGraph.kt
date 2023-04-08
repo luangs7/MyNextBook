@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import com.lgdevs.mynextbook.common.helper.convertToSafeDynamicFeatureModuleIntent
 import com.lgdevs.mynextbook.finder.find.FindView
 import com.lgdevs.mynextbook.finder.preview.ui.PreviewView
+import com.lgdevs.mynextbook.login.ui.LoginView
 import com.lgdevs.mynextbook.welcome.ui.BookWelcomeView
 import com.lgdevs.splitfeature.LoadFeature
 
@@ -21,7 +22,10 @@ import com.lgdevs.splitfeature.LoadFeature
 fun NavGraph(navController: NavHostController) {
     val context = LocalContext.current
 
-    NavHost(navController, startDestination = NavigationItem.Welcome.route) {
+    NavHost(navController, startDestination = NavigationItem.Login.route) {
+        composable(NavigationItem.Login.route) {
+            LoginView(navController)
+        }
         composable(NavigationItem.Welcome.route) {
             BookWelcomeView(navController)
         }

@@ -4,15 +4,18 @@ package com.lgdevs.mynextbook.filter
 
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.AddFavoriteBook
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetFavoriteBooks
-import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetFavoriteBooksUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
+import com.lgdevs.mynextbook.domain.model.User
 import com.lgdevs.mynextbook.favorites.FavoritesViewModel
 import com.lgdevs.mynextbook.tests.BaseTest
 import com.lgdevs.mynextbook.tests.toScope
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -21,33 +24,47 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
+import kotlin.random.Random
 
 class FavoritesViewModelTest : BaseTest() {
-    private val getFavoriteBook: GetFavoriteBooks = mockk()
-    private val removeBookFromFavorite: RemoveBookFromFavorite = mockk()
+    private val getFavoriteBook: GetFavoriteBooksUseCase = mockk()
+    private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase = mockk()
+    private val getCurrentUser: GetUserUseCase = mockk()
+    private val coroutinesDispatcher: CoroutineDispatcherProvider = mockk()
     private val viewModel: FavoritesViewModel by lazy {
         FavoritesViewModel(
             getFavoriteBook,
             removeBookFromFavorite,
-            testDispatcher
+            getCurrentUser,
+            coroutinesDispatcher,
         )
+    }
+
+    private val userId = Random.nextInt().toString()
+    private val user = User(userId, "Teste", "teste@adbc.com", null)
+
+    @Before
+    fun init() {
+        every { coroutinesDispatcher.invoke() } returns testDispatcher
     }
 
     @Test
     fun `when getFavoriteItems() is called and the user has favorited books, should return items with success`() = runTest {
-        coEvery { getFavoriteBook.execute(Unit) } returns flow {
+        coEvery { getFavoriteBook(userId) } returns flow {
             emit(ApiResult.Loading)
             emit(ApiResult.Success(listOf(Book(id = "1234", isFavorited = true))))
         }
 
+        coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
         val emittedResults = mutableListOf<ViewState<List<Book>>>()
         viewModel.getFavoriteItems().onEach(emittedResults::add)
             .launchIn(testScheduler.toScope())
 
         runCurrent()
 
-        coVerify(exactly = 1) { getFavoriteBook.execute(Unit) }
+        coVerify(exactly = 1) { getFavoriteBook(any()) }
 
         assert(emittedResults.size == 2)
         assert(emittedResults.first() is ViewState.Loading)
@@ -56,10 +73,11 @@ class FavoritesViewModelTest : BaseTest() {
 
     @Test
     fun `when getFavoriteItems() is called and the user has not favorited books, should return empty`() = runTest {
-        coEvery { getFavoriteBook.execute(Unit) } returns flow {
+        coEvery { getFavoriteBook(userId) } returns flow {
             emit(ApiResult.Loading)
             emit(ApiResult.Empty)
         }
+        coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
         val emittedResults = mutableListOf<ViewState<List<Book>>>()
         viewModel.getFavoriteItems().onEach(emittedResults::add)
@@ -67,7 +85,7 @@ class FavoritesViewModelTest : BaseTest() {
 
         runCurrent()
 
-        coVerify(exactly = 1) { getFavoriteBook.execute(Unit) }
+        coVerify(exactly = 1) { getFavoriteBook(any()) }
 
         assert(emittedResults.size == 2)
         assert(emittedResults.first() is ViewState.Loading)
@@ -76,12 +94,13 @@ class FavoritesViewModelTest : BaseTest() {
 
     @Test
     fun `when getFavoriteItems() is called and an exception occurs, should return error`() = runTest {
-        coEvery { getFavoriteBook.execute(Unit) } throws Exception()
+        coEvery { getFavoriteBook(userId) } throws Exception()
+        coEvery { getCurrentUser() } returns flow { emit(ApiResult.Success(user)) }
 
         val emittedResults = viewModel.getFavoriteItems().toList()
         runCurrent()
 
-        coVerify(exactly = 1) { getFavoriteBook.execute(Unit) }
+        coVerify(exactly = 1) { getFavoriteBook(any()) }
 
         assert(emittedResults.size == 1)
         assert(emittedResults.last() is ViewState.Error)
@@ -91,7 +110,7 @@ class FavoritesViewModelTest : BaseTest() {
     fun `when removeItem() is called and book is favorite, should call removeBookFromFavorite with result success`() =
         runTest {
             coEvery {
-                removeBookFromFavorite.execute(any())
+                removeBookFromFavorite(any())
             } returns flow {
                 emit(ApiResult.Loading)
                 emit(ApiResult.Success(Unit))
@@ -103,7 +122,7 @@ class FavoritesViewModelTest : BaseTest() {
 
             runCurrent()
 
-            coVerify(exactly = 1) { removeBookFromFavorite.execute(any()) }
+            coVerify(exactly = 1) { removeBookFromFavorite(any()) }
 
             assert(emittedResults.size == 2)
             assert(emittedResults.first() is ApiResult.Loading)
