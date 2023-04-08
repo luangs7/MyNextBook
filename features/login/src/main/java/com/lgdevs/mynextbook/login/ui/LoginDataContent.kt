@@ -29,9 +29,8 @@ import com.lgdevs.mynextbook.signup.SignupModal
 fun LoginDataContent(
     emailState: MutableState<TextInputState>,
     passwordState: MutableState<TextInputState>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     var requestDialog by remember { mutableStateOf(false) }
 
     if (requestDialog) {
@@ -41,14 +40,14 @@ fun LoginDataContent(
     }
 
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         TextInputField(
             label = stringResource(id = R.string.email_field),
             fieldState = emailState,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = 16.dp)
+                .padding(all = 16.dp),
         ) {
             emailState.value = TextInputState.Default(TextFieldValue(it.text))
         }
@@ -58,18 +57,20 @@ fun LoginDataContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
         ) {
             passwordState.value = TextInputState.Default(TextFieldValue(it.text))
         }
         Text(
-            text = stringResource(id = R.string.signup), style = linked, textAlign = TextAlign.End,
+            text = stringResource(id = R.string.signup),
+            style = linked,
+            textAlign = TextAlign.End,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp, end = 16.dp)
                 .clickable {
                     requestDialog = true
-                }
+                },
         )
     }
 }

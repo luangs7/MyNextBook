@@ -28,18 +28,17 @@ class FirebaseAuthImpl : CloudServicesAuth, KoinComponent {
         emit(methods.isNullOrEmpty().not())
     }
 
-    override suspend fun currentUser(): Flow<CurrentUser?> = flow{
+    override suspend fun currentUser(): Flow<CurrentUser?> = flow {
         auth.currentUser?.let {
             emit(
                 CurrentUser(
                     it.uid,
                     it.displayName.orEmpty(),
                     it.email.orEmpty(),
-                    it.photoUrl
-                )
+                    it.photoUrl,
+                ),
             )
         } ?: kotlin.run { emit(null) }
-
     }
 
     override suspend fun signOut(): Flow<Unit> = flow {

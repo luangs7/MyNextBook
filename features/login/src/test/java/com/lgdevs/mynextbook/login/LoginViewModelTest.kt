@@ -8,6 +8,7 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginWithTokenUs
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetEmailLoginUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.SetEmailLoginUseCase
+import com.lgdevs.mynextbook.login.holder.cloudservices.CloudServicesHolder
 import com.lgdevs.mynextbook.login.viewmodel.LoginViewModel
 import com.lgdevs.mynextbook.remoteconfig.LOGIN_WITH_GOOGLE_BUTTON
 import io.mockk.coEvery

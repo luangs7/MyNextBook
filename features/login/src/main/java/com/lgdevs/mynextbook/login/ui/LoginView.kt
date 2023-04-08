@@ -21,7 +21,7 @@ typealias OnLoginLoading = (Boolean) -> Unit
 @Composable
 fun LoginView(
     navController: NavController,
-    viewModel: LoginViewModel = getViewModel()
+    viewModel: LoginViewModel = getViewModel(),
 ) {
     val userState = viewModel.userFlow.collectAsState(initial = ViewState.Loading)
     var hasRedirected by remember { mutableStateOf(false) }
@@ -30,7 +30,8 @@ fun LoginView(
     Crossfade(targetState = userState) { state ->
         when (state.value) {
             ViewState.Empty,
-            is ViewState.Error -> {
+            is ViewState.Error,
+            -> {
                 Login(navController, viewModel)
             }
 
@@ -47,7 +48,7 @@ fun LoginView(
 @Composable
 private fun Login(
     navController: NavController,
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel,
 ) {
     viewModel.onGetEmail().collectAsState(initial = null).value?.let {
         MyNextBookTheme {
@@ -58,7 +59,7 @@ private fun Login(
 
 @Preview(
     showBackground = true,
-    showSystemUi = true
+    showSystemUi = true,
 )
 @Composable
 private fun LoginPreview() {

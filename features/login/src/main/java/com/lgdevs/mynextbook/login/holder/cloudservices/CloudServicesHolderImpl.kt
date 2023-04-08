@@ -1,4 +1,4 @@
-package com.lgdevs.mynextbook.login
+package com.lgdevs.mynextbook.login.holder.cloudservices
 
 import com.lgdevs.mynextbook.cloudservices.analytics.CloudServicesAnalytics
 import com.lgdevs.mynextbook.cloudservices.remoteconfig.CloudServicesRemoteConfig
