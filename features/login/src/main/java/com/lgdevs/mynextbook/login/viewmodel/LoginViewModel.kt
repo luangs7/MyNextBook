@@ -57,7 +57,8 @@ class LoginViewModel(
                         loginAnalytics.run {
                             it.data?.let { user ->
                                 setUserId(user.uuid)
-                                loginAnalytics.onEvent(LoginAnalytics.LOGIN_USER, createParams(user))
+                                setUserParameters(createParams(user))
+                                loginAnalytics.onEvent(LoginAnalytics.LOGIN_USER, Bundle.EMPTY)
                             }
                         }
                         ViewState.Success(it.data)
