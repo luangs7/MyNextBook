@@ -9,13 +9,13 @@ on:
       - main
       - develop
 
-extends:
-  - ./.github/workflows/pre_checker.yml
 
 jobs:
   deploy:
     needs: [ test ]
     runs-on: ubuntu-latest
+    extends:
+      - ./.github/workflows/pre_checker.yml
     steps:
       - name: Checkout
         uses: actions/checkout@v2
