@@ -47,17 +47,21 @@ fun CommonExtension<*, *, *, *>.configureBuildTypes() {
 
     productFlavors {
         create("prod") {
-            buildConfigField("Boolean","IS_MOCK","false")
+            buildConfigField("Boolean", "IS_MOCK", "false")
             dimension = "api"
         }
 
-        create("mock"){
-            buildConfigField("Boolean","IS_MOCK","true")
+        create("dev") {
+            buildConfigField("Boolean", "IS_MOCK", "false")
+            dimension = "api"
+        }
+
+        create("mock") {
+            buildConfigField("Boolean", "IS_MOCK", "true")
             dimension = "api"
         }
         forEach {
-            it.buildConfigField("String","API_URL","\"https://www.googleapis.com/books/v1/\"")
+            it.buildConfigField("String", "API_URL", "\"https://www.googleapis.com/books/v1/\"")
         }
     }
 }
-

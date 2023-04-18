@@ -1,0 +1,55 @@
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - develop
+
+extends:
+  - ./.github/workflows/pre_checker.yml
+
+jobs:
+  deploy:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download Firebase Token
+        uses: supercharge/firebase-action@v1.10.0
+        with:
+          args: "use --token '$(cat firebase-token.json)'"
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Set flavor based on branch name
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/master" ]]; then
+            FLAVOR="prod"
+          elif [[ "$GITHUB_REF" == "refs/heads/develop" ]]; then
+            FLAVOR="dev"
+          else
+            FLAVOR="mock"
+          fi
+            echo "::set-env name=FLAVOR::$FLAVOR"
+
+      - name: Build Release APK
+        run: ./gradlew assemble${{ env.FLAVOR }}
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
+        with:
+          appId:  ${{ secrets.FIREBASE_APP_ID }}
+          releaseNotesFile: app/src/main/play/release-notes/en-US/default.txt
+          groups: internal-testers
+          apkPath: app/build/outputs/apk/release/app-release.apk
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
