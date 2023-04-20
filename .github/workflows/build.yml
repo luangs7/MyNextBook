@@ -32,9 +32,11 @@ jobs:
                 ;;
             esac
             echo "Flavor: $FLAVOR"
-          
-      - name: Get google-services.json from secrets
-        run: echo -n "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+
+      - name: Get google-services.json from
+        env:
+          MY_SECRET: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo -n "$MY_SECRET"
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
