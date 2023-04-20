@@ -19,12 +19,17 @@ jobs:
 
       - name: Set flavor based on branch name
         run: |
-          if [[ "$GITHUB_REF" == "refs/heads/master" ]]; then
-            FLAVOR="ProdRelease"
-          elif [[ "$GITHUB_REF" == "feature/*" ]]; then
-            FLAVOR="DevRelease"
-          else
-            FLAVOR="MockRelease"
+              case ${{ github.ref }} in
+                refs/heads/master)
+                FLAVOR="ProdRelease"
+              ;;
+              refs/heads/feature/*)
+                FLAVOR="DevRelease"
+              ;;
+              *)
+              FLAVOR="MockRelease"
+              ;;
+            echo "Flavor: $FLAVOR"
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
