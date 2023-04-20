@@ -32,9 +32,12 @@ jobs:
                 ;;
             esac
             echo "Flavor: $FLAVOR"
-      - name: Set up Google Services JSON
+      - name: Setup Google Services JSON
+        env:
+            GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+            echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
+            echo ${{ secrets.GOOGLE_SERVICES_JSON }}
       - name: Setup Java JDK
         uses: actions/setup-java@v1
         with:
@@ -98,8 +101,6 @@ jobs:
 
       - name: Build Release APK
         run: ./gradlew assemble${{ env.FLAVOR }}
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
