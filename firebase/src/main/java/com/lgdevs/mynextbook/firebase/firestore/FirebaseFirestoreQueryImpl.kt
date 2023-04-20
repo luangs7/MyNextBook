@@ -17,7 +17,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
         collection: String,
         reference: String,
         value: String,
-        objectType: Class<T>
+        objectType: Class<T>,
     ): MediatorLiveData<List<T>> {
         val mediatorLiveData = MediatorLiveData<List<T>>()
 
@@ -26,7 +26,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
             FirebaseQueryLiveData(collectionReference.whereEqualTo(reference, value))
 
         mediatorLiveData.addSource(firebaseQueryLiveData) {
-            mediatorLiveData.postValue(it.toObjects(objectType))
+            mediatorLiveData.postValue(it?.toObjects(objectType))
         }
 
         return mediatorLiveData
@@ -35,7 +35,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
     override fun <T> getDocumentById(
         collection: String,
         documentId: String,
-        objectType: Class<T>
+        objectType: Class<T>,
     ): MediatorLiveData<T> {
         val mediatorLiveData = MediatorLiveData<T>()
 
@@ -44,7 +44,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
             FirebaseDocumentLiveData(collectionReference.document(documentId))
 
         mediatorLiveData.addSource(firebaseDocumentLiveData) {
-            mediatorLiveData.postValue(it.toObject(objectType))
+            mediatorLiveData.postValue(it?.toObject(objectType))
         }
 
         return mediatorLiveData

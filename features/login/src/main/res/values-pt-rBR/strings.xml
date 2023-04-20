@@ -6,7 +6,7 @@
     <string name="signup">Cadastrar nova conta</string>
     <string name="email_field">Email</string>
     <string name="password_field">Senha</string>
-    <string name="confirmation_button">Ok</string>
+    <string name="confirmation_button">OK</string>
     <string name="signup_title">Cadastre-se</string>
     <string name="signup_description">Para se cadastrar, basta digitar um email e uma senha na tela de login e seu cadastro será feito automaticamente.</string>
 </resources>

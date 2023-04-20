@@ -11,6 +11,52 @@ on:
 
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set flavor based on branch name
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/master" ]]; then
+            FLAVOR="prod"
+          elif [[ "$GITHUB_REF" == "refs/heads/develop" ]]; then
+            FLAVOR="dev"
+          else
+            FLAVOR="mock"
+          fi
+            echo "::set-env name=FLAVOR::$FLAVOR"
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Build Lint
+        run: ./gradlew lint${{ env.FLAVOR }}
+
+      - name: Upload Build Lint Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: app/build/reports/lint-results-debug.html
+
+  test:
+    needs: [ lint ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Unit Tests
+        run: ./gradlew test${{ env.FLAVOR }}
+
+      - name: Upload Unit Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: app/build/reports/tests/testDebugUnitTest/
   deploy:
     needs: [ test ]
     runs-on: ubuntu-latest
@@ -29,18 +75,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: Set flavor based on branch name
-        run: |
-          if [[ "$GITHUB_REF" == "refs/heads/master" ]]; then
-            FLAVOR="prod"
-          elif [[ "$GITHUB_REF" == "refs/heads/develop" ]]; then
-            FLAVOR="dev"
-          else
-            FLAVOR="mock"
-          fi
-            echo "::set-env name=FLAVOR::$FLAVOR"
-
       - name: Build Release APK
         run: ./gradlew assemble${{ env.FLAVOR }}
 

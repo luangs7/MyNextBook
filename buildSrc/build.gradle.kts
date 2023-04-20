@@ -14,3 +14,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     implementation("com.google.gms:google-services:4.3.15")
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xopt-in=requires-opt-in")
+        jvmTarget = "1.8"
+    }
+}

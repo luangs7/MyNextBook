@@ -12,10 +12,10 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.extensions.collectIfSuccess
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
-@OptIn(FlowPreview::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class PreviewViewModel(
     private val getPreferences: GetPreferencesUseCase,
     private val getRandomBook: GetRandomBookUseCase,

@@ -15,17 +15,17 @@ internal class UserDataRepositoryImpl(
     private val userDataRepositoryImpl: UserDataSourceDatastore,
     private val cloudServicesAuth: CloudServicesAuth,
 ) : UserDataRepository {
-    override suspend fun doLogin(params: LoginParam): Flow<ApiResult<Boolean>> = flow {
+    override suspend fun doLogin(loginParam: LoginParam): Flow<ApiResult<Boolean>> = flow {
         emit(ApiResult.Loading)
-        cloudServicesAuth.isUserRegistered(params.email)
+        cloudServicesAuth.isUserRegistered(loginParam.email)
             .catch { emit(ApiResult.Error(it)) }
             .collect { isRegistered ->
                 if (isRegistered) {
-                    cloudServicesAuth.signIn(params.email, params.password)
+                    cloudServicesAuth.signIn(loginParam.email, loginParam.password)
                         .catch { emit(ApiResult.Error(it)) }
                         .collect { emit(ApiResult.Success(it)) }
                 } else {
-                    cloudServicesAuth.signUp(params.email, params.password)
+                    cloudServicesAuth.signUp(loginParam.email, loginParam.password)
                         .catch { emit(ApiResult.Error(it)) }
                         .collect { emit(ApiResult.Success(it)) }
                 }
