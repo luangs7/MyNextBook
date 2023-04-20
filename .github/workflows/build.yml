@@ -49,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-            
+
       - name: Build Lint
         run: ./gradlew lint${{ env.FLAVOR }}
 
@@ -58,7 +58,9 @@ jobs:
         with:
           name: report
           path: app/build/reports/lint-results-debug.html
-
+      - name: Set up Google Services JSON
+        run: |
+          echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
   test:
     needs: [lint]
     runs-on: ubuntu-latest
