@@ -34,7 +34,8 @@ jobs:
             echo "Flavor: $FLAVOR"
 
       - name: Get google-services.json from
-        run: echo -n "${ secrets.GOOGLE_SERVICES_JSON }"
+        run: |
+          echo "The value of GOOGLE_SERVICES_JSON (Base64) is: $(echo -n "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64)"
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
