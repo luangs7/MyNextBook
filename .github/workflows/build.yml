@@ -20,19 +20,18 @@ jobs:
 
       - name: Set flavor based on branch name
         run: |
-          case ${{ github.ref }} in
-            refs/heads/main)
-              FLAVOR="ProdRelease"
-              ;;
-            refs/heads/feature/*)
-              FLAVOR="DevRelease"
-              ;;
-            *)
-              FLAVOR="MockRelease"
-              ;;
-          echo "Flavor: $FLAVOR"
-        env:
-          FLAVOR: ${{ env.FLAVOR }}
+            case ${{ github.ref }} in
+              refs/heads/master)
+                FLAVOR="ProdRelease"
+                ;;
+              refs/heads/feature/*)
+                FLAVOR="DevRelease"
+                ;;
+              *)
+                FLAVOR="MockRelease"
+                ;;
+            esac
+            echo "Flavor: $FLAVOR"
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
