@@ -1,14 +1,15 @@
+name: Build, Test and Deploy App
+
 on:
   push:
     branches:
       - main
       - develop
-      - feature/*
+      - 'feature/*'
   pull_request:
     branches:
       - main
       - develop
-
 
 jobs:
   lint:
@@ -19,17 +20,19 @@ jobs:
 
       - name: Set flavor based on branch name
         run: |
-              case ${{ github.ref }} in
-                refs/heads/master)
-                FLAVOR="ProdRelease"
+          case ${{ github.ref }} in
+            refs/heads/main)
+              FLAVOR="ProdRelease"
               ;;
-              refs/heads/feature/*)
-                FLAVOR="DevRelease"
+            refs/heads/feature/*)
+              FLAVOR="DevRelease"
               ;;
-              *)
+            *)
               FLAVOR="MockRelease"
               ;;
-            echo "Flavor: $FLAVOR"
+          echo "Flavor: $FLAVOR"
+        env:
+          FLAVOR: ${{ env.FLAVOR }}
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
@@ -46,7 +49,7 @@ jobs:
           path: app/build/reports/lint-results-debug.html
 
   test:
-    needs: [ lint ]
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -60,8 +63,9 @@ jobs:
         with:
           name: test-report
           path: app/build/reports/tests/testDebugUnitTest/
+
   deploy:
-    needs: [ test ]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,13 +80,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: Build Release APK
         run: ./gradlew assemble${{ env.FLAVOR }}
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
         with:
-          appId:  ${{ secrets.FIREBASE_APP_ID }}
+          appId: ${{ secrets.FIREBASE_APP_ID }}
           releaseNotesFile: app/src/main/play/release-notes/en-US/default.txt
           groups: internal-testers
           apkPath: app/build/outputs/apk/release/app-release.apk
