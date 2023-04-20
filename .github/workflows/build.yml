@@ -20,11 +20,11 @@ jobs:
       - name: Set flavor based on branch name
         run: |
           if [[ "$GITHUB_REF" == "refs/heads/master" ]]; then
-            FLAVOR="prod"
-          elif [[ "$GITHUB_REF" == "refs/heads/develop" ]]; then
-            FLAVOR="dev"
+            FLAVOR="ProdRelease"
+          elif [[ "$GITHUB_REF" == "feature/*" ]]; then
+            FLAVOR="DevRelease"
           else
-            FLAVOR="mock"
+            FLAVOR="MockRelease"
           fi
             echo "::set-env name=FLAVOR::$FLAVOR"
 
