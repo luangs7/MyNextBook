@@ -110,18 +110,12 @@ jobs:
         with:
           name: test-report
           path: app/build/reports/tests/testDebugUnitTest/
-
   deploy:
-    needs: [unit-test]
+    needs: [ unit-test ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Download Firebase Token
-        uses: supercharge/firebase-action@v1.10.0
-        with:
-          args: "use --token '$(cat firebase-token.json)'"
 
       - name: Create file
         run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
@@ -131,20 +125,18 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+      - name: Build AAB
+        run: ./gradlew bundleRelease
 
-      - name: Build AAB Homolog
-        run: ./gradlew bundleDevRelease
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools/install.sh | bash
 
-      - name: Upload APK to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
-          groups: internal-testers
-          aabPath: app/build/outputs/bundle/devRelease/app-dev-release.aab
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Authenticate Firebase CLI
+        run: firebase login:ci --token "${FIREBASE_TOKEN}"
+
+      - name: Set app name and version
+        id: set_app_name
+        run: echo ::set-env name=APP_NAME::$(grep -oP 'applicationId.*\K[\w.]+' app/build.gradle):v$(grep -oP 'versionCode.*\K\d+' app/build.gradle)
+
+      - name: Distribute AAB
+        run: firebase appdistribution:distribute app/build/outputs/bundle/release/app-release.aab --app ${{ env.APP_NAME }}
