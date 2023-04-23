@@ -18,18 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set flavor based on branch name
-        run: |
-          case ${{ github.ref }} in
-            refs/heads/feature/*)
-              FLAVOR="DevRelease"
-              ;;
-            *)
-              FLAVOR="MockRelease"
-              ;;
-          esac
-          echo "Flavor: $FLAVOR"
-
       - name: Create file
         run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
 
@@ -58,7 +46,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build AAB
-        run: ./gradlew bundle${{ env.FLAVOR }}
+        run: ./gradlew bundleDevRelease
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
@@ -66,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: app/build/outputs/bundle/devRelease/app-dev-release.aab
   coding-lint:
     needs: [build]
     runs-on: ubuntu-latest
@@ -78,10 +66,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: app-release
-          path: app/build/outputs/bundle/release
+          path: app/build/outputs/bundle/devRelease
 
       - name: Run Lint
-        run: ./gradlew lint${{ env.FLAVOR }}
+        run: ./gradlew lintDevRelease
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
@@ -107,7 +95,7 @@ jobs:
         run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
 
       - name: Run Unit Tests
-        run: ./gradlew test${{ env.FLAVOR }}
+        run: ./gradlew testDevRelease
 
       - name: Upload Unit Test Report
         uses: actions/upload-artifact@v2
@@ -141,7 +129,7 @@ jobs:
           java-version: 11
 
       - name: Build AAB Homolog
-        run: ./gradlew bundle${{ env.FLAVOR }}
+        run: ./gradlew bundleDevRelease
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
@@ -149,6 +137,6 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
           groups: internal-testers
-          aabPath: app/build/outputs/bundle/release/app-release.aab
+          aabPath: app/build/outputs/bundle/devRelease/app-dev-release.aab
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
