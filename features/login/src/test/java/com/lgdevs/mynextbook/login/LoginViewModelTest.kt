@@ -15,6 +15,7 @@ import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolder
 import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolderImpl
 import com.lgdevs.mynextbook.login.viewmodel.LoginViewModel
 import com.lgdevs.mynextbook.remoteconfig.LOGIN_WITH_GOOGLE_BUTTON
+import com.lgdevs.mynextbook.tests.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -28,7 +29,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class LoginViewModelTest {
+class LoginViewModelTest : BaseTest() {
     private val getUserUseCase = mockk<GetUserUseCase>()
     private val doLoginUseCase = mockk<DoLoginUseCase>()
     private val doLoginWithTokenUseCase = mockk<DoLoginWithTokenUseCase>()
@@ -59,19 +60,19 @@ class LoginViewModelTest {
 
     @Before
     fun before() {
+        every { dispatcherManager.invoke() } returns Dispatchers.IO
         coEvery { loginAnalytics.onEvent(any(), any()) } returns Unit
         coEvery { loginAnalytics.setUserParameters(any()) } returns Unit
         coEvery { loginAnalytics.logException(any(), any()) } returns Bundle()
         coEvery { loginAnalytics.setUserId(any()) } returns Unit
-        every { dispatcherManager.invoke() } returns Dispatchers.IO
     }
 
     @Test
     fun onGetGoogleButton() = runTest {
         coEvery { cloudServices.getRemoteConfig().fetch() } returns true
         coEvery { cloudServices.getRemoteConfig().getBoolean(LOGIN_WITH_GOOGLE_BUTTON) } returns true
-        val toggle = viewModel.showGoogleButton().first()
-        assertEquals(true, toggle)
+        val result = viewModel.showGoogleButton().first()
+        assertEquals(true, result)
     }
 
     @Test

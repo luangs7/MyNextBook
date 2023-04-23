@@ -116,7 +116,7 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/
 
   deploy:
-    needs: [test]
+    needs: [unit-test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
