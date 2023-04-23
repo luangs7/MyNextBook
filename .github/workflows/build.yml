@@ -56,7 +56,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-        persist: true
 
       - name: Build Lint
         run: ./gradlew lint${{ env.FLAVOR }}
