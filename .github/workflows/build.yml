@@ -12,7 +12,7 @@ on:
       - develop
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,15 +20,15 @@ jobs:
 
       - name: Set flavor based on branch name
         run: |
-            case ${{ github.ref }} in
-              refs/heads/feature/*)
-                FLAVOR="DevRelease"
-                ;;
-              *)
-                FLAVOR="MockRelease"
-                ;;
-            esac
-            echo "Flavor: $FLAVOR"
+          case ${{ github.ref }} in
+            refs/heads/feature/*)
+              FLAVOR="DevRelease"
+              ;;
+            *)
+              FLAVOR="MockRelease"
+              ;;
+          esac
+          echo "Flavor: $FLAVOR"
 
       - name: Create file
         run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
@@ -47,7 +47,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-            gradle-version: 6.10
+          gradle-version: 6.10
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -57,19 +57,42 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build Lint
+      - name: Build AAB
+        run: ./gradlew bundle${{ env.FLAVOR }}
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+      - name: Upload Build AAB
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/bundle/release/app-release.aab
+  coding-lint:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download Build AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/bundle/release
+
+      - name: Run Lint
         run: ./gradlew lint${{ env.FLAVOR }}
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      - name: Upload Build Lint Report
+      - name: Upload Lint Report
         uses: actions/upload-artifact@v2
         with:
           name: report
           path: app/build/reports/lint-results-debug.html
 
-  test:
-    needs: [lint]
+  unit-test:
+    needs: [coding-lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -111,7 +134,7 @@ jobs:
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
-        
+
       - name: Setup Java JDK
         uses: actions/setup-java@v1
         with:
