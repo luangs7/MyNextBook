@@ -62,6 +62,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create file
+        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
+
       - name: Download Build AAB
         uses: actions/download-artifact@v2
         with:
