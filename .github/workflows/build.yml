@@ -71,14 +71,14 @@ jobs:
   test:
     needs: [lint]
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Run Unit Tests
         run: ./gradlew test${{ env.FLAVOR }}
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
       - name: Upload Unit Test Report
         uses: actions/upload-artifact@v2
@@ -89,6 +89,8 @@ jobs:
   deploy:
     needs: [test]
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -105,9 +107,7 @@ jobs:
 
       - name: Build AAB Homolog
         run: ./gradlew bundle${{ env.FLAVOR }}
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-
+      
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.1
         with:
