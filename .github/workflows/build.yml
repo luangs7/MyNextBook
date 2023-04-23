@@ -39,7 +39,7 @@ jobs:
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/<Project-Name>/<Project-Name>/app/google-services.json
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
 
 
       - name: Setup Java JDK
