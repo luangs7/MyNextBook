@@ -40,7 +40,7 @@ class LoginViewModel(
     }.flowOn(dispatcher.invoke())
     init {
         viewModelScope.launch {
-            loginAnalytics.onEvent(LoginAnalytics.LOGIN_SCREEN_VIEW, Bundle.EMPTY)
+            loginAnalytics.onEvent(LoginAnalytics.LOGIN_SCREEN_VIEW, Bundle())
         }
     }
 
@@ -54,12 +54,7 @@ class LoginViewModel(
                     is ApiResult.Error -> ViewState.Error(it.error)
                     ApiResult.Loading -> ViewState.Loading
                     is ApiResult.Success -> {
-                        loginAnalytics.run {
-                            it.data?.let { user ->
-                                setUserId(user.uuid)
-                                loginAnalytics.onEvent(LoginAnalytics.LOGIN_USER, createParams(user))
-                            }
-                        }
+                        setUserProperties(it.data)
                         ViewState.Success(it.data)
                     }
                 }
@@ -68,7 +63,7 @@ class LoginViewModel(
     }.flowOn(dispatcher.invoke())
 
     suspend fun doLogin(email: String, password: String): Flow<ViewState<Boolean>> = flow<ViewState<Boolean>> {
-        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER, Bundle.EMPTY)
+        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER, Bundle())
         loginInteractorHolder.getLoginUseCase().invoke(LoginParam(email, password))
             .catch { emit(ViewState.Error(it)) }
             .collect {
@@ -81,6 +76,8 @@ class LoginViewModel(
                     ApiResult.Loading -> ViewState.Loading
                     is ApiResult.Success -> {
                         loginInteractorHolder.getSaveEmailUseCase().invoke(email)
+                        onGetUser()
+                        loginAnalytics.onEvent("LoginEMAIL", Bundle().also { it.putString("email", email) })
                         ViewState.Success(it.data ?: false)
                     }
                 }
@@ -90,7 +87,7 @@ class LoginViewModel(
     }.flowOn(dispatcher.invoke())
 
     suspend fun doLoginWithToken(email: String, token: String): Flow<ViewState<Boolean>> = flow<ViewState<Boolean>> {
-        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER_GOOGLE, Bundle.EMPTY)
+        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER_GOOGLE, Bundle())
         loginInteractorHolder.getLoginWithTokenUseCase().invoke(token)
             .catch { emit(ViewState.Error(it)) }
             .collect {
@@ -103,6 +100,8 @@ class LoginViewModel(
                     ApiResult.Loading -> ViewState.Loading
                     is ApiResult.Success -> {
                         loginInteractorHolder.getSaveEmailUseCase().invoke(email)
+                        onGetUser()
+                        loginAnalytics.onEvent("LoginEMAIL", Bundle().also { it.putString("email", email) })
                         ViewState.Success(it.data ?: false)
                     }
                 }
@@ -116,4 +115,13 @@ class LoginViewModel(
             emit(getBoolean(LOGIN_WITH_GOOGLE_BUTTON))
         }
     }.flowOn(dispatcher.invoke())
+
+    private suspend fun setUserProperties(user: User?) {
+        loginAnalytics.run {
+            user?.let { user ->
+                setUserId(user.uuid)
+                loginAnalytics.setUserParameters(createParams(user))
+            }
+        }
+    }
 }
