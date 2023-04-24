@@ -73,7 +73,7 @@ jobs:
       - name: Download Build AAB
         uses: actions/download-artifact@v2
         with:
-          name: app-release
+          name: app-dev-release
           path: app/build/outputs/bundle/devRelease
 
       - name: Run Lint
@@ -125,12 +125,11 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
 
-      - name: Build AAB
-        run: ./gradlew bundleRelease
-
-      - name: Set app name and version
-        id: set_app_name
-        run: echo ::set-env name=APP_NAME::$(grep -oP 'applicationId.*\K[\w.]+' app/build.gradle):v$(grep -oP 'versionCode.*\K\d+' app/build.gradle)
+      - name: Download Build AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-dev-release
+          path: app/build/outputs/bundle/devRelease
 
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
