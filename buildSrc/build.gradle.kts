@@ -21,9 +21,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xopt-in=requires-opt-in")
     }
 }
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-}
 
 sonarqube {
     properties {
