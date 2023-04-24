@@ -1,6 +1,6 @@
 
 object ConfigData {
-    const val compileSdkVersion = 32
+    const val compileSdkVersion = 33
     const val buildToolsVersion = "32.0.0"
     const val minSdkVersion = 24
     const val targetSdkVersion = 32
@@ -10,7 +10,7 @@ object ConfigData {
     const val applicationId = "com.lgdevs.mynextbook"
 }
 
-object Modules{
+object Modules {
     const val app = ":app"
     const val common = ":core:common"
     const val local = ":data:remote"
