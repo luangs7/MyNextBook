@@ -24,8 +24,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "luangs7_MyNextBook")
         property("sonar.organization", "luangs7")
+        property("sonar.projectKey", "luangs7_MyNextBook")
         property("sonar.host.url", "https://sonarcloud.io")
     }
 }
