@@ -33,14 +33,6 @@ repositories {
     jcenter()
 }
 
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
-}
-
 dependencies {
     implementation(project(Modules.common))
     implementation(project(Modules.navigation))
