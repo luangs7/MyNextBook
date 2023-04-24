@@ -115,7 +115,7 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/
   quality-gate:
       needs: [unit-test]
-      runs-on: ubunt-latest
+      runs-on: ubuntu-latest
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
