@@ -16,17 +16,6 @@ dependencies {
     implementation("com.google.gms:google-services:4.3.15")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xopt-in=requires-opt-in")
-        jvmTarget = "11"
-    }
-}
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 sonarqube {
     properties {
         property("sonar.projectKey", "luangs7_MyNextBook")
