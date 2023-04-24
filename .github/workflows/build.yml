@@ -18,6 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clean project
+        run: ./gradlew clean
+
       - name: Create file
         run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
 
