@@ -73,7 +73,7 @@ jobs:
       - name: Download Build AAB
         uses: actions/download-artifact@v2
         with:
-          name: app-dev-release
+          name: app-release
           path: app/build/outputs/bundle/devRelease
 
       - name: Run Lint
@@ -128,7 +128,7 @@ jobs:
       - name: Download Build AAB
         uses: actions/download-artifact@v2
         with:
-          name: app-dev-release
+          name: app-release
           path: app/build/outputs/bundle/devRelease
 
       - name: Upload APK to Firebase App Distribution
