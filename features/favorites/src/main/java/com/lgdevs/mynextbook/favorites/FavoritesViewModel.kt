@@ -34,7 +34,7 @@ class FavoritesViewModel(
         }
     }.catch { emit(ViewState.Error(it)) }.flowOn(dispatcher.invoke())
 
-    suspend fun removeItem(book: Book): Flow<ApiResult<Unit>> = flow {
+    fun removeItem(book: Book): Flow<ApiResult<Unit>> = flow {
         removeBookFromFavorite(book).collect { emit(it) }
     }.catch { emit(ApiResult.Error(it)) }.flowOn(dispatcher.invoke())
 }

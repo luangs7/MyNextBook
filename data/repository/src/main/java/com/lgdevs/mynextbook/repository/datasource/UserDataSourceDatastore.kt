@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserDataSourceDatastore {
     suspend fun updateEmail(email: String): Unit
-    suspend fun loadPreferences(): Flow<String>
+    fun loadPreferences(): Flow<String>
 }

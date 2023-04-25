@@ -2,12 +2,7 @@ package com.lgdevs.mynextbook.designsystem.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -50,6 +45,6 @@ fun MyNextBookTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
         colors = colors,
         typography = typography,
         shapes = Shapes,
-        content = content
+        content = content,
     )
 }

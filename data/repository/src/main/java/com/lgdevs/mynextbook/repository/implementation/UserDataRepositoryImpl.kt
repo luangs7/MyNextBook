@@ -15,7 +15,7 @@ internal class UserDataRepositoryImpl(
     private val userDataRepositoryImpl: UserDataSourceDatastore,
     private val cloudServicesAuth: CloudServicesAuth,
 ) : UserDataRepository {
-    override suspend fun doLogin(loginParam: LoginParam): Flow<ApiResult<Boolean>> = flow {
+    override fun doLogin(loginParam: LoginParam): Flow<ApiResult<Boolean>> = flow {
         emit(ApiResult.Loading)
         cloudServicesAuth.isUserRegistered(loginParam.email)
             .catch { emit(ApiResult.Error(it)) }
@@ -32,7 +32,7 @@ internal class UserDataRepositoryImpl(
             }
     }
 
-    override suspend fun getCurrentUser(): Flow<ApiResult<User>> = flow {
+    override fun getCurrentUser(): Flow<ApiResult<User>> = flow {
         emit(ApiResult.Loading)
         cloudServicesAuth.currentUser()
             .catch { emit(ApiResult.Error(it)) }
@@ -47,11 +47,11 @@ internal class UserDataRepositoryImpl(
         return userDataRepositoryImpl.updateEmail(email)
     }
 
-    override suspend fun loadPreferences(): Flow<String> {
+    override fun loadPreferences(): Flow<String> {
         return userDataRepositoryImpl.loadPreferences()
     }
 
-    override suspend fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>> = flow {
+    override fun doLoginWithToken(token: String): Flow<ApiResult<Boolean>> = flow {
         emit(ApiResult.Loading)
         cloudServicesAuth.signInWithProvider(token)
             .catch { emit(ApiResult.Error(it)) }

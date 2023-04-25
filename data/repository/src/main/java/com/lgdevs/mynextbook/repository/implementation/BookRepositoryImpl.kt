@@ -14,9 +14,9 @@ internal class BookRepositoryImpl(
     private val dataSourceLocal: BookDataSourceLocal,
     private val mapper: BookRepoMapper,
     private val dataSourceRemote: BookDataSourceRemote,
-    private val prefMapper: PreferencesRepoMapper
+    private val prefMapper: PreferencesRepoMapper,
 ) : BookRepository {
-    override suspend fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>> = flow {
+    override fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>> = flow {
         emit(ApiResult.Loading)
         dataSourceLocal.setFavoriteBook(mapper.toRepo(book), userId)
             .catch { emit(ApiResult.Error(it)) }
@@ -25,7 +25,7 @@ internal class BookRepositoryImpl(
             }
     }
 
-    override suspend fun getFavorites(userId: String): Flow<ApiResult<List<Book>>> = flow {
+    override fun getFavorites(userId: String): Flow<ApiResult<List<Book>>> = flow {
         emit(ApiResult.Loading)
         dataSourceLocal.getFavoritesBooks(userId)
             .catch { emit(ApiResult.Error(it)) }
@@ -39,7 +39,7 @@ internal class BookRepositoryImpl(
             }
     }
 
-    override suspend fun removeFavorite(book: Book): Flow<ApiResult<Unit>> = flow {
+    override fun removeFavorite(book: Book): Flow<ApiResult<Unit>> = flow {
         emit(ApiResult.Loading)
         dataSourceLocal.removeFavoriteBook(mapper.toRepo(book))
             .catch { emit(ApiResult.Error(it)) }
@@ -48,7 +48,7 @@ internal class BookRepositoryImpl(
             }
     }
 
-    override suspend fun getRandomBook(params: AppPreferences): Flow<ApiResult<Book>> = flow {
+    override fun getRandomBook(params: AppPreferences): Flow<ApiResult<Book>> = flow {
         emit(ApiResult.Loading)
         dataSourceRemote.getBooksFromQuery(prefMapper.toRepo(params))
             .catch { emit(ApiResult.Error(it)) }

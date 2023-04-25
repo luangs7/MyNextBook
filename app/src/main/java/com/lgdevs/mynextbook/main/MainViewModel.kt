@@ -28,9 +28,11 @@ class MainViewModel(
         }
     }
 
-    suspend fun logout() {
-        cloudServicesAuth.signOut().collect {
-            logoutObserver.invoke(it)
+    fun logout() {
+        viewModelScope.launch {
+            cloudServicesAuth.signOut().collect {
+                logoutObserver.invoke(it)
+            }
         }
     }
 }

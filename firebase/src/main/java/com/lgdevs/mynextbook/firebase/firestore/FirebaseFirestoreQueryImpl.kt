@@ -13,7 +13,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
 
     private val firestore = FirebaseFirestore.getInstance()
 
-    override fun <T> whereEqualTo(
+    override suspend fun <T> whereEqualTo(
         collection: String,
         reference: String,
         value: String,
@@ -32,7 +32,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
         return mediatorLiveData
     }
 
-    override fun <T> getDocumentById(
+    override suspend fun <T> getDocumentById(
         collection: String,
         documentId: String,
         objectType: Class<T>,
