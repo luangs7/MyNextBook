@@ -10,6 +10,7 @@ plugins {
     id(GradlePlugin.ANDROID_APPLICATION)
     id(GradlePlugin.KOTLIN_ANDROID)
     kotlin("kapt")
+    id("org.sonarqube") version "3.5.0.2730"
 }
 android {
     addDefaultConfig()
@@ -31,6 +32,14 @@ android {
 repositories {
     google()
     jcenter()
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "luangs7_MyNextBook")
+        property("sonar.organization", "luangs7")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 dependencies {
