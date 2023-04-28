@@ -14,7 +14,7 @@ class FirebaseRemoteConfigImpl : CloudServicesRemoteConfig {
     private val remoteConfig by lazy {
         val config = FirebaseRemoteConfig.getInstance()
         val configSettings = FirebaseRemoteConfigSettings.Builder()
-        configSettings.minimumFetchIntervalInSeconds = 0 //TODO: avaliar o tempo correto para cache
+        configSettings.minimumFetchIntervalInSeconds = 0
         configSettings.build().let {
             config.setConfigSettingsAsync(it)
         }
@@ -60,5 +60,4 @@ class FirebaseRemoteConfigImpl : CloudServicesRemoteConfig {
     override fun getBoolean(key: String): Boolean {
         return remoteConfig.getBoolean(key)
     }
-
 }

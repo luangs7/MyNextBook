@@ -1,12 +1,10 @@
 package com.lgdevs.splitfeature
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,7 +21,7 @@ fun DownloadFeature(
     featureName: String,
     manager: SplitInstallManager,
     onDismiss: () -> Unit,
-    setState: (SplitState) -> Unit
+    setState: (SplitState) -> Unit,
 ) {
     var isDialogOpen by remember { mutableStateOf(true) }
     DisposableEffect(featureName) {
@@ -31,17 +29,14 @@ fun DownloadFeature(
             .addModule(featureName)
             .build()
 
-
         val listener = SplitInstallStateUpdatedListener {
-
             when (it.status()) {
-                SplitInstallSessionStatus.PENDING -> isDialogOpen = true
                 SplitInstallSessionStatus.INSTALLED -> {
                     isDialogOpen = false
                     setState(SplitState.FeatureReady)
                     onDismiss()
                 }
-                else -> {}
+                else -> isDialogOpen = true
             }
         }
 
@@ -68,14 +63,14 @@ private fun DownloadDialog() {
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 32.dp)
+                        .padding(top = 32.dp),
                 ) {
                     CircularProgressIndicator(modifier = Modifier.size(64.dp))
                 }
             }
         },
         confirmButton = { /* Shows nothing */ },
-        dismissButton = { /* Shows nothing */ }
+        dismissButton = { /* Shows nothing */ },
     )
 }
 
@@ -88,7 +83,7 @@ fun RequestDownload(setState: (SplitState) -> Unit, onDismiss: () -> Unit) {
         text = stringResource(id = R.string.confirmation_install_description),
         confirmText = stringResource(id = R.string.confirmation_install_accept),
         dismissText = stringResource(id = R.string.confirmation_install_deny),
-        onConfirmAction = { setState(SplitState.Downloading) }
+        onConfirmAction = { setState(SplitState.Downloading) },
     )
     DefaultDialog(
         arguments = arguments,
@@ -96,6 +91,6 @@ fun RequestDownload(setState: (SplitState) -> Unit, onDismiss: () -> Unit) {
         onDismissRequest = {
             isDialogOpen = false
             onDismiss()
-        }
+        },
     )
 }

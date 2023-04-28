@@ -1,6 +1,5 @@
 package com.lgdevs.local.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -16,5 +15,5 @@ data class BookEntity(
     val imageLinks: BookImageEntity,
     val language: String,
     val previewLink: String?,
-    val user_id: String
+    val userId: String,
 )

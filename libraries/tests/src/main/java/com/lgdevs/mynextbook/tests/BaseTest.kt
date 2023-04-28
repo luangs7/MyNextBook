@@ -19,7 +19,7 @@ open class BaseTest {
     @get:Rule
     var coroutineTestRule = CoroutineTestRule()
 
-    val testDispatcher = StandardTestDispatcher()
+    val testDispatcher = TestCoroutineDispatcher()
 
     @Before
     fun setup() {

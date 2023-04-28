@@ -1,5 +1,6 @@
 package com.lgdevs.mynextbook.login
 
+import android.os.Bundle
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
@@ -8,9 +9,13 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginWithTokenUs
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetEmailLoginUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.SetEmailLoginUseCase
+import com.lgdevs.mynextbook.login.analytics.LoginAnalytics
 import com.lgdevs.mynextbook.login.holder.cloudservices.CloudServicesHolder
+import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolder
+import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolderImpl
 import com.lgdevs.mynextbook.login.viewmodel.LoginViewModel
 import com.lgdevs.mynextbook.remoteconfig.LOGIN_WITH_GOOGLE_BUTTON
+import com.lgdevs.mynextbook.tests.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -24,7 +29,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class LoginViewModelTest {
+class LoginViewModelTest : BaseTest() {
     private val getUserUseCase = mockk<GetUserUseCase>()
     private val doLoginUseCase = mockk<DoLoginUseCase>()
     private val doLoginWithTokenUseCase = mockk<DoLoginWithTokenUseCase>()
@@ -33,35 +38,46 @@ class LoginViewModelTest {
     private val getEmailUseCase = mockk<GetEmailLoginUseCase>()
     private val dispatcherManager = mockk<CoroutineDispatcherProvider>()
 
-    private val viewModel: LoginViewModel by lazy {
-        LoginViewModel(
+    private val loginInteractorHolder: LoginInteractorHolder by lazy {
+        LoginInteractorHolderImpl(
             doLoginUseCase,
             getUserUseCase,
             saveEmailUseCase,
             getEmailUseCase,
             doLoginWithTokenUseCase,
+        )
+    }
+    private val loginAnalytics: LoginAnalytics = mockk()
+
+    private val viewModel: LoginViewModel by lazy {
+        LoginViewModel(
+            loginInteractorHolder,
             cloudServices,
             dispatcherManager,
+            loginAnalytics,
         )
     }
 
     @Before
     fun before() {
         every { dispatcherManager.invoke() } returns Dispatchers.IO
+        coEvery { loginAnalytics.onEvent(any(), any()) } returns Unit
+        coEvery { loginAnalytics.setUserParameters(any()) } returns Unit
+        coEvery { loginAnalytics.logException(any(), any()) } returns Bundle()
+        coEvery { loginAnalytics.setUserId(any()) } returns Unit
     }
 
     @Test
     fun onGetGoogleButton() = runTest {
         coEvery { cloudServices.getRemoteConfig().fetch() } returns true
         coEvery { cloudServices.getRemoteConfig().getBoolean(LOGIN_WITH_GOOGLE_BUTTON) } returns true
-        val toggle = viewModel.showGoogleButton().first()
-        assertEquals(true, toggle)
+        val result = viewModel.showGoogleButton().first()
+        assertEquals(true, result)
     }
 
     @Test
     fun doLoginShouldEmitASuccessStateWithTrue() = runTest {
-        coEvery { doLoginUseCase(any()) } returns
-            flowOf(ApiResult.Success(true))
+        coEvery { doLoginUseCase(any()) } returns flowOf(ApiResult.Success(true))
         coEvery { saveEmailUseCase(any()) } returns Unit
         val loginFlow = viewModel.doLogin("test@test.com", "password")
         val state = loginFlow.first()
@@ -71,8 +87,7 @@ class LoginViewModelTest {
 
     @Test
     fun doLoginShouldEmitAnErrorStateWithInvalidCredentials() = runTest {
-        coEvery { doLoginUseCase(any()) } returns
-            flowOf(ApiResult.Empty)
+        coEvery { doLoginUseCase(any()) } returns flowOf(ApiResult.Empty)
         val loginFlow = viewModel.doLogin("test@test.com", "password")
         val state = loginFlow.first()
         assertTrue(state is ViewState.Empty)
@@ -81,8 +96,7 @@ class LoginViewModelTest {
 
     @Test
     fun doLoginShouldEmitAnErrorState() = runTest {
-        coEvery { doLoginUseCase(any()) } returns
-            flowOf(ApiResult.Error(Exception()))
+        coEvery { doLoginUseCase(any()) } returns flowOf(ApiResult.Error(Exception()))
         val loginFlow = viewModel.doLogin("test@test.com", "password")
         val state = loginFlow.first()
         assertTrue(state is ViewState.Error)
@@ -101,8 +115,7 @@ class LoginViewModelTest {
 
     @Test
     fun doLoginWithTokenShouldEmitASuccessStateWithException() = runTest {
-        coEvery { doLoginWithTokenUseCase(any()) } returns
-            flowOf(ApiResult.Error(Exception()))
+        coEvery { doLoginWithTokenUseCase(any()) } returns flowOf(ApiResult.Error(Exception()))
         val loginFlow = viewModel.doLoginWithToken("test@test.com", "token")
         val state = loginFlow.first()
         assertTrue(state is ViewState.Error)
@@ -111,8 +124,7 @@ class LoginViewModelTest {
 
     @Test
     fun doLoginWithTokenShouldEmitASuccessStateWithInvalidCredentials() = runTest {
-        coEvery { doLoginWithTokenUseCase(any()) } returns
-            flowOf(ApiResult.Empty)
+        coEvery { doLoginWithTokenUseCase(any()) } returns flowOf(ApiResult.Empty)
         val loginFlow = viewModel.doLoginWithToken("test@test.com", "token")
         val state = loginFlow.first()
         assertTrue(state is ViewState.Empty)
