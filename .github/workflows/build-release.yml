@@ -174,5 +174,5 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
-          groups: internal-testers
+          groups: Testers-CICD-MyNextBook
           file: app/build/outputs/bundle/prodRelease/app-dev-release.aab
