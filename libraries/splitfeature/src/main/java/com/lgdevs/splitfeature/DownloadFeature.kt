@@ -25,7 +25,7 @@ fun DownloadFeature(
     onDismiss: () -> Unit,
     setState: (SplitState) -> Unit
 ) {
-    var isDialogOpen by rememberSaveable { mutableStateOf(true) }
+    var isDialogOpen by remember { mutableStateOf(true) }
     DisposableEffect(featureName) {
         val request = SplitInstallRequest.newBuilder()
             .addModule(featureName)
@@ -81,7 +81,7 @@ private fun DownloadDialog() {
 
 @Composable
 fun RequestDownload(setState: (SplitState) -> Unit, onDismiss: () -> Unit) {
-    var isDialogOpen by rememberSaveable { mutableStateOf(true) }
+    var isDialogOpen by remember { mutableStateOf(true) }
 
     val arguments = DialogArguments(
         title = stringResource(id = R.string.confirmation_install_title),

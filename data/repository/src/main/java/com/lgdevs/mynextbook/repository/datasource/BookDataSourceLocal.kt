@@ -5,8 +5,8 @@ import com.lgdevs.mynextbook.repository.model.BookData
 import kotlinx.coroutines.flow.Flow
 
 interface BookDataSourceLocal {
-    suspend fun setFavoriteBook(book: BookData): Flow<Unit>
+    suspend fun setFavoriteBook(book: BookData, userId: String): Flow<Unit>
     suspend fun removeFavoriteBook(book: BookData): Flow<Unit>
-    suspend fun getFavoritesBooks(): Flow<List<BookData>>
+    suspend fun getFavoritesBooks(userId: String): Flow<List<BookData>>
     suspend fun getFavoriteBook(id: String): Flow<BookData?>
 }

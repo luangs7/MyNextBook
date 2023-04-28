@@ -35,7 +35,7 @@ class BookDataSourceRemoteImplTest {
     private val bookDataSourceRemote: BookDataSourceRemote by lazy {
         BookDataSourceRemoteImpl(
             service,
-            mapper
+            mapper,
         )
     }
 
@@ -43,7 +43,7 @@ class BookDataSourceRemoteImplTest {
     fun whenGetBookList_withSuccessfulCall_shouldReceiveARandomItem_asRepoItem() = runTest {
         val apiCall = Gson().fromJson(
             JsonReader.readMockedJson("BookResponse.json"),
-            BookResponse::class.java
+            BookResponse::class.java,
         )
         coEvery { service.getBooks(any(), any(), any()) } returns Response.success(apiCall)
 
@@ -70,12 +70,11 @@ class BookDataSourceRemoteImplTest {
         }
     }
 
-
     @Test
     fun whenGetBookList_shouldAssertIsFailureCall() = runTest {
         coEvery { service.getBooks(any(), any(), any()) } returns Response.error(
             500,
-            String().toResponseBody(null)
+            String().toResponseBody(null),
         )
 
         val params = AppPreferencesRepo(false, String(), false, String())
@@ -87,6 +86,5 @@ class BookDataSourceRemoteImplTest {
         coVerify(exactly = 1) {
             service.getBooks(any(), any(), any())
         }
-
     }
 }

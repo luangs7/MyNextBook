@@ -1,39 +1,40 @@
 package com.lgdevs.mynextbook.favorites
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
-import com.lgdevs.mynextbook.domain.interactor.abstraction.GetFavoriteBooks
-import com.lgdevs.mynextbook.domain.interactor.abstraction.RemoveBookFromFavorite
+import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetFavoriteBooksUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
+import com.lgdevs.mynextbook.domain.interactor.implementation.RemoveBookFromFavoriteUseCase
 import com.lgdevs.mynextbook.domain.model.Book
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.lgdevs.mynextbook.extensions.collectIfSuccess
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
-    private val getFavoriteBooks: GetFavoriteBooks,
-    private val removeBookFromFavorite: RemoveBookFromFavorite,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val getFavoriteBooks: GetFavoriteBooksUseCase,
+    private val removeBookFromFavorite: RemoveBookFromFavoriteUseCase,
+    private val getCurrentUser: GetUserUseCase,
+    private val dispatcher: CoroutineDispatcherProvider,
 ) : ViewModel() {
 
     fun getFavoriteItems(): Flow<ViewState<List<Book>>> = flow<ViewState<List<Book>>> {
-        getFavoriteBooks.execute(Unit)
-            .collect {
-                val result = when (it) {
-                    ApiResult.Empty -> ViewState.Empty
-                    is ApiResult.Error -> ViewState.Error(it.error)
-                    ApiResult.Loading -> ViewState.Loading
-                    is ApiResult.Success -> it.data?.let { list -> ViewState.Success(list) }
-                        ?: ViewState.Empty
+        getCurrentUser().collectIfSuccess { user ->
+            getFavoriteBooks(user.uuid)
+                .collect {
+                    val result = when (it) {
+                        ApiResult.Empty -> ViewState.Empty
+                        is ApiResult.Error -> ViewState.Error(it.error)
+                        ApiResult.Loading -> ViewState.Loading
+                        is ApiResult.Success -> it.data?.let { list -> ViewState.Success(list) }
+                            ?: ViewState.Empty
+                    }
+                    emit(result)
                 }
-                emit(result)
-            }
-    }.catch { emit(ViewState.Error(it)) }.flowOn(dispatcher)
+        }
+    }.catch { emit(ViewState.Error(it)) }.flowOn(dispatcher.invoke())
 
     suspend fun removeItem(book: Book): Flow<ApiResult<Unit>> = flow {
-        removeBookFromFavorite.execute(book).collect { emit(it) }
-    }.catch { emit(ApiResult.Error(it)) }.flowOn(dispatcher)
+        removeBookFromFavorite(book).collect { emit(it) }
+    }.catch { emit(ApiResult.Error(it)) }.flowOn(dispatcher.invoke())
 }

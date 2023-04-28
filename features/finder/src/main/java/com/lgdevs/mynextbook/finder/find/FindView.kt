@@ -13,6 +13,7 @@ import com.lgdevs.mynextbook.filter.ui.PreferencesView
 import com.lgdevs.mynextbook.finder.R
 import com.lgdevs.mynextbook.navigation.NavigationItem
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
 @Composable

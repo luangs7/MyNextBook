@@ -11,10 +11,10 @@ internal class PreferencesRepositoryImpl(
     private val dataSourceDatastore: PreferencesDataSourceDatastore,
     private val mapper: PreferencesRepoMapper
 ) : PreferencesRepository {
-    override suspend fun loadPreferences(): Flow<AppPreferences> =
-        dataSourceDatastore.loadPreferences().map { mapper.toDomain(it) }
+    override suspend fun loadPreferences(userId: String): Flow<AppPreferences> =
+        dataSourceDatastore.loadPreferences(userId).map { mapper.toDomain(it) }
 
-    override suspend fun updatePreferences(preferences: AppPreferences) {
-        dataSourceDatastore.updatePreferences(mapper.toRepo(preferences))
+    override suspend fun updatePreferences(preferences: AppPreferences, userId: String) {
+        dataSourceDatastore.updatePreferences(mapper.toRepo(preferences), userId)
     }
 }

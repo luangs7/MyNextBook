@@ -1,11 +1,16 @@
 package extensions
 
+import AnnotationProcessor
+import Compose
+import Dependencies
+import Firebase
+import Modules
+import Tests
 import org.gradle.api.Action
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 /**
@@ -22,9 +27,10 @@ fun DependencyHandler.addCommonDependencies() {
     testImplementation(Tests.mockk)
     androidTestImplementation(project(Modules.tests))
     implementation(project(Modules.tests))
+    api(Dependencies.lifecycleLivedata)
 }
 
-fun DependencyHandler.addKoinDependencies(){
+fun DependencyHandler.addKoinDependencies() {
     implementation(Dependencies.koinAndroid)
     implementation(Dependencies.koinCompose)
 }
@@ -36,7 +42,7 @@ fun DependencyHandler.addDesignDependencies() {
     api(Dependencies.lifecycleKtx)
 }
 
-fun DependencyHandler.addComposeDependencies(){
+fun DependencyHandler.addComposeDependencies() {
     implementation(Compose.composeUi)
     implementation(Compose.composeMaterial)
     implementation(Compose.composePreview)
@@ -46,27 +52,28 @@ fun DependencyHandler.addComposeDependencies(){
     implementation(Compose.lottieCompose)
     implementation(Compose.constraintLayout)
     androidTestImplementation(Tests.composeJunit)
+    androidTestImplementation(Tests.composeUITest)
 }
 
-fun DependencyHandler.addCoroutinesDependencies(){
+fun DependencyHandler.addCoroutinesDependencies() {
     implementation(Dependencies.coroutinesCore)
     implementation(Dependencies.coroutinesAndroid)
 }
 
-fun DependencyHandler.addRoomDependencies(){
+fun DependencyHandler.addRoomDependencies() {
     implementation(Dependencies.room)
     implementation(Dependencies.roomCoroutines)
     kapt(AnnotationProcessor.room)
 }
 
-fun DependencyHandler.addTestDependencies(){
+fun DependencyHandler.addTestDependencies() {
     api(Tests.coroutines)
     api(Tests.coreTesting)
     api(Tests.jUnit)
     api(Tests.jUnitExt)
 }
 
-fun DependencyHandler.addTestApiDependencies(){
+fun DependencyHandler.addTestApiDependencies() {
     testApi(Tests.androidxCore)
     testApi(Tests.coroutines)
     testApi(Tests.coreTesting)
@@ -102,3 +109,12 @@ private fun DependencyHandler.androidTestImplementation(
 ): ExternalModuleDependency = addDependencyTo(
     this, "androidTestImplementation", dependencyNotation, dependencyConfiguration
 )
+
+fun DependencyHandler.addFirebaseDependencies() {
+    implementation(Firebase.firebaseMessaging)
+    implementation(Firebase.firebaseAnalytics)
+    implementation(Firebase.firebaseInApp)
+    implementation(Firebase.firebaseAuth)
+    implementation(Firebase.firebaseConfig)
+    implementation(Firebase.firebaseFirestore)
+}
