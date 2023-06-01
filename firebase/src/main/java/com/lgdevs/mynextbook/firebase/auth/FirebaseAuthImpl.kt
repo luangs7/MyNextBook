@@ -12,23 +12,23 @@ import org.koin.core.component.KoinComponent
 class FirebaseAuthImpl : CloudServicesAuth, KoinComponent {
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
-    override fun signIn(email: String, password: String): Flow<Boolean> = flow {
+    override suspend fun signIn(email: String, password: String): Flow<Boolean> = flow {
         val result = auth.signInWithEmailAndPassword(email, password)
         emit(result.await() != null)
     }
 
-    override fun signUp(email: String, password: String): Flow<Boolean> = flow {
+    override suspend fun signUp(email: String, password: String): Flow<Boolean> = flow {
         val result = auth.createUserWithEmailAndPassword(email, password)
         emit(result.await() != null)
     }
 
-    override fun isUserRegistered(email: String): Flow<Boolean> = flow {
+    override suspend fun isUserRegistered(email: String): Flow<Boolean> = flow {
         val result = auth.fetchSignInMethodsForEmail(email)
         val methods = result.await().signInMethods
         emit(methods.isNullOrEmpty().not())
     }
 
-    override fun currentUser(): Flow<CurrentUser?> = flow {
+    override suspend fun currentUser(): Flow<CurrentUser?> = flow {
         auth.currentUser?.let {
             emit(
                 CurrentUser(
@@ -41,11 +41,11 @@ class FirebaseAuthImpl : CloudServicesAuth, KoinComponent {
         } ?: kotlin.run { emit(null) }
     }
 
-    override fun signOut(): Flow<Unit> = flow {
+    override suspend fun signOut(): Flow<Unit> = flow {
         emit(auth.signOut())
     }
 
-    override fun signInWithProvider(token: String): Flow<Boolean> = flow {
+    override suspend fun signInWithProvider(token: String): Flow<Boolean> = flow {
         val result = auth.signInWithCredential(GoogleAuthProvider.getCredential(token, null))
         emit(result.await() != null)
     }

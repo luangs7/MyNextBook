@@ -12,7 +12,7 @@ internal class BookDataSourceRemoteImpl(
     private val service: BookService,
     private val mapper: BookRemoteMapper,
 ) : BookDataSourceRemote {
-    override fun getBooksFromQuery(appPreferencesRepo: AppPreferencesRepo): Flow<BookData> =
+    override suspend fun getBooksFromQuery(appPreferencesRepo: AppPreferencesRepo): Flow<BookData> =
         flow {
             val filter = if (appPreferencesRepo.isEbook) EBOOK_QUERY else null
             val query = createQueryParams(appPreferencesRepo)

@@ -5,7 +5,7 @@
     <string name="signup">Sign up new account</string>
     <string name="email_field">Email</string>
     <string name="password_field">Password</string>
-    <string name="confirmation_button">OK</string>
+    <string name="confirmation_button">Ok</string>
     <string name="signup_title">Sign Up</string>
     <string name="signup_description">To register, just enter an email and a password on the login screen and your registration will be done automatically.</string>
 </resources>

@@ -12,7 +12,7 @@ internal class UserDataSourceDatastoreImpl(
     private val datastore: DataStore<Preferences>,
 ) : UserDataSourceDatastore {
 
-    override fun loadPreferences(): Flow<String> = flow {
+    override suspend fun loadPreferences(): Flow<String> = flow {
         datastore.data.collect {
             emit(it[EMAIL_KEY].orEmpty())
         }

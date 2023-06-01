@@ -1,18 +1,15 @@
 package com.lgdevs.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.lgdevs.local.model.BookEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBook(book: BookEntity)
 
-    @Query("SELECT * FROM bookentity WHERE userId == :userId")
+    @Query("SELECT * FROM bookentity WHERE user_id == :userId")
     fun getFavorites(userId: String): List<BookEntity>
 
     @Query("SELECT * FROM bookentity WHERE id == :bookId")

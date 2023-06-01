@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.lgdevs.mynextbook.datastore.model.AppPreferenceDatastore
+import com.lgdevs.mynextbook.datastore.preferences
 import com.lgdevs.mynextbook.mapper.AppPreferencesMapper
 import com.lgdevs.mynextbook.repository.datasource.PreferencesDataSourceDatastore
 import com.lgdevs.mynextbook.repository.model.AppPreferencesRepo
@@ -22,7 +23,7 @@ internal class PreferencesDataSourceDatastoreImpl(
         }
     }
 
-    override fun loadPreferences(userId: String): Flow<AppPreferencesRepo> =
+    override suspend fun loadPreferences(userId: String): Flow<AppPreferencesRepo> =
         datastore.data.map {
             val result = it[getPreferenceKey(userId)] ?: Gson().toJson(createDefaultPreferences())
             mapper.toRepo(Gson().fromJson(result, AppPreferenceDatastore::class.java))

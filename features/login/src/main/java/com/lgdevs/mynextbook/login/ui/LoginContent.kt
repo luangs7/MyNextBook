@@ -77,12 +77,16 @@ fun LoginContent(
         LoginFactory.doLauncher(oneTapClient = oneTapClient, onCredentialsListener = { credential ->
             val idToken = credential.googleIdToken
             if (idToken != null) {
-                viewModel.doLoginWithToken(String(), idToken).handleLogin(
-                    onLoginLoadingListener,
-                    onLoginSuccessListener,
-                    onLoginErrorListener,
-                )
-                    .launchIn(scope)
+                scope.launch {
+                    scope.launch {
+                        viewModel.doLoginWithToken(String(), idToken).handleLogin(
+                            onLoginLoadingListener,
+                            onLoginSuccessListener,
+                            onLoginErrorListener,
+                        )
+                            .launchIn(this)
+                    }
+                }
             }
         })
 

@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSourceDatastore {
     suspend fun updatePreferences(preferences: AppPreferencesRepo, userId: String)
-    fun loadPreferences(userId: String): Flow<AppPreferencesRepo>
+    suspend fun loadPreferences(userId: String): Flow<AppPreferencesRepo>
 }

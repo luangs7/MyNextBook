@@ -9,6 +9,7 @@ import com.lgdevs.mynextbook.observer.KObserver
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
+import org.koin.core.scope.get
 import org.koin.dsl.module
 
 val LOGOUT_OBSERVER_QUALIFIER = named("logoutObserver")

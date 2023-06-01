@@ -6,8 +6,9 @@ import com.lgdevs.mynextbook.domain.model.Book
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-    fun getFavorites(userId: String): Flow<ApiResult<List<Book>>>
-    fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>>
-    fun removeFavorite(book: Book): Flow<ApiResult<Unit>>
-    fun getRandomBook(params: AppPreferences): Flow<ApiResult<Book>>
+    suspend fun getFavorites(userId: String): Flow<ApiResult<List<Book>>>
+    suspend fun addFavorites(book: Book, userId: String): Flow<ApiResult<Unit>>
+    suspend fun removeFavorite(book: Book): Flow<ApiResult<Unit>>
+    suspend fun getRandomBook(params: AppPreferences): Flow<ApiResult<Book>>
+
 }

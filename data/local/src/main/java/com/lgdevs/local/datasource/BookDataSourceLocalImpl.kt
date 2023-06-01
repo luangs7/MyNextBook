@@ -11,24 +11,24 @@ import kotlinx.coroutines.flow.flowOn
 
 internal class BookDataSourceLocalImpl(
     private val dao: BookDao,
-    private val mapper: BookEntityMapper,
+    private val mapper: BookEntityMapper
 ) : BookDataSourceLocal {
 
-    override fun getFavoriteBook(id: String): Flow<BookData?> = flow {
+    override suspend fun getFavoriteBook(id: String): Flow<BookData?> = flow {
         val item = dao.getFavoritesById(id)
         item?.let { emit(mapper.toRepo(it)) } ?: emit(null)
     }.flowOn(Dispatchers.IO)
 
-    override fun getFavoritesBooks(userId: String): Flow<List<BookData>> = flow {
+    override suspend fun getFavoritesBooks(userId: String): Flow<List<BookData>> = flow {
         val list = dao.getFavorites(userId)
         emit(list.map { mapper.toRepo(it) })
     }.flowOn(Dispatchers.IO)
 
-    override fun removeFavoriteBook(book: BookData): Flow<Unit> = flow {
+    override suspend fun removeFavoriteBook(book: BookData): Flow<Unit> = flow {
         emit(dao.delete(mapper.toEntity(book)))
     }.flowOn(Dispatchers.IO)
 
-    override fun setFavoriteBook(book: BookData, userId: String): Flow<Unit> = flow {
+    override suspend fun setFavoriteBook(book: BookData, userId: String): Flow<Unit> = flow {
         emit(dao.insertBook(mapper.toEntity(book, userId)))
     }.flowOn(Dispatchers.IO)
 }

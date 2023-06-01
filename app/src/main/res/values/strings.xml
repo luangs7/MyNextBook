@@ -3,5 +3,4 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="dynamic_feature_title_favorites">Favorite Books</string>
     <string name="default_notification_channel_id">910</string>
-    <string name="title_chat">MyNextBook Chat</string>
 </resources>
