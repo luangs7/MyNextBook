@@ -33,4 +33,5 @@ object Features {
     const val home = ":features:home"
     const val finder = ":features:finder"
     const val login = ":features:login"
+    const val chatIA = ":features:chatia"
 }

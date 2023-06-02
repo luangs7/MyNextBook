@@ -5,40 +5,32 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
-import kotlinx.coroutines.launch
 
-typealias OnLogoutClickListener = () -> Unit
 typealias OnNavigationIconClickListener = () -> Unit
-typealias OnFavoritesClickListener = () -> Unit
+typealias OnActionClickListener = (TopBarAction) -> Unit
 
 @Composable
 fun AppView(
     hasBack: Boolean,
     hasAction: Boolean,
-    OnLogoutClickListener: OnLogoutClickListener,
-    OnNavigationIconClickListener: OnNavigationIconClickListener,
-    OnFavoritesClickListener: OnFavoritesClickListener,
-    content: @Composable () -> Unit
-){
+    onActionClickListener: OnActionClickListener,
+    onNavigationIconClickListener: OnNavigationIconClickListener,
+    content: @Composable () -> Unit,
+) {
     ScaffoldView(
         topBar = {
             TopBar(
-                hasBack= hasBack,
-                navigationIconClick = { OnNavigationIconClickListener.invoke() },
-                actionClick = {
-                    when(it) {
-                        TopBarAction.LOGOUT -> OnLogoutClickListener.invoke()
-                        TopBarAction.FAVORITES -> OnFavoritesClickListener.invoke()
-                    }
-                },
-                hasAction = hasAction
+                hasBack = hasBack,
+                navigationIconClick = { onNavigationIconClickListener.invoke() },
+                actionClick = onActionClickListener,
+                hasAction = hasAction,
             )
-        }, modifier = Modifier
+        },
+        modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(backgroundDark)
+            .background(backgroundDark),
     ) {
         content()
     }

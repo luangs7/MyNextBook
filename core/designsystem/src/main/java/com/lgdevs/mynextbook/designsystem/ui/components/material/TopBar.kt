@@ -7,13 +7,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 enum class TopBarAction {
     FAVORITES,
-    LOGOUT
+    LOGOUT,
+    CHAT
 }
 
 @Composable
@@ -37,6 +39,9 @@ fun TopBar(
         actions = {
             if(hasAction) {
                 actionClick?.let {
+                    IconButton(onClick = { it.invoke(TopBarAction.CHAT) }) {
+                        Icon(Icons.Outlined.Person, String(), tint = Color.White)
+                    }
                     IconButton(onClick = { it.invoke(TopBarAction.FAVORITES) }) {
                         Icon(Icons.Outlined.Favorite, String(), tint = Color.White)
                     }

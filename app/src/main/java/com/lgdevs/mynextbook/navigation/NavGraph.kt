@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.lgdevs.mynextbook.chatia.ChatView
 import com.lgdevs.mynextbook.common.helper.convertToSafeDynamicFeatureModuleIntent
 import com.lgdevs.mynextbook.finder.find.FindView
 import com.lgdevs.mynextbook.finder.preview.ui.PreviewView
@@ -34,6 +35,11 @@ fun NavGraph(navController: NavHostController) {
         composable(NavigationItem.Preview.route) {
             PreviewView()
         }
+
+        composable(NavigationItem.ChatIA.route) {
+            ChatView()
+        }
+
         composable(NavigationItem.Favorites.route) {
             LoadFeature(
                 context = context,

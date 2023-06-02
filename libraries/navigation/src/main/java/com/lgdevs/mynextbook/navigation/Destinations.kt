@@ -7,6 +7,7 @@ object Destinations {
     const val Preview = "preview"
     const val Favorites = "favorites"
     const val Details = "favorites/details/{${DestinationArgs.BookId}}"
+    const val ChatIA = "chatIA"
 }
 
 object DestinationArgs {
@@ -25,4 +26,5 @@ sealed class NavigationItem(var route: String, var name: String) {
     object Preview : NavigationItem(Destinations.Preview, "Preview")
     object Favorites : NavigationItem(Destinations.Favorites, "Favorites")
     object Details : NavigationItem(Destinations.Details, "Details")
+    object ChatIA : NavigationItem(Destinations.ChatIA, "ChatIA")
 }

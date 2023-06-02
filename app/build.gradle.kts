@@ -26,7 +26,7 @@ android {
     }
     configureBuildTypes()
 
-    setDynamicFeatures(setOf(":features:favorites"))
+    setDynamicFeatures(setOf(Features.favorites))
 }
 
 repositories {
@@ -56,6 +56,7 @@ dependencies {
     implementation(project(Features.home))
     implementation(project(Modules.split))
     implementation(project(Features.login))
+    implementation(project(Features.chatIA))
     implementation(project(Modules.cloudservices))
     implementation(project(Modules.firebase))
     implementation(Dependencies.playCore)

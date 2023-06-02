@@ -15,68 +15,68 @@ val typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
-        color = Color.White
+        color = Color.White,
     ),
 
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
-        color = Color.White
+        color = Color.White,
     ),
 
     body2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        color = Color.White.copy(alpha = 0.4f)
+        color = Color.White.copy(alpha = 0.4f),
     ),
     h5 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
-        color = Color.White.copy(alpha = 0.3f)
+        color = Color.White.copy(alpha = 0.3f),
     ),
     h6 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp,
-        color = Color.White.copy(alpha = 0.5f)
+        color = Color.White.copy(alpha = 0.5f),
     ),
     button = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
-        color = Color.Blue
-    )
+        color = Color.Blue,
+    ),
 )
 val linked = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 14.sp,
     color = Color.White,
-    fontStyle = FontStyle.Italic
+    fontStyle = FontStyle.Italic,
 )
 
 val dialogButton = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 14.sp,
-    color = Color.Black
+    color = Color.Black,
 )
 
 val toolbar = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 18.sp,
-    color = Color.White
+    color = Color.White,
 )
 
 val buttonSecondary = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 18.sp,
-    color = Color.White
+    color = Color.White,
 )
 
 val descriptionStyle = TextStyle(
@@ -84,14 +84,14 @@ val descriptionStyle = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     color = Color.Black.copy(alpha = 0.3f),
-    textAlign = TextAlign.Center
+    textAlign = TextAlign.Center,
 )
 
 val placeholder = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 12.sp,
-    color = Color.White.copy(alpha = 0.6f)
+    color = Color.White.copy(alpha = 0.6f),
 )
 
 val titleStyle = TextStyle(
@@ -99,7 +99,7 @@ val titleStyle = TextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 20.sp,
     color = Color.Black,
-    textAlign = TextAlign.Center
+    textAlign = TextAlign.Center,
 )
 
 val subtitleStyle = TextStyle(
@@ -107,7 +107,7 @@ val subtitleStyle = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     color = Color.Black.copy(alpha = 0.5f),
-    textAlign = TextAlign.Center
+    textAlign = TextAlign.Center,
 )
 
 val listTitleStyle = TextStyle(
@@ -115,12 +115,12 @@ val listTitleStyle = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     color = Color.White.copy(alpha = 0.5f),
-    textAlign = TextAlign.Center
+    textAlign = TextAlign.Center,
 )
 
 val errorStyle = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 14.sp,
-    color = Color.Red
+    color = Color.Red,
 )

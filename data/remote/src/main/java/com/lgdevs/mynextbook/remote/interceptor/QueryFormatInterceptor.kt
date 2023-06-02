@@ -11,7 +11,7 @@ class QueryFormatInterceptor : Interceptor {
         if (request.url.query?.contains("${BookDataSourceRemoteImpl.QUERY}=${BookDataSourceRemoteImpl.QUERY_DIVIDER}") == true) {
             val newUrl = request.url.toString().replace(
                 "${BookDataSourceRemoteImpl.QUERY}=${BookDataSourceRemoteImpl.QUERY_DIVIDER}",
-                "${BookDataSourceRemoteImpl.QUERY}="
+                "${BookDataSourceRemoteImpl.QUERY}=",
             )
             request = request.newBuilder()
                 .url(newUrl)
