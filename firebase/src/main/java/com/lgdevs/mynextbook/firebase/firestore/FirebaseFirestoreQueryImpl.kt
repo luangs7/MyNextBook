@@ -26,7 +26,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
             FirebaseQueryLiveData(collectionReference.whereEqualTo(reference, value))
 
         mediatorLiveData.addSource(firebaseQueryLiveData) {
-            mediatorLiveData.postValue(it.toObjects(objectType))
+            mediatorLiveData.postValue(it?.toObjects(objectType))
         }
 
         return mediatorLiveData
@@ -44,7 +44,7 @@ class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
             FirebaseDocumentLiveData(collectionReference.document(documentId))
 
         mediatorLiveData.addSource(firebaseDocumentLiveData) {
-            mediatorLiveData.postValue(it.toObject(objectType))
+            mediatorLiveData.postValue(it?.toObject(objectType))
         }
 
         return mediatorLiveData
