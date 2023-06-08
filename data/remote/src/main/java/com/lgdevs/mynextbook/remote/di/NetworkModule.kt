@@ -1,6 +1,5 @@
 package com.lgdevs.mynextbook.remote.di
 
-
 import com.lgdevs.mynextbook.remote.BuildConfig
 import com.lgdevs.mynextbook.remote.interceptor.QueryFormatInterceptor
 import okhttp3.OkHttpClient
@@ -19,16 +18,17 @@ val networkModule = module {
 private fun provideOkHttpClient(): OkHttpClient {
     val builder = OkHttpClient.Builder()
         .followRedirects(true)
-        .addNetworkInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
+        .addNetworkInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            },
+        )
         .addInterceptor(QueryFormatInterceptor())
     return builder.build()
 }
 
-
 private fun provideRetrofit(
-    client: OkHttpClient
+    client: OkHttpClient,
 ): Retrofit {
     return Retrofit.Builder()
         .baseUrl(BuildConfig.API_URL)

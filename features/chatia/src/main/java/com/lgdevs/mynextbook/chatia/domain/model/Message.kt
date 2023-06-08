@@ -12,13 +12,13 @@ data class Message(
     val sender: Boolean,
 )
 
-fun createMessage(userId:String, message: String, sender: Boolean): Message {
+fun createMessage(userId: String, message: String, sender: Boolean): Message {
     return Message(
         UUID.randomUUID().toString(),
         userId,
         message,
         currentTime(),
-        sender
+        sender,
     )
 }
 

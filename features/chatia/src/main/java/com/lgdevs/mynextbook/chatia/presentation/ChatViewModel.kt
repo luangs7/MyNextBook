@@ -1,6 +1,7 @@
 package com.lgdevs.mynextbook.chatia.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lgdevs.mynextbook.chatia.domain.interaction.GetMessagesUseCase
 import com.lgdevs.mynextbook.chatia.domain.interaction.SaveMessageUseCase
 import com.lgdevs.mynextbook.chatia.domain.interaction.SendQuestionUseCase
@@ -9,8 +10,15 @@ import com.lgdevs.mynextbook.chatia.domain.model.createMessage
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
+import com.lgdevs.mynextbook.domain.model.User
 import com.lgdevs.mynextbook.extensions.collectIfSuccess
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.shareIn
 
 class ChatViewModel(
     private val setMessageUseCase: SaveMessageUseCase,
@@ -19,31 +27,55 @@ class ChatViewModel(
     private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
-    fun getMessageList() = flow {
-        getUserUseCase().collectIfSuccess {
-            getMessagesUseCase.invoke(it.uuid).collect { result ->
-                emit(afterGetMessages(result))
-            }
+    private var currentUser: User? = null
+
+    private val chatSharedFlow: MutableSharedFlow<Unit> =
+        MutableSharedFlow(replay = 1)
+
+    val chatMessagesFlow = chatSharedFlow.flatMapMerge {
+        getMessageList().catch { emit(ViewState.Error(it)) }
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
+
+    init {
+        chatSharedFlow.tryEmit(Unit)
+    }
+    private fun getMessageList() = flow {
+        currentUser?.let { currentUser ->
+            getMessages(currentUser).collect(this::emit)
+        } ?: run {
+            getUser().collect(this::emit)
         }
     }
 
-    private fun afterGetMessages(result: ApiResult<List<Message>>): ViewState<List<Message>> {
+    private fun getMessages(user: User) = flow {
+        getMessagesUseCase.invoke(user.uuid).collect {
+            emit(afterGetMessages(it))
+        }
+    }
+
+    private suspend fun getUser() = flow {
+        getUserUseCase().collectIfSuccess { user ->
+            currentUser = user
+            getMessages(user).collect(this::emit)
+        }
+    }
+    private fun afterGetMessages(result: ApiResult<List<Message>>): ViewState<List<Message>?> {
         return when (result) {
             ApiResult.Empty -> ViewState.Empty
             is ApiResult.Error -> ViewState.Error(result.error)
             ApiResult.Loading -> ViewState.Loading
-            is ApiResult.Success -> {
-                if (result.data.isNullOrEmpty()) ViewState.Empty else ViewState.Success(result.data!!)
-            }
+            is ApiResult.Success -> ViewState.Success(result.data)
         }
     }
 
     fun sendQuestion(message: String) = flow {
-        getUserUseCase().collectIfSuccess {
-            setMessageUseCase(createMessage(it.uuid, message, true))
-            sendQuestionUseCase(message).collect { result ->
-                emit(afterSendQuestion(it.uuid, result))
+        currentUser?.let { user ->
+            val messageSent = createMessage(user.uuid, message, true)
+            setMessageUseCase(user.uuid, messageSent).collect()
+            sendQuestionUseCase(message).collect {
+                emit(afterSendQuestion(user.uuid, it))
             }
+            addMessage(messageSent)
         }
     }
 
@@ -53,9 +85,15 @@ class ChatViewModel(
             is ApiResult.Error -> ViewState.Error(result.error)
             ApiResult.Loading -> ViewState.Loading
             is ApiResult.Success -> {
-                setMessageUseCase(createMessage(userId, result.data.orEmpty(), false))
+                val iaMessage = createMessage(userId, result.data.orEmpty(), false)
+                addMessage(iaMessage)
+                setMessageUseCase(userId, iaMessage).collect()
                 ViewState.Success(result.data)
             }
         }
+    }
+
+    private fun addMessage(message: Message) {
+        chatSharedFlow.tryEmit(Unit)
     }
 }

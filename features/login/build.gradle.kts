@@ -1,4 +1,4 @@
-import extensions.addCoroutinesDependencies
+
 
 plugins {
     id(GradlePlugin.ANDROID_LIBRARY)
@@ -12,5 +12,5 @@ dependencies {
     implementation(project(Modules.domain))
     implementation(project(Modules.navigation))
     implementation(Dependencies.googleAuth)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation(Dependencies.coroutinesPlayservices)
 }

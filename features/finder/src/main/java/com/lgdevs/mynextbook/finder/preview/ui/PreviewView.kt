@@ -1,16 +1,13 @@
 package com.lgdevs.mynextbook.finder.preview.ui
 
-
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.common.compose.onViewState
 import com.lgdevs.mynextbook.common.helper.shareIntent
-import com.lgdevs.mynextbook.designsystem.ui.components.stateview.LoadingView
 import com.lgdevs.mynextbook.designsystem.ui.components.stateview.model.ViewStateParam
 import com.lgdevs.mynextbook.domain.model.Book
 import com.lgdevs.mynextbook.finder.R
@@ -25,7 +22,7 @@ fun PreviewView() {
 
 @Composable
 internal fun PreviewViewContent(
-    viewModel: PreviewViewModel = getViewModel()
+    viewModel: PreviewViewModel = getViewModel(),
 ) {
     val bookState = viewModel.randomBookFlow.collectAsState(ViewState.Loading)
 
@@ -39,7 +36,7 @@ internal fun PreviewViewContent(
 @Composable
 internal fun PreviewHandleViewStates(
     state: ViewState<Book>,
-    viewModel: PreviewViewModel = getViewModel()
+    viewModel: PreviewViewModel = getViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
@@ -48,12 +45,13 @@ internal fun PreviewHandleViewStates(
         state = state,
         loadingState = ViewStateParam(R.raw.book_search),
         errorState = ViewStateParam(
-            commonR.raw.lottie_error, stringResource(id = commonR.string.error_message)
+            commonR.raw.lottie_error,
+            stringResource(id = commonR.string.error_message),
         ),
         emptyState = ViewStateParam(
             commonR.raw.lottie_empty,
-            stringResource(id = commonR.string.empty_message)
-        )
+            stringResource(id = commonR.string.empty_message),
+        ),
     ) { data ->
         data?.let { book ->
             PreviewBottomSheet(book, onPreview = {

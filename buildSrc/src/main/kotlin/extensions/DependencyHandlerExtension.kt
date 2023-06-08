@@ -43,6 +43,7 @@ fun DependencyHandler.addDesignDependencies() {
 }
 
 fun DependencyHandler.addComposeDependencies() {
+    implementation(platform(Compose.composeBom))
     implementation(Compose.composeUi)
     implementation(Compose.composeMaterial)
     implementation(Compose.composePreview)
@@ -51,6 +52,7 @@ fun DependencyHandler.addComposeDependencies() {
     implementation(Compose.coilKt)
     implementation(Compose.lottieCompose)
     implementation(Compose.constraintLayout)
+    implementation(Dependencies.lifecycleCompose)
     androidTestImplementation(Tests.composeJunit)
     androidTestImplementation(Tests.composeUITest)
 }

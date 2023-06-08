@@ -14,7 +14,7 @@ internal class ChatLocalDataSourceImpl(
     private val mapper: MessageEntityMapper,
 ) : ChatLocalDataSource {
     override fun getMessages(userId: String): Flow<List<MessageRepo>> = flow {
-        emit(dao.query(userId).map { mapper.toRepo(it) })
+        emit(dao.query(userId).map { mapper.toRepo(it) }.filter { it.message.isNotEmpty() }.asReversed())
     }.flowOn(Dispatchers.IO)
 
     override fun saveMessage(userId: String, message: MessageRepo): Flow<Unit> = flow {

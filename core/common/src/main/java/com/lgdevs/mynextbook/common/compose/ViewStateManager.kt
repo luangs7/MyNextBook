@@ -12,8 +12,10 @@ fun <T> onViewState(
     loadingState: ViewStateParam? = null,
     emptyState: ViewStateParam? = null,
     errorState: ViewStateParam? = null,
+    onEach: @Composable ((ViewState<T>) -> Unit)? = null,
     content: @Composable (T?) -> Unit
 ) {
+    onEach?.invoke(state)
     when (state) {
         ViewState.Empty -> emptyState?.let { StatusView(it) }
         is ViewState.Error -> errorState?.let { StatusView(it) }
