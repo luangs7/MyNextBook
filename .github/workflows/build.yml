@@ -1,4 +1,4 @@
-name: Build, Test and Deploy App for Homolog
+name: Build, Test and Lint for Homolog
 
 on:
   push:
@@ -79,16 +79,27 @@ jobs:
           name: app-release
           path: app/build/outputs/bundle/devRelease
 
-      - name: Run Lint
-        run: ./gradlew lintDevRelease
+      - name: Ktlint check
+        run: ./gradlew ktlintCheck
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      - name: Upload Lint Report
+      - name: Upload Ktlint Reports
         uses: actions/upload-artifact@v2
         with:
-          name: report
-          path: app/build/reports/lint-results-debug.html
+          name: ktlint-report
+          path: ./**/build/reports/ktlint/
+
+      - name: Detekt check
+        run: ./gradlew detekt
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+      - name: Upload Detekt Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: detekt-report
+          path: ./**/build/reports/detekt/detekt.*
 
   unit-test:
     needs: [coding-lint]
