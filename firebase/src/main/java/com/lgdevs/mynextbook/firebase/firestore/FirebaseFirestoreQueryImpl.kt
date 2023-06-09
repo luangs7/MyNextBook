@@ -9,7 +9,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class FirebaseFirestoreQueryImpl : CloudServicesRealTimeDatabase {
+class FirebaseFirestoreQueryImpl :
+    CloudServicesRealTimeDatabase {
 
     private val firestore = FirebaseFirestore.getInstance()
 

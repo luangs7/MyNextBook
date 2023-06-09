@@ -12,7 +12,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Test
 
 class UserDataRepositoryImplTest {
@@ -22,7 +21,12 @@ class UserDataRepositoryImplTest {
         UserDataRepositoryImpl(dataSource, cloudServicesAuth)
     }
 
-    private val currentUser = CurrentUser("1234567", "Teste", "Teste@mail.com", null)
+    private val currentUser =CurrentUser(
+        "1234567",
+        "Teste",
+        "Teste@mail.com",
+        null
+    )
 
     @Test
     fun whenUserIsRegistered_andLogin_shouldCallSignIn_withSuccess() = runTest{

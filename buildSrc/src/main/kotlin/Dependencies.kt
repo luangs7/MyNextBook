@@ -1,6 +1,6 @@
 object Versions {
     const val gradlePlugin = "4.2.1"
-    const val kotlin = "1.6.10"
+    const val kotlin = "1.8.21"
     const val appCompat = "1.3.0"
     const val material = "1.3.0"
     const val constraintLayout = "1.0.1"
@@ -9,7 +9,7 @@ object Versions {
     const val retrofit = "2.7.1"
     const val retrofitConverter = "2.9.0"
     const val retrofitLogging = "4.9.0"
-    const val lifecycle = "2.6.0-alpha01"
+    const val lifecycle = "2.6.0"
     const val room = "2.4.0"
     const val jUnit = "4.12"
     const val jUnitExt = "1.1.3"
@@ -18,10 +18,11 @@ object Versions {
     const val androidxExpresso = "3.3.0"
     const val androidxCore = "1.4.0"
     const val mockK = "1.12.4"
-    const val coroutines = "1.6.4"
+    const val coroutines = "1.7.1"
     const val coreTesting = "2.0.1"
-    const val composeVersion = "1.1.1"
-    const val composeActivity = "1.4.0"
+    const val composeVersion = "1.4.2"
+    const val composeMaterial = "1.3.1"
+    const val composeActivity = "1.6.1"
     const val navigationCompose = "2.4.1"
     const val coilKt = "2.1.0"
     const val paging = "1.0.0-alpha14"
@@ -29,15 +30,17 @@ object Versions {
     const val  roboletric = "4.8"
     const val playCore = "1.10.0"
     const val dataStore = "1.0.0"
-    const val lottieCompose = "5.2.0"
+    const val lottieCompose = "6.0.0"
     const val tooling = "1.1.1"
     const val composeCustomview = "1.2.0-alpha01"
     const val composePoolingContainer = "1.0.0-rc01"
     const val composeJunit = "1.0.0-rc01"
     const val splashCore = "1.0.0-rc01"
-    const val firebaseBom = "31.1.1"
+    const val firebaseBom = "32.1.0"
     const val livedata = "2.5.1"
     const val googleServices = "20.4.1"
+    const val coroutinesPlayServices = "1.6.4"
+    const val composeBom = "2023.01.00"
 }
 
 object Dependencies {
@@ -64,6 +67,8 @@ object Dependencies {
     val splashCore = "androidx.core:core-splashscreen:${Versions.splashCore}"
     val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
     val googleAuth = "com.google.android.gms:play-services-auth:${Versions.googleServices}"
+    val lifecycleCompose = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle}"
+    val coroutinesPlayservices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesPlayServices}"
 }
 
 object Compose {
@@ -72,13 +77,14 @@ object Compose {
     val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintLayout}"
     val composeActivity = "androidx.activity:activity-compose:${Versions.composeActivity}"
     val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
-    val composeUi = "androidx.compose.ui:ui:${Versions.composeVersion}"
-    val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
-    val composePreview = "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
+    val composeUi = "androidx.compose.ui:ui"
+    val composeMaterial = "androidx.compose.material:material:${Versions.composeMaterial}"
+    val composePreview = "androidx.compose.ui:ui-tooling-preview"
     val pagingCompose  = "androidx.paging:paging-compose:${Versions.paging}"
-    val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.tooling}"
+    val composeTooling = "androidx.compose.ui:ui-tooling"
     val composeCustomview = "androidx.customview:customview:${Versions.composeCustomview}"
     val composePoolingContainer = "androidx.customview:customview-poolingcontainer:${Versions.composePoolingContainer}"
+    val composeBom = "androidx.compose:compose-bom:${Versions.composeBom}"
 }
 
 
@@ -96,8 +102,8 @@ object Tests {
     val jUnitExt = "androidx.test.ext:junit-ktx:${Versions.jUnitExt}"
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     val roboletric = "org.robolectric:robolectric:${Versions.roboletric}"
-    val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.composeJunit}"
-    val composeUITest = "androidx.compose.ui:ui-test-manifest:${Versions.composeVersion}"
+    val composeJunit = "androidx.compose.ui:ui-test-junit4"
+    val composeUITest = "androidx.compose.ui:ui-test-manifest"
 }
 
 object Firebase {

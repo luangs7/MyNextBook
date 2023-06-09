@@ -1,11 +1,11 @@
 
 object ConfigData {
-    const val compileSdkVersion = 32
-    const val buildToolsVersion = "32.0.0"
+    const val compileSdkVersion = 33
+    const val buildToolsVersion = "33.0.0"
     const val minSdkVersion = 24
-    const val targetSdkVersion = 32
-    const val versionCode = 6
-    const val versionName = "1.0.2"
+    const val targetSdkVersion = 33
+    const val versionCode = 7
+    const val versionName = "1.0.3"
     const val minifyEnable = true
     const val applicationId = "com.lgdevs.mynextbook"
 }
@@ -22,9 +22,9 @@ object Modules{
     const val navigation = ":libraries:navigation"
     const val tests = ":libraries:tests"
     const val split = ":libraries:splitfeature"
-    const val cloudservices = ":cloudservices"
+    const val cloudservices = ":shared:cloudserviceskmm"
     const val firebase = ":firebase"
-    const val observer = ":libraries:observer"
+    const val observer =  ":shared:libraries:observerkmm"
 }
 
 object Features {

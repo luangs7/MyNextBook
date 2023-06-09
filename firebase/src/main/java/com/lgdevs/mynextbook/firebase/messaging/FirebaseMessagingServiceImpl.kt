@@ -5,8 +5,6 @@ import com.google.firebase.messaging.RemoteMessage
 import com.lgdevs.mynextbook.cloudservices.messaging.CloudServicesMessageReceivedListener
 import com.lgdevs.mynextbook.cloudservices.messaging.CloudServicesMessageTokenListener
 import com.lgdevs.mynextbook.cloudservices.messaging.Message
-import org.koin.android.ext.android.inject
-import org.koin.java.KoinJavaComponent
 import com.lgdevs.mynextbook.common.koin.injectOrNullable
 
 class FirebaseMessagingServiceImpl : FirebaseMessagingService() {

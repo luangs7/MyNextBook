@@ -1,20 +1,21 @@
 package com.lgdevs.mynextbook.firebase.remoteconfig
 
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.lgdevs.mynextbook.cloudservices.remoteconfig.CloudServicesRemoteConfig
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FirebaseRemoteConfigImpl : CloudServicesRemoteConfig {
+class FirebaseRemoteConfigImpl :
+    CloudServicesRemoteConfig {
 
-    override var configs = MutableLiveData<HashMap<String, String>>()
+    override var configs = MutableStateFlow(hashMapOf<String, String>())
 
     private val remoteConfig by lazy {
         val config = FirebaseRemoteConfig.getInstance()
         val configSettings = FirebaseRemoteConfigSettings.Builder()
-        configSettings.minimumFetchIntervalInSeconds = 0 //TODO: avaliar o tempo correto para cache
+        configSettings.minimumFetchIntervalInSeconds = 0
         configSettings.build().let {
             config.setConfigSettingsAsync(it)
         }
@@ -32,14 +33,14 @@ class FirebaseRemoteConfigImpl : CloudServicesRemoteConfig {
             remoteConfig.fetch(cacheExpiration).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     remoteConfig.activate()
-                    configs.postValue(buildConfigs())
+                    configs.tryEmit(buildConfigs())
                 }
 
                 it.resume(task.isSuccessful)
             }
         } else {
             remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
-                configs.postValue(buildConfigs())
+                configs.tryEmit(buildConfigs())
                 it.resume(task.isSuccessful)
             }
         }
@@ -60,5 +61,4 @@ class FirebaseRemoteConfigImpl : CloudServicesRemoteConfig {
     override fun getBoolean(key: String): Boolean {
         return remoteConfig.getBoolean(key)
     }
-
 }

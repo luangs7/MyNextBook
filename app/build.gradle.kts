@@ -44,8 +44,8 @@ sonarqube {
 
 dependencies {
     implementation(project(Modules.common))
-    implementation(project(Modules.navigation))
     implementation(project(Modules.designsystem))
+    implementation(project(Modules.navigation))
     implementation(project(Modules.remote))
     implementation(project(Modules.domain))
     implementation(project(Modules.local))
@@ -58,15 +58,18 @@ dependencies {
     implementation(project(Features.login))
     implementation(project(Modules.cloudservices))
     implementation(project(Modules.firebase))
-    implementation(Dependencies.playCore)
-    implementation(Dependencies.splashCore)
     implementation(project(Modules.observer))
     addKoinDependencies()
     addCoroutinesDependencies()
     addCommonDependencies()
+    implementation(Dependencies.playCore)
+    implementation(Dependencies.splashCore)
+
     addComposeDependencies()
     debugApi(Compose.composeTooling)
     debugApi(Compose.composeCustomview)
     debugApi(Compose.composePoolingContainer)
+    implementation(project(":shared"))
+
 }
 apply(plugin = GradlePlugin.GOOGLE_PLUGIN)
