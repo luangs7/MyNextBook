@@ -76,16 +76,16 @@ jobs:
           name: app-release
           path: app/build/outputs/bundle/prodRelease
 
-      - name: Ktlint check
-        run: ./gradlew ktlintCheck
+      - name: Run Lint
+        run: ./gradlew lintprodRelease
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      - name: Upload Ktlint Reports
+      - name: Upload Lint Report
         uses: actions/upload-artifact@v2
         with:
-          name: ktlint-report
-          path: ./**/build/reports/ktlint/
+          name: report
+          path: app/build/reports/lint-results-debug.html
 
       - name: Detekt check
         run: ./gradlew detekt
@@ -158,32 +158,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info
-  deploy:
-    needs: [ quality-gate ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Create file
-        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
-
-      - name: Putting data
-        env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
-
-      - name: Download Build AAB
-        uses: actions/download-artifact@v2
-        with:
-          name: app-release
-          path: app/build/outputs/bundle/prodRelease
-
-      - name: Upload APK to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
-          groups: Testers-CICD-MyNextBook
-          file: app/build/outputs/bundle/prodRelease/app-dev-release.aab

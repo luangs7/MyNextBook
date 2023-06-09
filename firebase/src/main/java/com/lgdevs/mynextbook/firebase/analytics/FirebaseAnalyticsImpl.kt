@@ -7,11 +7,11 @@ import com.lgdevs.mynextbook.common.analytics.SingleAnalyticsEvent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
+private const val AnalyticsCache = 1500L
 class FirebaseAnalyticsImpl : CloudServicesAnalytics, KoinComponent {
-
     private val analytics: FirebaseAnalytics by inject()
 
-    override var cacheExpiration: Long = 1500
+    override var cacheExpiration: Long = AnalyticsCache
 
     init {
         SingleAnalyticsEvent.setCacheExpiration(cacheExpiration)

@@ -1,6 +1,6 @@
 object Versions {
     const val gradlePlugin = "4.2.1"
-    const val kotlin = "1.6.10"
+    const val kotlin = "1.6.21"
     const val appCompat = "1.3.0"
     const val material = "1.3.0"
     const val constraintLayout = "1.0.1"

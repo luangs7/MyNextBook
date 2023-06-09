@@ -4,26 +4,26 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
 
-class FirebaseQueryLiveData(val query: Query) : LiveData<QuerySnapshot?>() {
-    private val LOG_TAG = "FirebaseQueryLiveData"
+class FirebaseQueryLiveData(private val query: Query) : LiveData<QuerySnapshot?>() {
+    private val tag = "FirebaseQueryLiveData"
 
     private val listener = MyValueEventListener()
     private lateinit var registration: ListenerRegistration
 
     override fun onActive() {
-        Log.d(LOG_TAG, "onActive")
+        Log.d(tag, "onActive")
         registration = query.addSnapshotListener(listener)
     }
 
     override fun onInactive() {
-        Log.d(LOG_TAG, "onInactive")
+        Log.d(tag, "onInactive")
         registration.remove()
     }
 
     private inner class MyValueEventListener : EventListener<QuerySnapshot> {
         override fun onEvent(snapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
             if (e != null) {
-                Log.w(LOG_TAG, "listen:error", e)
+                Log.w(tag, "listen:error", e)
                 return
             }
 

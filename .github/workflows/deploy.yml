@@ -6,11 +6,13 @@ on:
       - release
       - main
       - develop
+      - '*/epic'
   pull_request:
     branches:
       - release
       - main
       - develop
+      - '*/epic'
 
 jobs:
   deploy:

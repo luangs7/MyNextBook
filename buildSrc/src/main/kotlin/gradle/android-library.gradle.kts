@@ -9,6 +9,7 @@ import extensions.configureBuildTypes
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("lint.detekt")
     kotlin("kapt")
 }
 
