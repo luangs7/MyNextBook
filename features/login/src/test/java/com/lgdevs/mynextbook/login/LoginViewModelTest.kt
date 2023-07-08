@@ -1,5 +1,6 @@
 package com.lgdevs.mynextbook.login
 
+import android.os.Bundle
 import com.lgdevs.mynextbook.common.base.ApiResult
 import com.lgdevs.mynextbook.common.base.ViewState
 import com.lgdevs.mynextbook.common.dispatcher.CoroutineDispatcherProvider
@@ -8,7 +9,10 @@ import com.lgdevs.mynextbook.domain.interactor.implementation.DoLoginWithTokenUs
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetEmailLoginUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.GetUserUseCase
 import com.lgdevs.mynextbook.domain.interactor.implementation.SetEmailLoginUseCase
+import com.lgdevs.mynextbook.login.analytics.LoginAnalytics
 import com.lgdevs.mynextbook.login.holder.cloudservices.CloudServicesHolder
+import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolder
+import com.lgdevs.mynextbook.login.holder.usecase.LoginInteractorHolderImpl
 import com.lgdevs.mynextbook.login.viewmodel.LoginViewModel
 import com.lgdevs.mynextbook.remoteconfig.LOGIN_WITH_GOOGLE_BUTTON
 import io.mockk.coEvery
@@ -32,22 +36,30 @@ class LoginViewModelTest {
     private val saveEmailUseCase = mockk<SetEmailLoginUseCase>()
     private val getEmailUseCase = mockk<GetEmailLoginUseCase>()
     private val dispatcherManager = mockk<CoroutineDispatcherProvider>()
-
-    private val viewModel: LoginViewModel by lazy {
-        LoginViewModel(
+    private val loginInteractorHolder: LoginInteractorHolder by lazy {
+        LoginInteractorHolderImpl(
             doLoginUseCase,
             getUserUseCase,
             saveEmailUseCase,
             getEmailUseCase,
             doLoginWithTokenUseCase,
+        )
+    }
+    private val analytics: LoginAnalytics = mockk()
+    private val viewModel: LoginViewModel by lazy {
+        LoginViewModel(
+            loginInteractorHolder,
             cloudServices,
             dispatcherManager,
+            analytics
         )
     }
 
     @Before
     fun before() {
         every { dispatcherManager.invoke() } returns Dispatchers.IO
+        coEvery { analytics.logException(any(), any())} returns Bundle.EMPTY
+        coEvery { analytics.onEvent(any(), any())} returns Unit
     }
 
     @Test
