@@ -2,15 +2,15 @@ package com.lgdevs.mynextbook.remote.model
 
 data class BookResponse(
     val totalItems: Long,
-    val items: List<Item>
+    val items: List<Item>?,
 )
 
-data class Item (
+data class Item(
     val id: String,
-    val volumeInfo: VolumeInfo
+    val volumeInfo: VolumeInfo,
 )
 
-data class VolumeInfo (
+data class VolumeInfo(
     val title: String,
     val subtitle: String? = null,
     val authors: List<String>? = null,
@@ -27,12 +27,10 @@ data class VolumeInfo (
     val canonicalVolumeLink: String? = null,
     val averageRating: String? = null,
     val ratingsCount: Long? = null,
-    val publishedDate: String? = null
+    val publishedDate: String? = null,
 )
 
-data class ImageLinks (
+data class ImageLinks(
     val smallThumbnail: String,
-    val thumbnail: String
+    val thumbnail: String,
 )
-
-
