@@ -58,7 +58,7 @@ class LoginViewModelTest {
     @Before
     fun before() {
         every { dispatcherManager.invoke() } returns Dispatchers.IO
-        coEvery { analytics.logException(any(), any())} returns Bundle.EMPTY
+        coEvery { analytics.logException(any(), any())} returns Bundle()
         coEvery { analytics.onEvent(any(), any())} returns Unit
     }
 

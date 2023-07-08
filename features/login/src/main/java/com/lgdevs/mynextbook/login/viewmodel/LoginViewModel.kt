@@ -39,8 +39,8 @@ class LoginViewModel(
             }
     }.flowOn(dispatcher.invoke())
     init {
-        viewModelScope.launch {
-            loginAnalytics.onEvent(LoginAnalytics.LOGIN_SCREEN_VIEW, Bundle.EMPTY)
+        viewModelScope.launch(dispatcher.invoke()) {
+            loginAnalytics.onEvent(LoginAnalytics.LOGIN_SCREEN_VIEW, Bundle())
         }
     }
 
@@ -68,7 +68,7 @@ class LoginViewModel(
     }.flowOn(dispatcher.invoke())
 
     suspend fun doLogin(email: String, password: String): Flow<ViewState<Boolean>> = flow<ViewState<Boolean>> {
-        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER, Bundle.EMPTY)
+        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER, Bundle())
         loginInteractorHolder.getLoginUseCase().invoke(LoginParam(email, password))
             .catch { emit(ViewState.Error(it)) }
             .collect {
@@ -90,7 +90,7 @@ class LoginViewModel(
     }.flowOn(dispatcher.invoke())
 
     suspend fun doLoginWithToken(email: String, token: String): Flow<ViewState<Boolean>> = flow<ViewState<Boolean>> {
-        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER_GOOGLE, Bundle.EMPTY)
+        loginAnalytics.onEvent(LoginAnalytics.BUTTON_LOGIN_ENTER_GOOGLE, Bundle())
         loginInteractorHolder.getLoginWithTokenUseCase().invoke(token)
             .catch { emit(ViewState.Error(it)) }
             .collect {
