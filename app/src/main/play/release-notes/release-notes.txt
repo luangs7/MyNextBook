@@ -1,0 +1,2 @@
+- Implementação de funcionalidade de Login e cadastro.
+- Implementação de funções do Firebase, como Analytics.

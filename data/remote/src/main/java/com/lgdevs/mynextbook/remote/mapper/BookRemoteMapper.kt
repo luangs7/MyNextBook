@@ -7,7 +7,7 @@ import com.lgdevs.mynextbook.repository.model.BookImageData
 
 internal class BookRemoteMapper {
     fun toRepo(model: BookResponse): List<BookData> {
-        return model.items.map {
+        return model.items?.map {
             BookData(
                 it.id,
                 it.volumeInfo.title,
@@ -24,15 +24,16 @@ internal class BookRemoteMapper {
                 it.volumeInfo.infoLink,
                 it.volumeInfo.averageRating,
                 it.volumeInfo.ratingsCount,
-                it.volumeInfo.publishedDate
+                it.volumeInfo.publishedDate,
             )
-        }
+        } ?: emptyList()
     }
 
     private fun toRepo(model: ImageLinks?): BookImageData? {
         return model?.let {
             BookImageData(
-                it.thumbnail, it.smallThumbnail
+                it.smallThumbnail,
+                it.thumbnail.replace("zoom=", "zoom=5"),
             )
         }
     }

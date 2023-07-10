@@ -2,8 +2,6 @@ package com.lgdevs.splitfeature
 
 import android.content.Context
 import androidx.compose.runtime.*
-import androidx.compose.runtime.internal.composableLambda
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
@@ -15,11 +13,9 @@ fun LoadFeature(
     context: Context,
     featureName: String,
     onDismiss: () -> Unit,
-    onFeatureReady: @Composable () -> Unit
+    onFeatureReady: @Composable () -> Unit,
 ) {
-    if (featureName.isEmpty()) {
-        throw IllegalArgumentException("Feature name not provided")
-    }
+    require(featureName.isEmpty().not()) { "Feature name not provided" }
 
     val manager = remember(featureName) { SplitInstallManagerFactory.create(context) }
     val isFeatureReady =
@@ -36,12 +32,13 @@ fun LoadFeature(
         when (state.value) {
             SplitState.RequestDownload -> RequestDownload(
                 onDismiss = onDismiss,
-                setState = { state.value = it })
+                setState = { state.value = it },
+            )
             SplitState.Downloading -> DownloadFeature(
                 featureName = featureName,
                 manager = manager,
                 onDismiss = onDismiss,
-                setState = { state.value = it }
+                setState = { state.value = it },
             )
             SplitState.FeatureReady -> {
                 onDismiss()
