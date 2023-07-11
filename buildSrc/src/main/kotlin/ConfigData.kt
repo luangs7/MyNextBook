@@ -4,8 +4,8 @@ object ConfigData {
     const val buildToolsVersion = "32.0.0"
     const val minSdkVersion = 24
     const val targetSdkVersion = 32
-    const val versionCode = 6
-    const val versionName = "1.0.2"
+    const val versionCode = 7
+    const val versionName = "1.0.3"
     const val minifyEnable = true
     const val applicationId = "com.lgdevs.mynextbook"
 }
