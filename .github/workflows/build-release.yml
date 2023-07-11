@@ -175,4 +175,4 @@ jobs:
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
           groups: Testers-CICD-MyNextBook
-          file: app/build/outputs/bundle/prodRelease/app-dev-release.aab
+          file: app/build/outputs/bundle/prodRelease/app-prod-release.aab
