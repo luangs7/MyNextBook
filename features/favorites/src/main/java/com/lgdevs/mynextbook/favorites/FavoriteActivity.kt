@@ -17,7 +17,6 @@ import com.lgdevs.mynextbook.designsystem.ui.theme.MyNextBookTheme
 import com.lgdevs.mynextbook.designsystem.ui.theme.backgroundDark
 import com.lgdevs.mynextbook.favorites.di.injectDynamicFeature
 
-@OptIn(ExperimentalFoundationApi::class)
 class FavoriteActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

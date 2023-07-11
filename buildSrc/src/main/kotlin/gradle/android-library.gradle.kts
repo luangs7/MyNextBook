@@ -1,9 +1,9 @@
 package gradle
 
-import extensions.addDefaultConfig
 import extensions.addCommonDependencies
-import extensions.addKoinDependencies
 import extensions.addCoroutinesDependencies
+import extensions.addDefaultConfig
+import extensions.addKoinDependencies
 import extensions.configureBuildTypes
 
 plugins {
@@ -21,9 +21,8 @@ android {
     configureBuildTypes()
 }
 
-dependencies{
+dependencies {
     addCommonDependencies()
     addCoroutinesDependencies()
     addKoinDependencies()
 }
-

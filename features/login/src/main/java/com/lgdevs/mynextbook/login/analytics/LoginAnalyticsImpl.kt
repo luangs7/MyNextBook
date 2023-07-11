@@ -31,8 +31,10 @@ class LoginAnalyticsImpl(
     }
 
     override suspend fun logException(event: String, throwable: Throwable): Bundle {
-        return Bundle().also {
-            it.putString(event, throwable::class.java.name)
+        return Bundle().apply {
+            putString(event, throwable::class.java.name)
+        }.also {
+            onEvent(event, it)
         }
     }
 }

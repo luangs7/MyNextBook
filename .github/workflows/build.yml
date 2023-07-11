@@ -1,0 +1,144 @@
+name: Build, Test and Deploy App for Homolog
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/*'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Clean project
+        run: ./gradlew clean
+
+      - name: Create file
+        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
+
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.10
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build AAB
+        run: ./gradlew bundleDevRelease
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+      - name: Upload Build AAB
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/bundle/devRelease/app-dev-release.aab
+  coding-lint:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create file
+        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
+
+      - name: Download Build AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/bundle/devRelease
+
+      - name: Run Lint
+        run: ./gradlew lintDevRelease
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+
+      - name: Upload Lint Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: app/build/reports/lint-results-debug.html
+
+  unit-test:
+    needs: [coding-lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create file
+        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
+
+      - name: Run Unit Tests
+        run: ./gradlew testDevRelease
+
+      - name: Upload Unit Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: app/build/reports/tests/testDebugUnitTest/
+  deploy:
+    needs: [ unit-test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create file
+        run: cat /home/runner/work/MyNextBook/MyNextBook/app/google-services.json | base64
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyNextBook/MyNextBook/app/google-services.json
+
+      - name: Download Build AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/bundle/devRelease
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          releaseNotesFile: app/src/main/play/release-notes/release-notes.txt
+          groups: Testers-CICD-MyNextBook
+          file: app/build/outputs/bundle/devRelease/app-dev-release.aab

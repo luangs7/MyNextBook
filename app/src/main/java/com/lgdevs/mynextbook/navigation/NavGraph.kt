@@ -5,8 +5,6 @@ import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.toLowerCase
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,11 +37,13 @@ fun NavGraph(navController: NavHostController) {
         composable(NavigationItem.Favorites.route) {
             LoadFeature(
                 context = context,
-                featureName = NavigationItem.Favorites.name.toLowerCase(Locale.current),
+                featureName = NavigationItem.Favorites.name.lowercase(),
                 onDismiss = {
-                    if(navController.currentDestination?.route?.equals(NavigationItem.Favorites.route) == true)
+                    if (navController.currentDestination?.route?.equals(NavigationItem.Favorites.route) == true) {
                         navController.popBackStack()
-                }) {
+                    }
+                },
+            ) {
                 // https://issuetracker.google.com/issues/183677219
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse(FavoritesDeepLink)
@@ -54,8 +54,6 @@ fun NavGraph(navController: NavHostController) {
             }
         }
     }
-
 }
 
 private const val FavoritesDeepLink = "app://lgmakers.mynextbook.favorites"
-
